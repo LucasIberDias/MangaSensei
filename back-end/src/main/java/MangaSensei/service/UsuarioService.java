@@ -13,25 +13,25 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario criarUsuario(Usuario usuario){
+    public Usuario criarUsuario(Usuario usuario) {
         validarUsuario(usuario);
         tratarDados(usuario);
 
         return usuarioRepository.save(usuario);
     }
 
-    private void tratarDados(Usuario usuario){
+    private void tratarDados(Usuario usuario) {
         usuario.setEmail(usuario.getEmail().trim().toLowerCase());
 
         usuario.setSenha(usuario.getSenha().trim());
     }
 
-    private void validarUsuario(Usuario usuario){
-        if (usuarioRepository.existsByEmail(usuario.getEmail())){
-            throw  new RuntimeException("E-mail já cadastrado");
+    private void validarUsuario(Usuario usuario) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("E-mail já cadastrado");
         }
 
-        if (usuarioRepository.existsByNome(usuario.getNome())){
+        if (usuarioRepository.existsByNome(usuario.getNome())) {
             throw new RuntimeException("Nome de usuario já cadastrado");
         }
 
@@ -46,10 +46,36 @@ public class UsuarioService {
         }
     }
 
-    public Usuario buscarUsuario(String email){
+    public Usuario buscarUsuario(String email) {
         email = email.trim().toLowerCase();
 
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("E-mail não cadastrado"));
     }
+
+    public Usuario buscarUsuarioId(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+    }
+
+    public Usuario atualizarUsuario(Integer id, Usuario usuarioAtualizado) {
+        Usuario usuario = buscarUsuarioId(id);
+
+        usuario.setNome(usuarioAtualizado.getNome());
+        usuario.setEmail(usuarioAtualizado.getEmail());
+        usuario.setSenha(usuarioAtualizado.getSenha());
+
+        validarUsuario(usuario);
+        tratarDados(usuario);
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public void deletarUsuario(Integer id) {
+        Usuario usuario = buscarUsuarioId(id);
+
+        usuarioRepository.delete(usuario);
+    }
 }
+
+
