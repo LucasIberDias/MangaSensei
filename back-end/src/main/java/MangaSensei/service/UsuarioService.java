@@ -26,7 +26,7 @@ public class UsuarioService {
         usuario.setSenha(usuario.getSenha().trim());
     }
 
-    public void validarUsuario(Usuario usuario){
+    private void validarUsuario(Usuario usuario){
         if (usuarioRepository.existsByEmail(usuario.getEmail())){
             throw  new RuntimeException("E-mail já cadastrado");
         }
@@ -44,5 +44,12 @@ public class UsuarioService {
         if (usuario.getSenha().length() < 8) {
             throw new RuntimeException("Senha deve ter no mínimo 8 caracteres");
         }
+    }
+
+    public Usuario buscarUsuario(String email){
+        email = email.trim().toLowerCase();
+
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("E-mail não cadastrado"));
     }
 }
