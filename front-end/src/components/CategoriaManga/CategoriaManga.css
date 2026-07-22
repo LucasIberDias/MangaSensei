@@ -1,17 +1,18 @@
 .categoria-manga{
     width:100%;
 
-    background:#FFF8EF;
+    background:#fdf4e7;
 
     border-radius:24px;
 
     padding:24px;
 
-    margin-bottom:30px;
+    margin-bottom: 10px;
 }
 
 .categoria-manga h2{
-    margin-bottom:20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 
     color:#6A4935;
 
@@ -29,7 +30,7 @@
 .categoria-cards{
     display:flex;
 
-    gap:20px;
+    gap: 5rem;
 
     flex:1;
 
@@ -40,6 +41,13 @@
     width:60px;
     height:60px;
 
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
     border:none;
 
     border-radius:50%;
@@ -47,4 +55,7 @@
     cursor:pointer;
 
     font-size:2rem;
+
+    background-color:#fcdebc;
+    color:#6A4935;
 }

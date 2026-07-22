@@ -15,37 +15,31 @@ export default function Exploracao() {
         {
             id: 1,
             titulo: "One Piece",
-            capa: "https://m.media-amazon.com/images/I/81hY6m9jJ4L.jpg",
+            capa: "https://m.media-amazon.com/images/I/716EGgqzyOL._SY466_.jpg",
             quantidadeVolumes: 111,
         },
         {
             id: 2,
             titulo: "Blue Lock",
-            capa: "https://m.media-amazon.com/images/I/81TF6fGxQJL.jpg",
+            capa: "https://m.media-amazon.com/images/I/41kczlYS5LL._SY445_SX342_ML2_.jpg",
             quantidadeVolumes: 34,
         },
         {
             id: 3,
             titulo: "Sense Life",
-            capa: "https://m.media-amazon.com/images/I/81H+8VfQJML.jpg",
-            quantidadeVolumes: 2,
-        },
-        {
-            id: 4,
-            titulo: "Betger",
-            capa: "https://m.media-amazon.com/images/I/81TF6fGxQJL.jpg",
+            capa: "https://m.media-amazon.com/images/I/715ylFmrROL._SY466_.jpg",
             quantidadeVolumes: 2,
         },
         {
             id: 5,
             titulo: "Atelier of Witch Hat",
-            capa: "https://m.media-amazon.com/images/I/91s0B6d9S-L.jpg",
+            capa: "https://m.media-amazon.com/images/I/91oJ3MqHQQL._AC_UL320_.jpg",
             quantidadeVolumes: 13,
         },
         {
             id: 6,
             titulo: "Naruto",
-            capa: "https://m.media-amazon.com/images/I/81lN7Jm1V-L.jpg",
+            capa: "https://m.media-amazon.com/images/I/91xUwI2UEVL._AC_UL320_.jpg",
             quantidadeVolumes: 72,
         },
     ];
@@ -83,32 +77,22 @@ export default function Exploracao() {
                                 onChange={setPesquisa}
                             />
 
+
                         </div>
 
                     </div>
+                    <div className="mangas">
+                        <CategoriaManga
+                            titulo="Shounen"
+                            mangas={mangasTeste}
+                        />
 
+                        <CategoriaManga
+                            titulo="Seinen"
+                            mangas={mangasTeste}
+                        />
+                    </div>
                 </div>
-
-                <CategoriaManga
-                    titulo="Shounen"
-                    mangas={mangasTeste}
-                />
-
-                <CategoriaManga
-                    titulo="Seinen"
-                    mangas={mangasTeste}
-                />
-
-                <CategoriaManga
-                    titulo="Romance"
-                    mangas={mangasTeste}
-                />
-
-                <CategoriaManga
-                    titulo="Fantasia"
-                    mangas={mangasTeste}
-                />
-
             </div>
 
         </div>

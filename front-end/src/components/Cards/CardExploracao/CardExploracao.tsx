@@ -22,7 +22,7 @@ export default function CardManga({ manga }: CardMangaProps) {
             />
 
             <div className="card-manga-volumes">
-                Vol. {manga.quantidadeVolumes}
+                {manga.quantidadeVolumes} vol
             </div>
 
             <h3 className="card-manga-titulo">
