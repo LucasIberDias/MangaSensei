@@ -9,8 +9,9 @@ import Logo from "../../Logo";
 import LinkNavegacao from "../../Links/LinkNavegacao";
 import "./MenuNavegacao.css";
 
-
 export default function menuNavegacao() {
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
     return (
         <div className="menu">
             <Logo />
@@ -28,8 +29,8 @@ export default function menuNavegacao() {
                 <img src={""} alt="Foto do usuário" />
 
                 <div className="perfil-info">
-                    <p>Usuário</p>
-                    <LinkNavegacao destino="perfil" texto="Ver perfil >" />
+                    <p>{usuario?.nome}</p>
+                    <LinkNavegacao destino="/configuracoes" texto="Ver perfil >" />
                 </div>
             </div>
 

@@ -38,10 +38,11 @@ export default function Login() {
 
             const usuario = await response.json();
             localStorage.setItem("usuario", JSON.stringify(usuario));
+            console.log(usuario);
 
             alert("Login realizado com sucesso!");
 
-            navigate("/");
+            navigate("/inicio");
 
         } catch (error) {
             console.error(error);
