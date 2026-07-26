@@ -6,6 +6,33 @@ import { FiChevronRight } from "react-icons/fi";
 export default function TelaConfiguracao() {
     const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
 
+    const deletarConta = async () => {
+        const confirmar = window.confirm(
+            "Tem certeza que deseja excluir sua conta?"
+        );
+
+        if (!confirmar) return;
+
+        try {
+            const response = await fetch(
+                `http://localhost:8080/usuario/${usuario.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error();
+            }
+
+            localStorage.removeItem("usuario");
+            alert("Conta excluída com sucesso!");
+            window.location.href = "/";
+        } catch (error) {
+            alert("Erro ao excluir a conta.");
+        }
+    };
+
     return (
         <div className="page-configuracao">
             <MenuNavegacao />
@@ -25,7 +52,6 @@ export default function TelaConfiguracao() {
                         </div>
 
                         <div className="perfil-info">
-
                             <div className="foto-perfil">
                                 {usuario.imagem ? (
                                     <img src={usuario.imagem} alt="Perfil" />
@@ -50,7 +76,6 @@ export default function TelaConfiguracao() {
                                     Editar Perfil
                                 </button>
                             </div>
-
                         </div>
                     </div>
 
@@ -69,7 +94,11 @@ export default function TelaConfiguracao() {
                             <FiChevronRight />
                         </div>
 
-                        <div className="item-config excluir">
+                        <div
+                            className="item-config excluir"
+                            onClick={deletarConta}
+                            style={{ cursor: "pointer" }}
+                        >
                             <div>
                                 <h4>Excluir conta</h4>
                                 <p>Essa ação é permanente.</p>
