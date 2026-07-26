@@ -5,6 +5,7 @@ import Cadastro from "./pages/cadastro/Cadastro";
 import Inicio from "./pages/telasPrincipal/telaInicial/TelaInicial"
 import Exploracao  from "./pages/telasPrincipal/telaExploracao/TelaExploracao";
 import Colecao from "./pages/telasPrincipal/telaColecao/TelaColecao";
+import Configuracao from "./pages/telasPrincipal/telaConfiguracao/TelaConfiguracao";
 
 import Pesquisa from "./components/Inputs/InputPesquisa"
 
@@ -17,7 +18,9 @@ function App() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/colecao" element={<Colecao />} />
         <Route path="/exploracao" element={<Exploracao />} />
+        <Route path="/configuracoes" element={<Configuracao />}/>
 
+        
         <Route path="/teste" element={<Pesquisa />} />
       </Routes>
     </BrowserRouter>
