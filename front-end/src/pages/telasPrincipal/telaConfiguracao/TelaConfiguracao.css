@@ -1,28 +1,3 @@
-.page-configuracao{
-    display:flex;
-    min-height:100vh;
-    background:#feddae;
-}
-
-.conteudo-config{
-    flex:1;
-    padding:35px;
-    
-}
-
-.topo-config{
-    margin-bottom:25px;
-}
-
-.topo-config h1{
-    font-size:38px;
-    color:#000000;
-}
-
-.topo-config p{
-    color:#000000;
-}
-
 .grid-config{
     display:grid;
     grid-template-columns:1fr 1fr;

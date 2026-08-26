@@ -1,0 +1,23 @@
+.pagina{
+    display:flex;
+    min-height:100vh;
+    background:#feddae;
+}
+
+.conteudo{
+    flex:1;
+    padding:15px; 
+}
+
+.topo{
+    margin-bottom:25px;
+}
+
+.topo h1{
+    font-size:38px;
+    color:#000000;
+}
+
+.topo p{
+    color:#000000;
+}

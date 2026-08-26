@@ -1,4 +1,5 @@
 import "./TelaConfiguracao.css";
+import "./../../config/style.css";
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import { FaUserCircle, FaLock, FaInfoCircle, FaCamera } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";
@@ -34,11 +35,11 @@ export default function TelaConfiguracao() {
     };
 
     return (
-        <div className="page-configuracao">
+        <div className="pagina">
             <MenuNavegacao />
 
-            <div className="conteudo-config">
-                <div className="topo-config">
+            <div className="conteudo">
+                <div className="topo">
                     <h1>Configurações</h1>
                     <p>Personalize sua experiência no MangaSensei.</p>
                 </div>
