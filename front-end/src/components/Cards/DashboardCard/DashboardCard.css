@@ -1,0 +1,92 @@
+.dashboard-card {
+  --card-color: #8bbf7f;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  width: 100%;
+  min-height: 130px;
+  padding: 22px 26px;
+
+  background: #fff8ed;
+  border-radius: 22px;
+  box-sizing: border-box;
+}
+
+.dashboard-card__icon {
+  width: 84px;
+  height: 84px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: color-mix(
+    in srgb,
+    var(--card-color) 25%,
+    white
+  );
+
+  color: var(--card-color);
+
+  font-size: 40px;
+}
+
+.dashboard-card__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.dashboard-card__title {
+  font-size: 15px;
+  color: #614030;
+  margin-bottom: 6px;
+}
+
+.dashboard-card__value {
+  font-size: 30px;
+  line-height: 1.1;
+  color: #111;
+  font-weight: 800;
+}
+
+.dashboard-card__bottom {
+  font-size: 14px;
+  color: #614030;
+  margin-top: 7px;
+}
+
+.dashboard-card__progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 9px;
+}
+
+.dashboard-card__progress-container span {
+  font-size: 14px;
+  color: #614030;
+}
+
+.dashboard-card__progress {
+  height: 8px;
+  width: 130px;
+
+  background: #feddae;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dashboard-card__progress-bar {
+  height: 100%;
+  background: var(--card-color);
+  border-radius: 10px;
+}
