@@ -1,5 +1,5 @@
 package MangaSensei.repository;
 
-public class AuthRepository {
+public class UsuarioRepository {
     
 }

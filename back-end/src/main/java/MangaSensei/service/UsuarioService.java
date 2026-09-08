@@ -1,5 +1,5 @@
 package MangaSensei.service;
 
-public class AuthService {
+public class UsuarioService {
     
 }

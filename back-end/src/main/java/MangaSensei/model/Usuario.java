@@ -1,5 +1,5 @@
 package MangaSensei.model;
 
-public class AuthModel {
+public class Usuario {
     
 }

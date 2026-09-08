@@ -1,5 +1,5 @@
 package MangaSensei.controller;
 
-public class AuthController {
+public class UsuarioController {
     
 }
