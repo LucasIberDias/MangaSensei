@@ -3,7 +3,12 @@ import "./TelaInicial.css";
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import { DashboardCard } from "../../../components/Cards/DashboardCard/DashboardCard";
 
-import { FaBook, FaBullseye, FaWallet, FaCalendarAlt } from "react-icons/fa";
+import { FaBook, FaCalendarAlt } from "react-icons/fa";
+import { GiBookshelf } from "react-icons/gi";
+import { CiMoneyBill } from "react-icons/ci";
+import { GrCapacity } from "react-icons/gr";
+
+
 
 export default function TelaInicial() {
     const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
@@ -18,37 +23,69 @@ export default function TelaInicial() {
                 </div>
 
                 <div className="dashboard">
+
                     <DashboardCard
                         title="Volumes possuídos"
                         icon={<FaBook />}
-                        color="#4CAF50"
+                        color="#83bb55"
                         value="158"
                         bottom="de 824 volumes."
                     />
 
                     <DashboardCard
                         title="Progresso geral"
-                        icon={<FaBullseye />}
-                        color="#5B9BD5"
+                        icon={<GiBookshelf />}
+                        color="#f0b97f"
                         value="52%"
                         progress={52}
                     />
 
                     <DashboardCard
                         title="Valor total"
-                        icon={<FaWallet />}
-                        color="#9C6ADE"
+                        icon={<CiMoneyBill />}
+                        color="#b1528f"
                         value="R$ 1384,00"
                         bottom="em toda coleção"
                     />
 
                     <DashboardCard
                         title="Obras completas"
-                        icon={<FaCalendarAlt />}
-                        color="#E07A5F"
+                        icon={<GrCapacity />}
+                        color="#da1f1c"
                         value="10"
                         bottom="de 4 obras"
                     />
+
+                </div>
+
+
+                <div className="dashboardInferior">
+
+                    <div className="colunaEsquerda">
+
+                        <div className="areaEstado">
+                            <h3>Estado da coleção</h3>
+                        </div>
+
+                        <div className="areaFaixa">
+                            <h3>Faixa de investimento</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div className="colunaDireita">
+
+                        <div className="areaUltimos">
+                            <h3>Últimos adicionados</h3>
+                        </div>
+
+                        <div className="areaPrincipais">
+                            <h3>Principais gêneros</h3>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
