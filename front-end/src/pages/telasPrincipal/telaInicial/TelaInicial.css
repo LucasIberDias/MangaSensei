@@ -6,5 +6,46 @@
 }
 
 .dashboard > * {
-    flex: 1 1 220px; 
+    flex: 1 1 220px;
+}
+
+.dashboardInferior {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 16px;
+    margin-top: 16px;
+    width: 100%;
+}
+
+.colunaEsquerda,
+.colunaDireita {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.areaEstado {
+    height: 350px;
+}
+
+.areaFaixa {
+    height: 230px;
+}
+
+.areaUltimos {
+    height: 300px;
+}
+
+.areaPrincipais {
+    height: 280px;
+}
+
+.areaEstado,
+.areaFaixa,
+.areaUltimos,
+.areaPrincipais {
+    background-color: #fdf4e7;
+    border-radius: 16px;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
