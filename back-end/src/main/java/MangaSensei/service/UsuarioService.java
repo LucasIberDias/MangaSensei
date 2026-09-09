@@ -32,10 +32,32 @@ public class UsuarioService {
         usuario.setNomeUsuario(request.getNomeUsuario());
         usuario.setEmailUsuario(request.getEmailUsuario());
 
-        // Coleta a senha e transforma em hash
-        usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
+        // Validacao das informacoes passadas:
+        // Validacoes de nada vazio
+        if (usuario.getNomeUsuario() == null || usuario.getNomeUsuario().isBlank()) {
+            throw new RuntimeException("Nome de usuário está vazio");
+        }
 
-        // Validacao das informacoes passadas
+        if (usuario.getEmailUsuario() == null || usuario.getEmailUsuario().isBlank()) {
+            throw new RuntimeException("E-mail do usuário está vazio");
+        }
+
+        // Validacoes de tamanho
+        if (usuario.getSenhaUsuario() == null || usuario.getSenhaUsuario().length() < 8) {
+            throw new RuntimeException("A senha deve possuir no mínimo 8 caracteres");
+        }
+
+        // Validacoes de nada repetido
+        if (usuarioRepository.findByNomeUsuario(usuario.getNomeUsuario()).isPresent()) {
+            throw new RuntimeException("Nome de usuário já está cadastrado");
+        }
+
+        if (usuarioRepository.findByEmailUsuario(usuario.getEmailUsuario()).isPresent()) {
+            throw new RuntimeException("E-mail já está cadastrado");
+        }
+
+        // Coleta a senha e transforma em hash depois de validar o tamanho
+        usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
 
         // Salva o usuario criado caso nao tenho nenhuum erro
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
@@ -46,6 +68,6 @@ public class UsuarioService {
                 usuarioSalvo.getNomeUsuario(),
                 usuarioSalvo.getEmailUsuario(),
                 usuarioSalvo.getFotoPerfil()
-        );
+            );
     }
 }
