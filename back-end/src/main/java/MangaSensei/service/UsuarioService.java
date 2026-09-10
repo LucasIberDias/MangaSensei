@@ -1,5 +1,6 @@
 package MangaSensei.service;
 
+import MangaSensei.controller.AuthController;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -63,14 +64,51 @@ public class UsuarioService {
         // Definea foto de perfil padrão
         usuario.setFotoPerfil("src/main/resources/static/images/perfil-padrao.png");
 
-        // Salva o usuario criado caso nao tenho nenhuum erro
+        // Salva no banco de dados
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
         // Retorna apenas os dados que podem ser expostos
         return new UsuarioResponseDTO(
-                usuarioSalvo.getIdUsuario(),
-                usuarioSalvo.getNomeUsuario(),
-                usuarioSalvo.getEmailUsuario(),
-                usuarioSalvo.getFotoPerfil());
+            usuarioSalvo.getIdUsuario(),
+            usuarioSalvo.getNomeUsuario(),
+            usuarioSalvo.getEmailUsuario(),
+            usuarioSalvo.getFotoPerfil()
+        );
+    }
+
+    // UC03 - Personalizar Perfil
+    public UsuarioResponseDTO personalizarPerfil(Long id, UsuarioRequestDTO request) {
+
+        // Verifica pelo Id se o usuario existe
+        if (usuarioRepository.findById(id).isEmpty()) {
+            throw new RuntimeException("Usuario não encontrado");
+        }
+
+        // Coleta o usuario
+        Usuario usuario = usuarioRepository.findById(id).get();
+
+        // Atualiza apenas o que foi passado pelo usuario
+        if (request.getNomeUsuario() != null) {
+            usuario.setNomeUsuario(request.getNomeUsuario());
+        }
+        if (request.getFotoPerfil() != null) {
+            usuario.setFotoPerfil(request.getFotoPerfil());
+        }
+        if (request.getEmailUsuario() != null) {
+            usuario.setEmailUsuario(request.getEmailUsuario());
+        }
+        if (request.getSenhaUsuario() != null) {
+            usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
+        }
+
+        // Salva no banco de dados
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        return new UsuarioResponseDTO(
+            usuarioSalvo.getIdUsuario(),
+            usuarioSalvo.getNomeUsuario(),
+            usuarioSalvo.getEmailUsuario(),
+            usuarioSalvo.getFotoPerfil()
+        );
     }
 }
