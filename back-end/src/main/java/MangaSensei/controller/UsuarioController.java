@@ -23,4 +23,11 @@ public class UsuarioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> personalizarPerfil(@PathVariable Long id, @RequestBody UsuarioRequestDTO request) {
+        UsuarioResponseDTO response = usuarioService.personalizarPerfil(id, request);
+
+        return ResponseEntity.ok(response);
+    }
 }

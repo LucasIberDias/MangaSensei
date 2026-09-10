@@ -1,6 +1,5 @@
 package MangaSensei.service;
 
-import MangaSensei.controller.AuthController;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
