@@ -31,6 +31,7 @@ public class UsuarioService {
         // Coleta das informacoes para criar o usuario
         usuario.setNomeUsuario(request.getNomeUsuario());
         usuario.setEmailUsuario(request.getEmailUsuario());
+        usuario.setSenhaUsuario(request.getSenhaUsuario());
 
         // Validacao das informacoes passadas:
         // Validacoes de nada vazio
@@ -56,8 +57,11 @@ public class UsuarioService {
             throw new RuntimeException("E-mail já está cadastrado");
         }
 
-        // Coleta a senha e transforma em hash depois de validar o tamanho
+        // Transforma senha em hash depois de validar o tamanho
         usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
+
+        // Definea foto de perfil padrão
+        usuario.setFotoPerfil("src/main/resources/static/images/perfil-padrao.png");
 
         // Salva o usuario criado caso nao tenho nenhuum erro
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
@@ -67,7 +71,6 @@ public class UsuarioService {
                 usuarioSalvo.getIdUsuario(),
                 usuarioSalvo.getNomeUsuario(),
                 usuarioSalvo.getEmailUsuario(),
-                usuarioSalvo.getFotoPerfil()
-            );
+                usuarioSalvo.getFotoPerfil());
     }
 }
