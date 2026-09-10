@@ -41,10 +41,12 @@ public class AuthService {
 
         // Retorna o Usuario apos verificar se a senha ta certa
         return new LoginResponseDTO(
-                new UsuarioResponseDTO(
-                        usuario.getIdUsuario(),
-                        usuario.getNomeUsuario(),
-                        usuario.getEmailUsuario(),
-                        usuario.getFotoPerfil()));
+            new UsuarioResponseDTO(
+                usuario.getIdUsuario(),
+                usuario.getNomeUsuario(),
+                usuario.getEmailUsuario(),
+                usuario.getFotoPerfil()
+            )
+        );
     }
 }
