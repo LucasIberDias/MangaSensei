@@ -7,16 +7,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function criarUsuario() {
-    const [nome, setNome] = useState("");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+    const [nomeUsuario, setNome] = useState("");
+    const [emailUsuario, setEmail] = useState("");
+    const [senhaUsuario, setSenha] = useState("");
     const [tst_senha, setTst_senha] = useState("");
 
     const navigate = useNavigate();
 
     const criarConta = async () => {
 
-        if (senha !== tst_senha) {
+        if (senhaUsuario !== tst_senha) {
             alert("As senhas não coincidem!");
             return;
         }
@@ -29,9 +29,9 @@ export default function criarUsuario() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    nome,
-                    email,
-                    senha
+                    nomeUsuario,
+                    emailUsuario,
+                    senhaUsuario
                 })
             });
 
