@@ -30,7 +30,7 @@ public class UsuarioService {
 
         // Coleta das informacoes para criar o usuario
         usuario.setNomeUsuario(request.getNomeUsuario());
-        usuario.setEmailUsuario(request.getEmailUsuario());
+        usuario.setEmailUsuario(request.getEmailUsuario().toLowerCase());
         usuario.setSenhaUsuario(request.getSenhaUsuario());
 
         // Validacao das informacoes passadas:

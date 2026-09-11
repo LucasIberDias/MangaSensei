@@ -7,14 +7,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+    const [emailUsuario, setEmail] = useState("");
+    const [senhaUsuario, setSenha] = useState("");
 
     const navigate = useNavigate();
 
     const login = async () => {
 
-        if (email.trim().length === 0 || senha.trim().length === 0) {
+        if (emailUsuario.trim().length === 0 || senhaUsuario.trim().length === 0) {
             alert("Preencha todos os campos.");
             return;
         }
@@ -27,8 +27,8 @@ export default function Login() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email,
-                    senha
+                    emailUsuario,
+                    senhaUsuario
                 })
             });
 

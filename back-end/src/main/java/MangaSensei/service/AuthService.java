@@ -27,7 +27,7 @@ public class AuthService {
     public LoginResponseDTO login(LoginRequestDTO request) {
 
         // Verifica se o email de usuario existe
-        if (usuarioRepository.findByEmailUsuario(request.getEmailUsuario()).isEmpty()) {
+        if (usuarioRepository.findByEmailUsuario(request.getEmailUsuario().toLowerCase()).isEmpty()) {
             throw new RuntimeException("E-mail do usuário não encontrado");
         }
 

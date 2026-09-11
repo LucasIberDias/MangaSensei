@@ -26,7 +26,7 @@ export default function menuNavegacao() {
             </div>
 
             <div className="perfil">
-                <img src={""} alt="Foto do usuário" />
+                <img src={`http://localhost:8080${usuario.imagemPerfil}`} alt="Foto do usuário" />
 
                 <div className="perfil-info">
                     <p>{usuario?.nome}</p>
