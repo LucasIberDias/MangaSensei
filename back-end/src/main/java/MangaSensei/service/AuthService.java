@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import MangaSensei.dto.auth.LoginRequestDTO;
-import MangaSensei.dto.auth.LoginResponseDTO;
 import MangaSensei.dto.usuario.UsuarioResponseDTO;
 import MangaSensei.repository.UsuarioRepository;
 import MangaSensei.model.Usuario;
@@ -24,7 +23,7 @@ public class AuthService {
     }
 
     // UC02 - Efetuar login
-    public LoginResponseDTO login(LoginRequestDTO request) {
+    public UsuarioResponseDTO login(LoginRequestDTO request) {
 
         // Verifica se o email de usuario existe
         if (usuarioRepository.findByEmailUsuario(request.getEmailUsuario().toLowerCase()).isEmpty()) {
@@ -40,13 +39,11 @@ public class AuthService {
         }
 
         // Retorna o Usuario apos verificar se a senha ta certa
-        return new LoginResponseDTO(
-            new UsuarioResponseDTO(
-                usuario.getIdUsuario(),
-                usuario.getNomeUsuario(),
-                usuario.getEmailUsuario(),
-                usuario.getFotoPerfil()
-            )
+        return new UsuarioResponseDTO(
+            usuario.getIdUsuario(),
+            usuario.getNomeUsuario(),
+            usuario.getEmailUsuario(),
+            usuario.getFotoPerfil()
         );
     }
 }

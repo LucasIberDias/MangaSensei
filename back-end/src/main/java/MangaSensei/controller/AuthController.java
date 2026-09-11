@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import MangaSensei.dto.auth.LoginRequestDTO;
-import MangaSensei.dto.auth.LoginResponseDTO;
+import MangaSensei.dto.usuario.UsuarioResponseDTO;
 import MangaSensei.service.AuthService;
 
 @RestController
@@ -18,8 +18,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
-        LoginResponseDTO response = authService.login(request);
+    public ResponseEntity<UsuarioResponseDTO> login(
+            @RequestBody LoginRequestDTO request) {
+
+        UsuarioResponseDTO response = authService.login(request);
 
         return ResponseEntity.ok(response);
     }
