@@ -1,5 +1,6 @@
 import "./TelaConfiguracao.css";
 import "./../../config/style.css";
+
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import { FaUserCircle, FaLock, FaInfoCircle, FaCamera } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";

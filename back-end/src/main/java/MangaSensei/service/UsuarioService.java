@@ -75,7 +75,7 @@ public class UsuarioService {
         );
     }
 
-    // UC03 - Personalizar Perfil
+    // UC04 - Alterar Dados da Conta
     public UsuarioResponseDTO personalizarPerfil(Long id, UsuarioRequestDTO request) {
 
         // Verifica pelo Id se o usuario existe
