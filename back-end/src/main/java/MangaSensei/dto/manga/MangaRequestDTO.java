@@ -11,9 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MangaRequestDTO{
         String tituloManga;
-        String autorManga;
-        String capaManga;
-        String editoraManga;
-        String demografiaManga;
-        List<VolumeMangaRequestDTO> volumes;
 }
