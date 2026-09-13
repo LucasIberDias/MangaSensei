@@ -10,12 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class MangaResponseDTO{
-        Long idManga;
-        String tituloManga;
-        String autorManga;
-        String capaManga;
-        String editoraManga;
-        String demografiaManga;
-        Long quantidadeVolumes;
-        List<VolumeMangaResponseDTO> volumes;
+        private Long idManga;
+        private String tituloManga;
+        private String autorManga;
+        private String capaManga;
+        private String editoraManga;
+        private String demografiaManga;
+        private Long quantidadeVolumes;
+        private List<VolumeMangaResponseDTO> volumes;
+        private String erro;
 }

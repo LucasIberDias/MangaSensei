@@ -24,7 +24,6 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 def log(*args):
-    """Print de debug - vai para stderr, nao polui o stdout (que precisa ser só o JSON)."""
     print(*args, file=sys.stderr)
 
 

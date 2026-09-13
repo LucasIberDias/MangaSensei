@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class VolumeMangaResponseDTO{
-        Long idVolumeManga;
-        String capaVolume;
-        String isbnVolume;
+        private Long idVolumeManga;
+        private String capaVolume;
+        private String isbnVolume;
 }

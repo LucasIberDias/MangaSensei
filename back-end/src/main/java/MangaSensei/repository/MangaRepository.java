@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface MangaRepository extends JpaRepository<Manga, Long> {
     // Função para localizar o manga 
-    Optional<Manga> findByEmailUsuario(String tituloManga);
+    Optional<Manga> findByTituloManga(String tituloManga);
 }
