@@ -31,7 +31,7 @@ public class AuthService {
         }
 
         // Cria o usuario para teste de login atraves do email passado
-        Usuario usuario = usuarioRepository.findByEmailUsuario(request.getEmailUsuario()).get();
+        Usuario usuario = usuarioRepository.findByEmailUsuario(request.getEmailUsuario().toLowerCase()).get();
 
         // Verifica se a senha passada corresponde a senha do usuario
         if (passwordEncoder.matches(request.getSenhaUsuario(), usuario.getSenhaUsuario()) == false) {

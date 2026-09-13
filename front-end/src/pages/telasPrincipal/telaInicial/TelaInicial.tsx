@@ -1,9 +1,10 @@
 import "./TelaInicial.css";
+import "./../../config/style.css";
 
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import { DashboardCard } from "../../../components/Cards/DashboardCard/DashboardCard";
 
-import { FaBook, FaCalendarAlt } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 import { GiBookshelf } from "react-icons/gi";
 import { CiMoneyBill } from "react-icons/ci";
 import { GrCapacity } from "react-icons/gr";
