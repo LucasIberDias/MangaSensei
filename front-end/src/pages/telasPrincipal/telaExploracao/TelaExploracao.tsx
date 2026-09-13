@@ -16,7 +16,18 @@ export default function Exploracao() {
 
     return (
         <div className="pagina">
-            <MenuNavegacao/>
+            <MenuNavegacao />
+
+            <div className="conteudo">
+                <div className="topo">
+                    <h1>Exploração</h1>
+                    <p>Descubra novos mangás para aumentar sua coleção!</p>
+
+                    <div className="acoes">
+                    <InputPesquisa value={pesquisa} onChange={setPesquisa}/>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

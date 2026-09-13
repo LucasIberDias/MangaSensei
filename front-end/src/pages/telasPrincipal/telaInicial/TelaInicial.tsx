@@ -19,7 +19,7 @@ export default function TelaInicial() {
             <MenuNavegacao />
             <div className="conteudo">
                 <div className="topo">
-                    <h1>Olá! {usuario?.nome}</h1>
+                    <h1>Olá! {usuario?.nomeUsuario}</h1>
                     <p>Aqui está um resumo da sua coleção!</p>
                 </div>
 

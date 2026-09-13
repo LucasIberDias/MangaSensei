@@ -1,27 +1,34 @@
-.pagina{
-    display:flex;
-    min-height:100vh;
-    background:#feddae;
+.pagina {
+    display: flex;
+    min-height: 100vh;
+    background: #feddae;
 }
 
-.conteudo{
-    flex:1;
-    padding:15px; 
+.conteudo {
+    flex: 1;
+    padding: 15px;
 }
 
-.topo{
-    margin-bottom:25px;
+.topo {
+    position: relative;
+    margin-bottom: 25px;
 }
 
-.topo h1{
-    font-size:38px;
-    color:#000000;
+.topo h1 {
+    font-size: 38px;
+    color: #000000;
 }
 
-.topo p{
-    color:#000000;
+.topo p {
+    color: #614030;
 }
 
-h3{
+.topo .acoes {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+h3 {
     color: #614030;
 }

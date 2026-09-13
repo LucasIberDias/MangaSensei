@@ -33,7 +33,7 @@ console.log("NOME:", usuario?.nomeUsuario);
                 <img src={`http://localhost:8080${usuario.fotoPerfil}`} alt="Foto do usuário" />
 
                 <div className="perfil-info">
-                    <p>TESTE: {usuario?.nomeUsuario}</p>
+                    <p>{usuario?.nomeUsuario}</p>
                     <LinkNavegacao destino="/configuracoes" texto="Ver perfil >" />
                 </div>
             </div>
