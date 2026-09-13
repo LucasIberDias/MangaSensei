@@ -47,6 +47,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.25.0</version>
+		</dependency>
+
+		<!-- Gerencia o download/versão do chromedriver automaticamente, evita configurar path manual -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.9.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
 			<version>4.0.0</version>

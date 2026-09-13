@@ -18,5 +18,4 @@ public class MangaResponseDTO{
         private String demografiaManga;
         private Long quantidadeVolumes;
         private List<VolumeMangaResponseDTO> volumes;
-        private String erro;
 }
