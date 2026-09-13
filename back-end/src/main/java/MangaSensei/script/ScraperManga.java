@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ScraperService {
+public class ScraperManga {
 
     public Manga buscarManga(String tituloManga) {
 
