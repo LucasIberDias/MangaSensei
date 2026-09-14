@@ -11,11 +11,7 @@ import "./MenuNavegacao.css";
 
 export default function menuNavegacao() {
     const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
-    console.log("USUÁRIO NO LOCALSTORAGE:", usuario);
-
-console.log("USUARIO:", usuario);
-console.log("NOME:", usuario?.nomeUsuario);
-
+    
     return (
         <div className="menu">
             <Logo />

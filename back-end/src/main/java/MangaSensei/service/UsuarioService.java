@@ -61,7 +61,7 @@ public class UsuarioService {
         usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
 
         // Definea foto de perfil padrão
-        usuario.setFotoPerfil("src/main/resources/static/images/perfil-padrao.png");
+        usuario.setFotoPerfil("/images/perfil-padrao.png");
 
         // Salva no banco de dados
         Usuario usuarioSalvo = usuarioRepository.save(usuario);

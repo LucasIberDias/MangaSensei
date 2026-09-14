@@ -14,6 +14,21 @@ export default function Exploracao() {
 
     const [pesquisa, setPesquisa] = useState("");
 
+    const pesquisarManga = async () => {
+
+        if (pesquisa.trim() === "") {
+            return;
+        }
+
+        const response = await fetch(
+            `http://localhost:8080/manga?titulo=${encodeURIComponent(pesquisa)}`
+        );
+
+        const manga = await response.json();
+
+        console.log(manga);
+    };
+
     return (
         <div className="pagina">
             <MenuNavegacao />
@@ -24,7 +39,7 @@ export default function Exploracao() {
                     <p>Descubra novos mangás para aumentar sua coleção!</p>
 
                     <div className="acoes">
-                    <InputPesquisa value={pesquisa} onChange={setPesquisa}/>
+                        <InputPesquisa value={pesquisa} onChange={setPesquisa} onEnter={pesquisarManga}/>
                     </div>
                 </div>
             </div>

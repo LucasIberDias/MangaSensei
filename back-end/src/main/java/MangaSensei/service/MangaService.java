@@ -17,52 +17,53 @@ public class MangaService {
     private final MangaRepository mangaRepository;
     private final ScraperManga scraperManga;
 
-    public MangaService(MangaRepository mangaRepository,  ScraperManga scraperManga) {
+    public MangaService(MangaRepository mangaRepository, ScraperManga scraperManga) {
         this.mangaRepository = mangaRepository;
         this.scraperManga = scraperManga;
     }
 
     // UC06 - Pesquisar Mangá
-    public MangaResponseDTO pesquisarManga(MangaRequestDTO request){
+    public MangaResponseDTO pesquisarManga(MangaRequestDTO request) {
         // Verifica se foi passado nenhum titulo
         if (request.getTituloManga().isBlank()) {
             throw new RuntimeException("Nenhum titulo passado para busca");
         }
 
-        // Verifica se nao tem o manga no banco
-        if (mangaRepository.findByTituloManga(request.getTituloManga()).isEmpty()) {
-            // Chama o Scrapper como nao encontrou nenhum manga
+        // Crio um objeto para salvar depois o manga pesquisado
+        Manga mangaPesquisado;
+
+        // Verifica se já existe um manga com esse nome ou nome parecido no banco
+        if (mangaRepository.findByTituloMangaContainingIgnoreCase(request.getTituloManga()).isEmpty()) {
+            // Se não encontrou, chama o scraper
             Manga mangaNovo = scraperManga.buscarManga(request.getTituloManga());
-
-            // Salva o manga novo
-            mangaRepository.save(mangaNovo);
+            // Salva o manga encontrado pelo scraper
+            mangaPesquisado = mangaRepository.save(mangaNovo);
+        } else {
+            // Se encontrou, pega o manga existente
+            mangaPesquisado = mangaRepository.findByTituloMangaContainingIgnoreCase(request.getTituloManga()).get();
         }
-
-        // Pego o manga pesquisado
-        Manga mangaPesquisado = mangaRepository.findByTituloManga(request.getTituloManga()).get();
 
         // Faço a a lista dos volumes do manga ser convertido para VolumeMangaResponse
         List<VolumeMangaResponseDTO> volumes = mangaPesquisado.getVolumes()
-            // Permiti processar cada volume da lista
-            .stream()
-            // Pega cada elemento do manga e transforma em VolumeResponse
-            .map(volume -> new VolumeMangaResponseDTO(
-                    volume.getIdVolumeManga(),
-                    volume.getCapaVolume(),
-                    volume.getIsbnVolume()
-            ))
-            .toList();
+                // Permiti processar cada volume da lista
+                .stream()
+                // Pega cada elemento do manga e transforma em VolumeResponse
+                .map(volume -> new VolumeMangaResponseDTO(
+                        volume.getIdVolumeManga(),
+                        volume.getCapaVolume(),
+                        volume.getIsbnVolume()))
+                .toList();
 
-        // Agora eu retorno o mangá encontrado, já que ele vai existir no banco mesmo que nao existisse antes
+        // Agora eu retorno o mangá encontrado, já que ele vai existir no banco mesmo
+        // que nao existisse antes
         return new MangaResponseDTO(
-            mangaPesquisado.getIdManga(),
-            mangaPesquisado.getTituloManga(),
-            mangaPesquisado.getAutorManga(),
-            mangaPesquisado.getCapaManga(),
-            mangaPesquisado.getEditoraManga(),
-            mangaPesquisado.getDemografiaManga(),
-            mangaPesquisado.getQuantidadeVolumes(),
-            volumes
-        );
+                mangaPesquisado.getIdManga(),
+                mangaPesquisado.getTituloManga(),
+                mangaPesquisado.getAutorManga(),
+                mangaPesquisado.getCapaManga(),
+                mangaPesquisado.getEditoraManga(),
+                mangaPesquisado.getDemografiaManga(),
+                mangaPesquisado.getQuantidadeVolumes(),
+                volumes);
     }
 }

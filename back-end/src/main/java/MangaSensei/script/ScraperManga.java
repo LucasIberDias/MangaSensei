@@ -2,6 +2,8 @@ package MangaSensei.script;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import MangaSensei.model.Manga;
@@ -22,6 +26,8 @@ import java.util.List;
 @Service
 public class ScraperManga {
 
+    private static final Logger log = LoggerFactory.getLogger(ScraperManga.class);
+
     public Manga buscarManga(String tituloManga) {
 
         WebDriverManager.chromedriver().setup();
@@ -33,7 +39,27 @@ public class ScraperManga {
         options.addArguments("--disable-gpu");
         options.addArguments("--window-size=1920,1080");
 
+        // Mascara sinais de automacao que muitos sites usam pra detectar/bloquear
+        // bots (o headless "puro" costuma expor navigator.webdriver = true,
+        // o que pode fazer o site nao renderizar a pagina completa/normal)
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        options.setExperimentalOption("useAutomationExtension", false);
+        options.addArguments(
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                        + "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+        );
+
         ChromeDriver driver = new ChromeDriver(options);
+
+        // Reforca a mascara via CDP, removendo o navigator.webdriver logo na largada
+        ((JavascriptExecutor) driver).executeScript(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+        );
+
+        // Timeout maior so pro carregamento inicial do site (pode ser mais lento
+        // que os passos seguintes, que ja navegam com o Chrome "aquecido")
+        WebDriverWait waitInicial = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         try {
@@ -41,9 +67,12 @@ public class ScraperManga {
             driver.get("https://mundosinfinitos.com.br/");
 
             // 2 - Entra na barra de pesquisa
-            WebElement barra = wait.until(
-                    ExpectedConditions.presenceOfElementLocated(By.id("search2_txt"))
+            // Usa o wait "inicial" (20s), com timeout maior, so nesta primeira espera -
+            // e o ponto mais sensivel a lentidao de carregamento da pagina
+            WebElement barra = waitInicial.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.id("search_txt"))
             );
+            scrollParaElemento(driver, barra);
 
             // 3 - Coloca o manga pesquisado
             barra.sendKeys(tituloManga);
@@ -59,9 +88,12 @@ public class ScraperManga {
             driver.get(primeiroManga.getDomAttribute("href"));
 
             // 5 - coloca todas as edicoes
-            wait.until(
+            // elementToBeClickable ja checa visibilidade + habilitado, mas o scroll + clique via JS
+            // como fallback evita falha quando outro elemento (banner, header fixo) cobre o alvo
+            WebElement linkColecao = wait.until(
                     ExpectedConditions.elementToBeClickable(By.cssSelector("a[href*='/geek/colecao/']"))
-            ).click();
+            );
+            clicarComFallback(driver, linkColecao);
 
             // 6 - pega o titulo do manga
             String titulo = wait.until(
@@ -69,10 +101,12 @@ public class ScraperManga {
             ).getText();
 
             // 7 - coloca em ordem crescente
+            // elementToBeClickable garante que o <select> ja esta visivel e habilitado antes de manipular
             WebElement ordenador = wait.until(
-                    ExpectedConditions.presenceOfElementLocated(
+                    ExpectedConditions.elementToBeClickable(
                             By.id("ConteudoBodyMaster_ConteudoCorpo_CtlResultadoBusca_ddlOrdenacao"))
             );
+            scrollParaElemento(driver, ordenador);
             new Select(ordenador).selectByValue("8");
 
             wait.until(ExpectedConditions.presenceOfElementLocated(By.className("box-produto")));
@@ -152,10 +186,61 @@ public class ScraperManga {
             return manga;
 
         } catch (TimeoutException e) {
-            throw new RuntimeException("Manga nao encontrado");
+            // Loga a mensagem ORIGINAL do Selenium, que diz exatamente qual seletor/etapa
+            // estourou o timeout - essencial pra debugar qual passo da navegacao falhou.
+            log.warn("Timeout ao buscar manga '{}': {}", tituloManga, e.getMessage());
+            salvarScreenshotDebug(driver, tituloManga);
+            throw new MangaNaoEncontradoException("Manga nao encontrado");
+
+        } catch (ElementNotInteractableException e) {
+            // Elemento existe no DOM mas nao estava pronto pra interacao
+            // (fora da tela, coberto por outro elemento, ainda invisivel, etc.)
+            log.warn("Elemento nao interativo ao buscar manga '{}': {}", tituloManga, e.getMessage());
+            throw new MangaNaoEncontradoException("Falha ao navegar no site do manga, tente novamente");
 
         } finally {
             driver.quit();
+        }
+    }
+
+    /**
+     * Rola a pagina ate o elemento ficar visivel na viewport.
+     * Evita ElementNotInteractableException quando o elemento existe no DOM
+     * mas esta fora da area visivel (o Selenium so interage com o que "enxerga").
+     */
+    private void scrollParaElemento(ChromeDriver driver, WebElement elemento) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});", elemento
+        );
+    }
+
+    /**
+     * Tenta o clique normal do Selenium; se o site estiver com algum overlay/anim
+     * impedindo o clique "real", cai para um clique via JavaScript como fallback.
+     */
+    private void clicarComFallback(ChromeDriver driver, WebElement elemento) {
+        scrollParaElemento(driver, elemento);
+        try {
+            elemento.click();
+        } catch (ElementNotInteractableException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        }
+    }
+
+    /**
+     * Salva um print da tela no momento do timeout, em disco, pra debugar visualmente
+     * o que o Chrome headless estava vendo (ex: pagina de bloqueio anti-bot, captcha,
+     * layout diferente do esperado, pagina em branco, etc.).
+     */
+    private void salvarScreenshotDebug(ChromeDriver driver, String tituloManga) {
+        try {
+            byte[] screenshot = driver.getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
+            String nomeArquivo = "debug_scraper_" + System.currentTimeMillis() + ".png";
+            java.nio.file.Path caminho = java.nio.file.Paths.get(nomeArquivo);
+            java.nio.file.Files.write(caminho, screenshot);
+            log.warn("Screenshot de debug salvo em: {}", caminho.toAbsolutePath());
+        } catch (Exception ex) {
+            log.warn("Nao foi possivel salvar screenshot de debug: {}", ex.getMessage());
         }
     }
 
