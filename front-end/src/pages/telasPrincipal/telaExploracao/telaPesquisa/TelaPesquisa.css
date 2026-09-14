@@ -1,3 +1,204 @@
-.coluna-esquerda{
+.manga-encontrado {
+
+    display: flex;
+
+    min-height: 360px;
+
+    padding: 25px;
+
+    background: #fffaf0;
+
+    border-radius: 15px;
+
+    gap: 30px;
+
+}
+
+
+
+.coluna-esquerda {
+
+    width: 210px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+}
+
+
+.voltar {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border: none;
+
+    background: transparent;
+
     color: #614030;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    padding: 0;
+
+}
+
+
+.voltar:hover {
+
+    color: #45271a;
+
+}
+
+
+.capa-manga {
+
+    width: 180px;
+
+    height: 270px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    border: 1px solid #d6b98c;
+
+}
+
+
+.coluna-central {
+
+    flex: 1;
+
+    padding-top: 35px;
+
+}
+
+
+.coluna-central h2 {
+
+    margin: 0 0 25px 0;
+
+    font-size: 36px;
+
+    color: #000000;
+
+}
+
+
+.informacoes {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+.informacao {
+
+    display: grid;
+
+    grid-template-columns: 25px 130px 1fr;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #614030;
+
+}
+
+
+.informacao svg {
+
+    font-size: 18px;
+
+}
+
+
+.informacao h3 {
+
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #614030;
+
+}
+
+
+.informacao span {
+
+    color: #614030;
+
+    font-size: 16px;
+
+}
+
+
+.coluna-sobre {
+
+    width: 330px;
+
+    padding: 35px 20px 0 30px;
+
+    border-left: 1px solid #e2cfb0;
+
+}
+
+
+.coluna-sobre h2 {
+
+    margin: 0 0 15px 0;
+
+    font-size: 25px;
+
+    color: #000000;
+
+}
+
+
+.coluna-sobre p {
+
+    color: #614030;
+
+    line-height: 1.7;
+
+    font-size: 16px;
+
+}
+
+.manga-nao-encontrado {
+
+    padding: 40px;
+
+    background: #fffaf0;
+
+    border-radius: 15px;
+
+}
+
+
+.manga-nao-encontrado h2 {
+
+    color: #000000;
+
+}
+
+
+.manga-nao-encontrado p {
+
+    color: #614030;
+
 }
