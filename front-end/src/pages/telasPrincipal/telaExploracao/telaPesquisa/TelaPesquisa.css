@@ -2,7 +2,9 @@
 
     display: flex;
 
-    min-height: 360px;
+    flex-direction: column;
+
+    min-height: 330px;
 
     padding: 25px;
 
@@ -10,24 +12,14 @@
 
     border-radius: 15px;
 
-    gap: 30px;
-
-}
-
-
-
-.coluna-esquerda {
-
-    width: 210px;
-
-    display: flex;
-
-    flex-direction: column;
-
     gap: 25px;
 
 }
 
+
+/* =========================
+   BOTÃO VOLTAR
+========================= */
 
 .voltar {
 
@@ -49,12 +41,44 @@
 
     padding: 0;
 
+    width: fit-content;
+
 }
 
 
 .voltar:hover {
 
     color: #45271a;
+
+}
+
+
+/* =========================
+   INFORMAÇÕES DO MANGÁ
+========================= */
+
+.informacoes-manga {
+
+    display: flex;
+
+    width: 100%;
+
+    gap: 30px;
+
+}
+
+
+/* =========================
+   COLUNA DA CAPA
+========================= */
+
+.coluna-esquerda {
+
+    width: 210px;
+
+    display: flex;
+
+    flex-direction: column;
 
 }
 
@@ -74,11 +98,15 @@
 }
 
 
+/* =========================
+   COLUNA CENTRAL
+========================= */
+
 .coluna-central {
 
     flex: 1;
 
-    padding-top: 35px;
+    padding-top: 0;
 
 }
 
@@ -94,13 +122,17 @@
 }
 
 
+/* =========================
+   INFORMAÇÕES
+========================= */
+
 .informacoes {
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 20px;
+    gap: 35px;
 
 }
 
@@ -147,11 +179,15 @@
 }
 
 
+/* =========================
+   SOBRE
+========================= */
+
 .coluna-sobre {
 
     width: 330px;
 
-    padding: 35px 20px 0 30px;
+    padding: 0 20px 0 30px;
 
     border-left: 1px solid #e2cfb0;
 
@@ -178,6 +214,140 @@
     font-size: 16px;
 
 }
+
+
+/* =========================
+   VOLUMES
+========================= */
+
+.volumes {
+
+    width: 100%;
+
+    border-top: 1px solid #e2cfb0;
+
+    padding-top: 20px;
+
+}
+
+
+/* =========================
+   TÍTULO DOS VOLUMES
+========================= */
+
+.titulo-volumes {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.titulo-volumes svg {
+
+    font-size: 20px;
+
+    color: #614030;
+
+}
+
+
+.titulo-volumes h2 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    color: #000000;
+
+}
+
+
+.quantidade-volumes {
+
+    margin-left: auto;
+
+    padding: 6px 14px;
+
+    background: #f4e3c5;
+
+    border-radius: 20px;
+
+    color: #614030;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================
+   LISTA DE VOLUMES
+========================= */
+
+.lista-volumes {
+
+    display: flex;
+
+    gap: 12px;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    padding: 5px 5px 10px 5px;
+
+}
+
+
+/* =========================
+   CADA VOLUME
+========================= */
+
+.volume {
+
+    flex: 0 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+.volume img {
+
+    width: 90px;
+
+    height: 135px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+
+    border: 1px solid #d6b98c;
+
+    transition: transform 0.2s ease;
+
+}
+
+
+.volume img:hover {
+
+    transform: translateY(-5px);
+
+}
+
+
+/* =========================
+   MANGÁ NÃO ENCONTRADO
+========================= */
 
 .manga-nao-encontrado {
 
