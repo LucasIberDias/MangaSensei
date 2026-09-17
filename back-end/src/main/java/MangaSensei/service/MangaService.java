@@ -66,4 +66,10 @@ public class MangaService {
                 mangaPesquisado.getQuantidadeVolumes(),
                 volumes);
     }
+
+    //  UC07 - Apresentar por Demografia
+    public void ApresentarPorDemografia(){
+
+    }
+
 }

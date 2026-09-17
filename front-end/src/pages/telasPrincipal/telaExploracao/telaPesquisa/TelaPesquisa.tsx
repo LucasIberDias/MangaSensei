@@ -65,8 +65,6 @@ export default function TelaPesquisa() {
 
                     <div className="manga-encontrado">
 
-                        {/* BOTÃO VOLTAR */}
-
                         <button
                             className="voltar"
                             onClick={() => navigate("/exploracao")}
@@ -79,13 +77,7 @@ export default function TelaPesquisa() {
 
                         </button>
 
-
-                        {/* INFORMAÇÕES DO MANGÁ */}
-
                         <div className="informacoes-manga">
-
-
-                            {/* CAPA */}
 
                             <div className="coluna-esquerda">
 
@@ -97,9 +89,6 @@ export default function TelaPesquisa() {
 
                             </div>
 
-
-                            {/* INFORMAÇÕES */}
-
                             <div className="coluna-central">
 
                                 <h2>
@@ -108,9 +97,6 @@ export default function TelaPesquisa() {
 
 
                                 <div className="informacoes">
-
-
-                                    {/* AUTOR */}
 
                                     <div className="informacao">
 
@@ -127,8 +113,6 @@ export default function TelaPesquisa() {
                                     </div>
 
 
-                                    {/* EDITORA */}
-
                                     <div className="informacao">
 
                                         <FaBuilding />
@@ -144,8 +128,6 @@ export default function TelaPesquisa() {
                                     </div>
 
 
-                                    {/* DEMOGRAFIA */}
-
                                     <div className="informacao">
 
                                         <FaUsers />
@@ -159,9 +141,6 @@ export default function TelaPesquisa() {
                                         </span>
 
                                     </div>
-
-
-                                    {/* QUANTIDADE DE VOLUMES */}
 
                                     <div className="informacao">
 
@@ -181,9 +160,6 @@ export default function TelaPesquisa() {
 
                             </div>
 
-
-                            {/* SOBRE */}
-
                             <div className="coluna-sobre">
 
                                 <h2>
@@ -197,9 +173,6 @@ export default function TelaPesquisa() {
                             </div>
 
                         </div>
-
-
-                        {/* VOLUMES */}
 
                         <div className="volumes">
 
