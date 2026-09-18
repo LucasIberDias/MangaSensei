@@ -9,7 +9,11 @@ import MangaSensei.repository.MangaRepository;
 import MangaSensei.model.Manga;
 import MangaSensei.script.ScraperManga;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MangaService {
@@ -67,9 +71,40 @@ public class MangaService {
                 volumes);
     }
 
-    //  UC07 - Apresentar por Demografia
-    public void ApresentarPorDemografia(){
+    // UC07 - Apresentar por Demografia
+    public Map<String, List<Manga>> apresentarPorDemografia() {
+        // Faço uma lista com todas as demografias dinstintas do banco
+        List<String> demografias = mangaRepository.findDistinctByDemografiaManga()
+                .stream()
+                .map(Manga::getDemografiaManga)
+                .distinct()
+                .toList();
 
+        // Crio um map que será preenchido com a Demografia e uma lista de 5 mangás da
+        // mesma demografia
+        Map<String, List<Manga>> resultado = new HashMap<>();
+
+        // Preencho a map com a demografia e a lista de mangás
+        for (String demografia : demografias) {
+            // Coloco os dados dentro da map
+            resultado.put(demografia, buscarMangasPorDemografia(demografia));
+        }
+
+        // Retorno a map com as demografias e os mangás
+        return resultado;
+    }
+
+    // Função de buscar mangas por demografia para que o apresentar possa chamar e
+    // fazer uma lista de mangás para cada demografia
+    public List<Manga> buscarMangasPorDemografia(String demografia) {
+        // Faço uma lista com todos os mangás de uma determinada demografia
+        List<Manga> mangas = mangaRepository.findByDemografiaMangaIgnoreCase(demografia);
+
+        // Mistura a ordem da lista com Collections
+        Collections.shuffle(mangas);
+
+        // Retorno 5 mangás da lista
+        return mangas.stream().limit(5).toList();
     }
 
 }
