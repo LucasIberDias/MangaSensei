@@ -43,8 +43,19 @@ public class MangaService {
             // Se não encontrou, chama o scraper
             Manga mangaNovo = scraperManga.buscarManga(request.getTituloManga());
 
-            // Salva o manga encontrado pelo scraper
-            mangaPesquisado = mangaRepository.save(mangaNovo);
+            // Verifica novamente usando o título correto encontrado pelo scraper
+            List<Manga> mangasExistentes = mangaRepository
+                    .findByTituloMangaContainingIgnoreCase(mangaNovo.getTituloManga());
+
+            if (mangasExistentes.isEmpty()) {
+                // Se realmente não existe, salva o manga encontrado pelo scraper
+                mangaPesquisado = mangaRepository.save(mangaNovo);
+            } else {
+                // Se já existe, não salva novamente, apenas retorna o manga que já estava no
+                // banco
+                mangaPesquisado = mangasExistentes.get(0);
+            }
+
         } else {
             // Se encontrou, pega o manga existente
             mangaPesquisado = mangasEncontrados.get(0);
@@ -62,7 +73,6 @@ public class MangaService {
                         volume.getCapaVolume(),
 
                         volume.getIsbnVolume()))
-
                 .toList();
 
         // Agora eu retorno o mangá encontrado, já que ele vai existir no banco mesmo
