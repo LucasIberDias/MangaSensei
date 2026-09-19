@@ -9,7 +9,6 @@ import MangaSensei.repository.MangaRepository;
 import MangaSensei.model.Manga;
 import MangaSensei.script.ScraperManga;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -74,11 +73,7 @@ public class MangaService {
     // UC07 - Apresentar por Demografia
     public Map<String, List<Manga>> apresentarPorDemografia() {
         // Faço uma lista com todas as demografias dinstintas do banco
-        List<String> demografias = mangaRepository.findDistinctByDemografiaManga()
-                .stream()
-                .map(Manga::getDemografiaManga)
-                .distinct()
-                .toList();
+         List<String> demografias = mangaRepository.findDistinctDemografiaManga();
 
         // Crio um map que será preenchido com a Demografia e uma lista de 5 mangás da
         // mesma demografia
@@ -98,7 +93,7 @@ public class MangaService {
     // fazer uma lista de mangás para cada demografia
     public List<Manga> buscarMangasPorDemografia(String demografia) {
         // Faço uma lista com todos os mangás de uma determinada demografia
-        List<Manga> mangas = mangaRepository.findByDemografiaMangaIgnoreCase(demografia);
+        List<Manga> mangas = mangaRepository.findByDemografiaMangaContainingIgnoreCase(demografia);
 
         // Mistura a ordem da lista com Collections
         Collections.shuffle(mangas);
