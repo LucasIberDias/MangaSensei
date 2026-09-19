@@ -7,12 +7,6 @@ import { useNavigate } from "react-router-dom";
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import InputPesquisa from "../../../components/Inputs/InputPesquisa";
 
-interface VolumeManga {
-    idVolumeManga: number;
-    capaVolume: string;
-    isbnVolume: string;
-}
-
 interface Manga {
     idManga: number;
     tituloManga: string;
@@ -21,7 +15,6 @@ interface Manga {
     editoraManga: string;
     demografiaManga: string;
     quantidadeVolumes: number;
-    volumes?: VolumeManga[];
 }
 
 interface MangasPorDemografia {
@@ -31,8 +24,11 @@ interface MangasPorDemografia {
 export default function Exploracao() {
 
     const [pesquisa, setPesquisa] = useState("");
+
     const [mangasPorDemografia, setMangasPorDemografia] =
         useState<MangasPorDemografia>({});
+
+    const [quantidadeDemografias, setQuantidadeDemografias] = useState(2);
 
     const navigate = useNavigate();
 
@@ -46,9 +42,7 @@ export default function Exploracao() {
                     "http://localhost:8080/manga/demografia"
                 );
 
-                if (!response.ok) {
-                    return;
-                }
+                if (!response.ok) return;
 
                 const dados = await response.json();
 
@@ -59,17 +53,59 @@ export default function Exploracao() {
                 console.error("Erro ao carregar demografias:", error);
 
             }
+
         };
 
         carregarDemografias();
 
     }, []);
 
+    useEffect(() => {
+
+        const carregarMaisDemografias = () => {
+
+            const alturaTotal =
+                document.documentElement.scrollHeight;
+
+            const posicaoAtual =
+                window.innerHeight + window.scrollY;
+
+            if (posicaoAtual >= alturaTotal - 300) {
+
+                setQuantidadeDemografias((quantidadeAtual) => {
+
+                    const total =
+                        Object.keys(mangasPorDemografia).length;
+
+                    if (quantidadeAtual >= total) {
+                        return quantidadeAtual;
+                    }
+
+                    return quantidadeAtual + 2;
+
+                });
+
+            }
+
+        };
+
+        window.addEventListener(
+            "scroll",
+            carregarMaisDemografias
+        );
+
+        return () => {
+            window.removeEventListener(
+                "scroll",
+                carregarMaisDemografias
+            );
+        };
+
+    }, [mangasPorDemografia]);
+
     const pesquisarManga = async () => {
 
-        if (pesquisa.trim() === "") {
-            return;
-        }
+        if (pesquisa.trim() === "") return;
 
         try {
 
@@ -108,20 +144,25 @@ export default function Exploracao() {
             });
 
         }
+
     };
 
     const abrirManga = (manga: Manga) => {
 
         navigate("/pesquisa", {
             state: {
-                mangaPesquisado: manga,
-                erro: false
+                tituloManga: manga.tituloManga
             }
         });
 
     };
 
+    const demografiasVisiveis =
+        Object.entries(mangasPorDemografia)
+            .slice(0, quantidadeDemografias);
+
     return (
+
         <div className="pagina">
 
             <MenuNavegacao />
@@ -138,11 +179,6 @@ export default function Exploracao() {
 
                     <div className="acoes">
 
-                        <button className="botao-isbn">
-                            <span>▥</span>
-                            Escanear ISBN
-                        </button>
-
                         <InputPesquisa
                             value={pesquisa}
                             onChange={setPesquisa}
@@ -155,7 +191,7 @@ export default function Exploracao() {
 
                 <div className="lista-demografias">
 
-                    {Object.entries(mangasPorDemografia).map(
+                    {demografiasVisiveis.map(
                         ([demografia, mangas]) => (
 
                             <section
@@ -167,58 +203,41 @@ export default function Exploracao() {
 
                                     <h2>{demografia}</h2>
 
-                                    <button className="botao-seta">
-                                        &gt;
-                                    </button>
-
                                 </div>
 
                                 <div className="lista-mangas">
 
-                                    {mangas.map((manga) => {
+                                    {mangas.map((manga) => (
 
-                                        const volume =
-                                            manga.volumes &&
-                                            manga.volumes.length > 0
-                                                ? manga.volumes[0]
-                                                : null;
+                                        <div
+                                            className="card-manga"
+                                            key={manga.idManga}
+                                            onClick={() =>
+                                                abrirManga(manga)
+                                            }
+                                        >
 
-                                        return (
-                                            <div
-                                                className="card-manga"
-                                                key={manga.idManga}
-                                                onClick={() =>
-                                                    abrirManga(manga)
-                                                }
-                                            >
+                                            <div className="capa-container">
 
-                                                <div className="capa-container">
+                                                <img
+                                                    src={manga.capaManga}
+                                                    alt={manga.tituloManga}
+                                                    className="capa-manga"
+                                                />
 
-                                                    <img
-                                                        src={manga.capaManga}
-                                                        alt={manga.tituloManga}
-                                                        className="capa-manga"
-                                                    />
-
-                                                    {volume && (
-                                                        <span className="volume-manga">
-                                                            Vol.{" "}
-                                                            {
-                                                                volume.idVolumeManga
-                                                            }
-                                                        </span>
-                                                    )}
-
-                                                </div>
-
-                                                <p className="titulo-manga">
-                                                    {manga.tituloManga}
-                                                </p>
+                                                <span className="volume-manga">
+                                                    {manga.quantidadeVolumes} volumes
+                                                </span>
 
                                             </div>
-                                        );
 
-                                    })}
+                                            <p className="titulo-manga">
+                                                {manga.tituloManga}
+                                            </p>
+
+                                        </div>
+
+                                    ))}
 
                                 </div>
 
@@ -232,5 +251,6 @@ export default function Exploracao() {
             </div>
 
         </div>
+
     );
 }

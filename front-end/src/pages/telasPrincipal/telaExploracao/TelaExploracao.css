@@ -1,236 +1,88 @@
-.pagina {
-    display: flex;
-    min-height: 100vh;
-    background: #feddae;
-}
 
-.conteudo {
-    flex: 1;
-    padding: 15px 25px;
-    overflow-x: hidden;
-}
-
-.topo {
-    position: relative;
-    margin-bottom: 20px;
-    min-height: 55px;
-}
-
-.topo h1 {
-    margin: 0;
-    font-size: 38px;
-    color: #000000;
-    font-weight: 700;
-}
-
-.topo p {
-    margin: 2px 0 0 0;
-    color: #614030;
-    font-size: 16px;
-}
-
-.topo .acoes {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-
-/* BOTÃO ISBN */
-
-.botao-isbn {
-    height: 40px;
-    padding: 0 18px;
-
-    border: none;
-    border-radius: 9px;
-
-    background: #5c3825;
-    color: white;
-
-    font-size: 14px;
-    font-weight: 500;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    cursor: pointer;
-}
-
-.botao-isbn span {
-    font-size: 21px;
-}
-
-.botao-isbn:hover {
-    background: #45271a;
-}
-
-
-/* LISTA DE DEMOGRAFIAS */
+/* Áreas das demografias */
 
 .lista-demografias {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 25px;
 }
-
-
-/* SEÇÃO */
 
 .secao-demografia {
     background: #fffaf0;
-
-    border-radius: 17px;
-
-    padding: 14px 16px 18px;
-
-    min-height: 240px;
-
-    box-sizing: border-box;
+    border-radius: 18px;
+    padding: 25px 28px 30px;
 }
 
-
-/* CABEÇALHO */
-
 .cabecalho-demografia {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 10px;
+    margin-bottom: 22px;
 }
 
 .cabecalho-demografia h2 {
     margin: 0;
-
-    color: #614030;
-
-    font-size: 29px;
-    font-weight: 700;
+    color: #5c3825;
+    font-size: 30px;
 }
 
-
-/* SETA */
-
-.botao-seta {
-    width: 55px;
-    height: 55px;
-
-    border: none;
-    border-radius: 50%;
-
-    background: #feddae;
-    color: #614030;
-
-    font-size: 38px;
-    font-weight: bold;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.botao-seta:hover {
-    background: #f3c989;
-}
-
-
-/* LISTA DE MANGÁS */
+/* Mangás */
 
 .lista-mangas {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 17px;
-
-    overflow: hidden;
-
-    padding: 0 2px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 35px;
+    row-gap: 30px;
 }
 
-
-/* CARD */
-
 .card-manga {
-    width: 96px;
-
-    flex-shrink: 0;
-
+    width: 100%;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .card-manga:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
 }
 
 .capa-container {
     position: relative;
-
-    width: 96px;
-    height: 145px;
-
-    border-radius: 9px;
-
+    width: 100%;
+    height: 285px;
     overflow: hidden;
-
-    background: #e8d8c3;
-
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 9px;
+    background: #eee;
 }
 
 .capa-manga {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
 }
 
-
-/* VOLUME */
-
 .volume-manga {
     position: absolute;
+    bottom: 8px;
+    left: 8px;
 
-    right: 4px;
-    bottom: 4px;
+    padding: 6px 9px;
 
-    background: rgba(69, 39, 26, 0.92);
-
+    background: rgba(0, 0, 0, 0.82);
     color: white;
 
-    padding: 4px 7px;
+    border-radius: 6px;
 
-    border-radius: 5px;
-
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: bold;
 }
 
-
-/* TÍTULO */
-
 .titulo-manga {
-    margin: 6px 1px 0;
+    margin: 10px 2px 0;
 
-    color: #000000;
+    color: #000;
 
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
 
-    line-height: 15px;
-
-    text-align: left;
+    line-height: 1.2;
 
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -239,45 +91,65 @@
     overflow: hidden;
 }
 
+/* Responsividade */
 
-/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
 
-@media (max-width: 1000px) {
-
-    .topo .acoes {
-        position: static;
-
-        margin-top: 15px;
+    .conteudo {
+        margin-left: 230px;
     }
 
-    .topo {
-        margin-bottom: 20px;
+    .lista-mangas {
+        column-gap: 22px;
+    }
+
+    .capa-container {
+        height: 250px;
     }
 
 }
 
+@media (max-width: 950px) {
+
+    .conteudo {
+        margin-left: 0;
+    }
+
+    .lista-mangas {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .capa-container {
+        height: 250px;
+    }
+
+    .acoes {
+        position: static;
+        margin-top: 20px;
+    }
+
+}
 
 @media (max-width: 700px) {
 
-    .conteudo {
-        padding: 15px;
+    .lista-mangas {
+        grid-template-columns: repeat(3, 1fr);
     }
 
-    .topo h1 {
-        font-size: 30px;
+    .capa-container {
+        height: 220px;
     }
 
-    .topo .acoes {
-        flex-direction: column;
-        align-items: stretch;
+}
+
+@media (max-width: 500px) {
+
+    .lista-mangas {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .botao-isbn {
-        justify-content: center;
-    }
-
-    .secao-demografia {
-        padding: 14px;
+    .capa-container {
+        height: 240px;
     }
 
 }

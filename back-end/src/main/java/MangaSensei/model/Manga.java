@@ -1,9 +1,12 @@
 package MangaSensei.model;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +35,6 @@ public class Manga {
     private Long quantidadeVolumes;
 
     @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<VolumeManga> volumes = new ArrayList<>();
 }

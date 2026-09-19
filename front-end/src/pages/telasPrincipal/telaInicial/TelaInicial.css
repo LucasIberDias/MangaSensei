@@ -24,20 +24,22 @@
     gap: 16px;
 }
 
+/* Áreas da dashboard */
+
 .areaEstado {
-    height: 350px;
+    height: 370px;
 }
 
 .areaFaixa {
-    height: 230px;
+    height: 270px;
 }
 
 .areaUltimos {
-    height: 300px;
+    height: 330px;
 }
 
 .areaPrincipais {
-    height: 280px;
+    height: 310px;
 }
 
 .areaEstado,
@@ -46,6 +48,6 @@
 .areaPrincipais {
     background-color: #fdf4e7;
     border-radius: 16px;
-    padding-left: 10px;
+    padding: 10px;
     box-sizing: border-box;
 }

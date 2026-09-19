@@ -27,6 +27,7 @@ public class MangaService {
 
     // UC06 - Pesquisar Mangá
     public MangaResponseDTO pesquisarManga(MangaRequestDTO request) {
+
         // Verifica se foi passado nenhum titulo
         if (request.getTituloManga().isBlank()) {
             throw new RuntimeException("Nenhum titulo passado para busca");
@@ -36,14 +37,17 @@ public class MangaService {
         Manga mangaPesquisado;
 
         // Verifica se já existe um manga com esse nome ou nome parecido no banco
-        if (mangaRepository.findByTituloMangaContainingIgnoreCase(request.getTituloManga()).isEmpty()) {
+        List<Manga> mangasEncontrados = mangaRepository.findByTituloMangaContainingIgnoreCase(request.getTituloManga());
+
+        if (mangasEncontrados.isEmpty()) {
             // Se não encontrou, chama o scraper
             Manga mangaNovo = scraperManga.buscarManga(request.getTituloManga());
+
             // Salva o manga encontrado pelo scraper
             mangaPesquisado = mangaRepository.save(mangaNovo);
         } else {
             // Se encontrou, pega o manga existente
-            mangaPesquisado = mangaRepository.findByTituloMangaContainingIgnoreCase(request.getTituloManga()).get();
+            mangaPesquisado = mangasEncontrados.get(0);
         }
 
         // Faço a a lista dos volumes do manga ser convertido para VolumeMangaResponse
@@ -52,20 +56,31 @@ public class MangaService {
                 .stream()
                 // Pega cada elemento do manga e transforma em VolumeResponse
                 .map(volume -> new VolumeMangaResponseDTO(
+
                         volume.getIdVolumeManga(),
+
                         volume.getCapaVolume(),
+
                         volume.getIsbnVolume()))
+
                 .toList();
 
         // Agora eu retorno o mangá encontrado, já que ele vai existir no banco mesmo
         // que nao existisse antes
         return new MangaResponseDTO(
+
                 mangaPesquisado.getIdManga(),
+
                 mangaPesquisado.getTituloManga(),
+
                 mangaPesquisado.getAutorManga(),
+
                 mangaPesquisado.getCapaManga(),
+
                 mangaPesquisado.getEditoraManga(),
+
                 mangaPesquisado.getDemografiaManga(),
+
                 mangaPesquisado.getQuantidadeVolumes(),
                 volumes);
     }
@@ -73,7 +88,7 @@ public class MangaService {
     // UC07 - Apresentar por Demografia
     public Map<String, List<Manga>> apresentarPorDemografia() {
         // Faço uma lista com todas as demografias dinstintas do banco
-         List<String> demografias = mangaRepository.findDistinctDemografiaManga();
+        List<String> demografias = mangaRepository.findDistinctDemografiaManga();
 
         // Crio um map que será preenchido com a Demografia e uma lista de 5 mangás da
         // mesma demografia

@@ -24,6 +24,11 @@ body {
     border-bottom-right-radius: 40px;
 
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
 }
 
 .menu .logo {
@@ -85,4 +90,3 @@ body {
 .sair {
     margin-top: 20px;
 }
-

@@ -12,7 +12,7 @@ public interface MangaRepository extends JpaRepository<Manga, Long> {
     Optional<Manga> findByTituloManga(String tituloManga);
 
     // Busca por nome parcial do manga
-    Optional<Manga> findByTituloMangaContainingIgnoreCase(String tituloManga);
+    List<Manga> findByTituloMangaContainingIgnoreCase(String tituloManga);
 
     // Busca e preenche uma lista de mangás de uma demografia especifica
     List<Manga> findByDemografiaMangaContainingIgnoreCase(String demografiaManga);
