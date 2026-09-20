@@ -103,14 +103,16 @@ export default function Exploracao() {
 
     }, [mangasPorDemografia]);
 
-    const pesquisarManga = async () => {
+    const pesquisarManga = async (titulo?: string) => {
 
-        if (pesquisa.trim() === "") return;
+        const tituloPesquisa = titulo ?? pesquisa;
+
+        if (tituloPesquisa.trim() === "") return;
 
         try {
 
             const response = await fetch(
-                `http://localhost:8080/manga?titulo=${encodeURIComponent(pesquisa)}`
+                `http://localhost:8080/manga?titulo=${encodeURIComponent(tituloPesquisa)}`
             );
 
             if (!response.ok) {
@@ -136,6 +138,8 @@ export default function Exploracao() {
 
         } catch (error) {
 
+            console.error("Erro ao pesquisar mangá:", error);
+
             navigate("/pesquisa", {
                 state: {
                     mangaPesquisado: null,
@@ -148,13 +152,7 @@ export default function Exploracao() {
     };
 
     const abrirManga = (manga: Manga) => {
-
-        navigate("/pesquisa", {
-            state: {
-                tituloManga: manga.tituloManga
-            }
-        });
-
+        pesquisarManga(manga.tituloManga);
     };
 
     const demografiasVisiveis =
