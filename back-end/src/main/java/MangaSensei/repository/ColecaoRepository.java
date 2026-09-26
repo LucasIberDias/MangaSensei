@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ColecaoRepository extends JpaRepository<Colecao, Long> {
-
+    boolean existsByUsuarioIdUsuarioAndMangaIdManga(Long idUsuario, Long idManga);
 }
