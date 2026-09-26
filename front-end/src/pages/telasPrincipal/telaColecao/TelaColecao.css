@@ -1,0 +1,158 @@
+.pagina {
+    min-height: 100vh;
+}
+
+.conteudo {
+    margin-left: 280px;
+    padding: 30px 40px;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topo h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.topo p {
+    margin-top: 5px;
+    font-size: 17px;
+}
+
+.botaoAdicionar {
+    background-color: #5c3825;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    padding: 12px 25px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.botaoAdicionar:hover {
+    background-color: #45271a;
+}
+
+
+/* Fundo escuro atrás da janela */
+
+.fundoModal {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+
+/* Janela */
+
+.modalAdicionar {
+    position: relative;
+
+    width: 500px;
+
+    background-color: #fff7eb;
+
+    border-radius: 15px;
+
+    padding: 30px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.modalAdicionar h2 {
+    margin-top: 0;
+
+    color: #45271a;
+
+    font-size: 28px;
+}
+
+.modalAdicionar p {
+    color: #5c3825;
+
+    margin-bottom: 25px;
+}
+
+
+/* Botão X */
+
+.fecharModal {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    border: none;
+    background: none;
+
+    font-size: 30px;
+
+    color: #5c3825;
+
+    cursor: pointer;
+}
+
+
+/* Campo de pesquisa */
+
+.campoPesquisa {
+    display: flex;
+
+    gap: 10px;
+}
+
+.campoPesquisa input {
+    flex: 1;
+
+    padding: 12px;
+
+    border: 1px solid #d6b894;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.campoPesquisa input:focus {
+    border-color: #8b5e3c;
+}
+
+.campoPesquisa button {
+    background-color: #5c3825;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 0 20px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.campoPesquisa button:hover {
+    background-color: #45271a;
+}
