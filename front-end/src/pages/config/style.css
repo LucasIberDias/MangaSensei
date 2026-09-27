@@ -34,9 +34,6 @@
     position: absolute;
     top: 0;
     right: 0;
-}
-
-h3 {
-    color: #614030;
-    margin-top: 10px;
+    display: flex;
+    gap: 20px;
 }

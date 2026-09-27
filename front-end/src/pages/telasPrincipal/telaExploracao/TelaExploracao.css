@@ -29,8 +29,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    column-gap: 160px;
-    row-gap: 30px;
+    column-gap: 140px;
+    row-gap: 25px;
 }
 
 .card-manga {
