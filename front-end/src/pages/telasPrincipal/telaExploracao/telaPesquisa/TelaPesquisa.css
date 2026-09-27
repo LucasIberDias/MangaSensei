@@ -6,13 +6,11 @@
 
     min-height: 330px;
 
-    padding: 25px;
-
-    background: #fffaf0;
-
-    border-radius: 15px;
-
     gap: 25px;
+
+    width: 100%;
+
+    min-width: 0;
 
 }
 
@@ -38,6 +36,8 @@
 
     width: fit-content;
 
+    margin-bottom: 20px;
+
 }
 
 
@@ -49,8 +49,23 @@
 
 
 /* =========================
-   INFORMAÇÕES DO MANGÁ
+   SEÇÃO: INFORMAÇÕES DO MANGÁ
 ========================= */
+
+.secao-manga {
+
+    padding: 25px;
+
+    background: #fffaf0;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
 
 .informacoes-manga {
 
@@ -70,6 +85,8 @@
 .coluna-esquerda {
 
     width: 210px;
+
+    flex-shrink: 0;
 
     display: flex;
 
@@ -100,6 +117,8 @@
 .coluna-central {
 
     flex: 1;
+
+    min-width: 0;
 
     padding-top: 0;
 
@@ -175,53 +194,24 @@
 
 
 /* =========================
-   SOBRE
+   SEÇÃO: VOLUMES
 ========================= */
 
-.coluna-sobre {
-
-    width: 330px;
-
-    padding: 0 20px 0 30px;
-
-    border-left: 1px solid #e2cfb0;
-
-}
-
-
-.coluna-sobre h2 {
-
-    margin: 0 0 15px 0;
-
-    font-size: 25px;
-
-    color: #000000;
-
-}
-
-
-.coluna-sobre p {
-
-    color: #614030;
-
-    line-height: 1.7;
-
-    font-size: 16px;
-
-}
-
-
-/* =========================
-   VOLUMES
-========================= */
-
-.volumes {
+.secao-volumes {
 
     width: 100%;
 
-    border-top: 1px solid #e2cfb0;
+    min-width: 0;
 
-    padding-top: 20px;
+    box-sizing: border-box;
+
+    padding: 25px;
+
+    background: #fffaf0;
+
+    border-radius: 15px;
+
+    overflow: hidden;
 
 }
 
@@ -288,7 +278,11 @@
 
     display: flex;
 
-    gap: 12px;
+    gap: 30px;
+
+    width: 100%;
+
+    max-width: 100%;
 
     overflow-x: auto;
 
@@ -318,9 +312,7 @@
 
 .volume img {
 
-    width: 90px;
-
-    height: 135px;
+    width: 185px;
 
     object-fit: cover;
 

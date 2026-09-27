@@ -65,94 +65,100 @@ export default function TelaPesquisa() {
 
                     <div className="manga-encontrado">
 
-                        <button
-                            className="voltar"
-                            onClick={() => navigate("/exploracao")}
-                        >
-                            <FaArrowLeft />
 
-                            <span>
-                                Voltar para a pesquisa
-                            </span>
+                        {/* ================= SEÇÃO: INFORMAÇÕES DO MANGÁ ================= */}
+                        <div className="secao-manga">
 
-                        </button>
+                            <button
+                                className="voltar"
+                                onClick={() => navigate("/exploracao")}
+                            >
+                                <FaArrowLeft />
 
-                        <div className="informacoes-manga">
+                                <span>
+                                    Voltar para a pesquisa
+                                </span>
 
-                            <div className="coluna-esquerda">
+                            </button>
 
-                                <img
-                                    className="capa-manga"
-                                    src={mangaPesquisado.capaManga}
-                                    alt={mangaPesquisado.tituloManga}
-                                />
+                            <div className="informacoes-manga">
 
-                            </div>
+                                <div className="coluna-esquerda">
 
-                            <div className="coluna-central">
+                                    <img
+                                        className="capa-manga"
+                                        src={mangaPesquisado.capaManga}
+                                        alt={mangaPesquisado.tituloManga}
+                                    />
 
-                                <h2>
-                                    {mangaPesquisado.tituloManga}
-                                </h2>
+                                </div>
 
+                                <div className="coluna-central">
 
-                                <div className="informacoes">
-
-                                    <div className="informacao">
-
-                                        <FaUser />
-
-                                        <h3>
-                                            Autor
-                                        </h3>
-
-                                        <span>
-                                            {mangaPesquisado.autorManga}
-                                        </span>
-
-                                    </div>
+                                    <h2>
+                                        {mangaPesquisado.tituloManga}
+                                    </h2>
 
 
-                                    <div className="informacao">
+                                    <div className="informacoes">
 
-                                        <FaBuilding />
+                                        <div className="informacao">
 
-                                        <h3>
-                                            Editora
-                                        </h3>
+                                            <FaUser />
 
-                                        <span>
-                                            {mangaPesquisado.editoraManga}
-                                        </span>
+                                            <h3>
+                                                Autor
+                                            </h3>
 
-                                    </div>
+                                            <span>
+                                                {mangaPesquisado.autorManga}
+                                            </span>
+
+                                        </div>
 
 
-                                    <div className="informacao">
+                                        <div className="informacao">
 
-                                        <FaUsers />
+                                            <FaBuilding />
 
-                                        <h3>
-                                            Demografia
-                                        </h3>
+                                            <h3>
+                                                Editora
+                                            </h3>
 
-                                        <span>
-                                            {mangaPesquisado.demografiaManga}
-                                        </span>
+                                            <span>
+                                                {mangaPesquisado.editoraManga}
+                                            </span>
 
-                                    </div>
+                                        </div>
 
-                                    <div className="informacao">
 
-                                        <FaBook />
+                                        <div className="informacao">
 
-                                        <h3>
-                                            Quantidade de volumes
-                                        </h3>
+                                            <FaUsers />
 
-                                        <span>
-                                            {mangaPesquisado.quantidadeVolumes}
-                                        </span>
+                                            <h3>
+                                                Demografia
+                                            </h3>
+
+                                            <span>
+                                                {mangaPesquisado.demografiaManga}
+                                            </span>
+
+                                        </div>
+
+                                        <div className="informacao">
+
+                                            <FaBook />
+
+                                            <h3>
+                                                Quantidade de volumes
+                                            </h3>
+
+                                            <span>
+                                                {mangaPesquisado.quantidadeVolumes}
+                                            </span>
+
+                                        </div>
 
                                     </div>
 
@@ -160,21 +166,9 @@ export default function TelaPesquisa() {
 
                             </div>
 
-                            <div className="coluna-sobre">
-
-                                <h2>
-                                    Sobre
-                                </h2>
-
-                                <p>
-                                    {mangaPesquisado.descricaoManga}
-                                </p>
-
-                            </div>
-
                         </div>
-
-                        <div className="volumes">
+                        {/* ================= SEÇÃO: VOLUMES ================= */}
+                        <div className="secao-volumes">
 
                             <div className="titulo-volumes">
 
