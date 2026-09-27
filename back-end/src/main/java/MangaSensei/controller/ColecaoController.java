@@ -1,8 +1,11 @@
 package MangaSensei.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import MangaSensei.dto.colecao.ColecaoResponseDTO;
 import MangaSensei.service.ColecaoService;
 
 @RestController
@@ -21,5 +24,12 @@ public class ColecaoController {
         colecaoService.criarColecao(idManga, idUsuario);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ColecaoResponseDTO>> buscarColecoes(@RequestParam Long idUsuario) {
+        List<ColecaoResponseDTO> colecoes = colecaoService.buscarColecoes(idUsuario);
+
+        return ResponseEntity.ok(colecoes);
     }
 }

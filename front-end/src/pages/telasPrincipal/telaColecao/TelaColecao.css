@@ -26,12 +26,14 @@
 .botaoAdicionar {
     background-color: #5c3825;
     color: white;
+
     border: none;
     border-radius: 8px;
 
     padding: 12px 25px;
 
     font-size: 16px;
+    font-weight: bold;
 
     cursor: pointer;
 
@@ -43,7 +45,7 @@
 }
 
 
-/* Fundo escuro atrás da janela */
+/* Fundo da janela */
 
 .fundoModal {
     position: fixed;
@@ -69,7 +71,7 @@
 .modalAdicionar {
     position: relative;
 
-    width: 500px;
+    width: 550px;
 
     background-color: #fff7eb;
 
@@ -88,19 +90,19 @@
     font-size: 28px;
 }
 
-.modalAdicionar p {
+.modalAdicionar > p {
     color: #5c3825;
 
     margin-bottom: 25px;
 }
 
 
-/* Botão X */
+/* Fechar */
 
 .fecharModal {
     position: absolute;
 
-    top: 12px;
+    top: 10px;
     right: 15px;
 
     border: none;
@@ -114,7 +116,7 @@
 }
 
 
-/* Campo de pesquisa */
+/* Pesquisa */
 
 .campoPesquisa {
     display: flex;
@@ -155,4 +157,61 @@
 
 .campoPesquisa button:hover {
     background-color: #45271a;
+}
+
+
+/* Resultado */
+
+.resultadoManga {
+    display: flex;
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+    padding: 15px;
+
+    background-color: #f8ead8;
+
+    border-radius: 10px;
+}
+
+.capaResultado {
+    width: 100px;
+    height: 145px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+.informacoesManga {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.informacoesManga h3 {
+    margin: 0 0 12px 0;
+
+    color: #45271a;
+
+    font-size: 21px;
+}
+
+.informacoesManga p {
+    margin: 4px 0;
+
+    color: #5c3825;
+}
+
+
+/* Erro */
+
+.mensagemErro {
+    color: #b33a3a !important;
+
+    margin-top: 20px;
 }
