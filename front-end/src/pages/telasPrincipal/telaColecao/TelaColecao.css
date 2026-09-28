@@ -81,24 +81,44 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 40px;
-    row-gap: 5px;
+    row-gap: 18px;
+
+    max-height: 760px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.listaColecoes::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listaColecoes::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.listaColecoes::-webkit-scrollbar-thumb {
+    background-color: #e6c6a4;
+    border-radius: 10px;
+}
+
+.listaColecoes::-webkit-scrollbar-thumb:hover {
+    background-color: #d6b894;
 }
 
 .cardColecao {
     position: relative;
-    min-height: 77px;
+    min-height: 150px;
     display: flex;
-    gap: 8px;
+    gap: 16px;
     align-items: center;
-    padding: 2px 0;
-    border-bottom: 1px solid rgba(92, 56, 37, 0.08);
+    padding: 8px 0;
 }
 
 .capaColecao {
-    width: 48px;
-    height: 68px;
+    width: 100px;
+    height: 144px;
     object-fit: cover;
-    border-radius: 3px;
+    border-radius: 6px;
     flex-shrink: 0;
 }
 
@@ -108,8 +128,8 @@
 }
 
 .informacoesColecao h3 {
-    margin: 0 0 3px;
-    font-size: 15px;
+    margin: 0 0 6px;
+    font-size: 22px;
     color: #111;
     white-space: nowrap;
     overflow: hidden;
@@ -117,62 +137,63 @@
 }
 
 .autorColecao {
-    margin: 0 0 3px;
-    font-size: 12px;
+    margin: 0 0 10px;
+    font-size: 14px;
     color: #111;
 }
 
 .demografiaColecao {
-    margin: 3px 0 0;
-    font-size: 12px;
+    margin: 8px 0 0;
+    font-size: 13px;
     color: #111;
 }
 
 .progressoColecao {
-    position: relative;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
 }
 
 .quantidadeVolumes {
-    position: absolute;
-    top: -14px;
-    left: 105px;
-    font-size: 10px;
-    color: #222;
+    flex-basis: 100%;
+    font-size: 13px;
+    color: #333;
     white-space: nowrap;
 }
 
 .barraContainer {
-    width: 190px;
-    height: 7px;
+    flex: 1;
+    min-width: 140px;
+    height: 13px;
     background-color: #f1ddc4;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 .barraProgresso {
     height: 100%;
     background-color: #f0b46f;
-    border-radius: 10px;
+    border-radius: 12px;
     transition: width 0.3s;
 }
 
 .porcentagem {
-    min-width: 38px;
-    padding: 2px 5px;
+    min-width: 50px;
+    padding: 4px 9px;
     border: 1px solid #f0b46f;
     border-radius: 8px;
-    font-size: 10px;
+    font-size: 13px;
     text-align: center;
     color: #8b5e3c;
+    white-space: nowrap;
 }
 
 .porcentagem.completa {
     border: none;
     color: #7dbb68;
     font-weight: bold;
+    font-size: 14px;
 }
 
 .menuColecao {
@@ -180,7 +201,7 @@
     border: none;
     background: none;
     color: #5c3825;
-    font-size: 22px;
+    font-size: 24px;
     cursor: pointer;
     padding: 5px;
 }
