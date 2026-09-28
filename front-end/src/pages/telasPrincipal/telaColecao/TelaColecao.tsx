@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 
+const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
 interface Manga {
     idManga: number;
     tituloManga: string;
@@ -41,14 +43,7 @@ export default function TelaColecao() {
 
     const [carregando, setCarregando] = useState(false);
 
-
-    /*
-     * ID DO USUÁRIO
-     *
-     * Por enquanto está aqui para facilitar.
-     * Depois vamos ligar ao usuário que seu login já salva.
-     */
-    const idUsuario = 1;
+    const idUsuario = usuario?.idUsuario;
 
 
     /*
