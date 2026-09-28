@@ -263,19 +263,6 @@ export default function TelaColecao() {
                             +&nbsp; Adicionar mangá
                         </button>
 
-                        <div className="pesquisaColecao">
-
-                            <span className="iconePesquisa">
-                                ⌕
-                            </span>
-
-                            <input
-                                type="text"
-                                placeholder="Buscar na coleção..."
-                            />
-
-                        </div>
-
                     </div>
 
                 </div>
@@ -290,10 +277,6 @@ export default function TelaColecao() {
                         <h2>
                             Progresso das coleções
                         </h2>
-
-                        <button className="botaoVisualizacao">
-                            ▮
-                        </button>
 
                     </div>
 
@@ -397,16 +380,6 @@ export default function TelaColecao() {
 
                     )}
 
-
-                    {colecoes.length > 0 && (
-
-                        <button className="carregarMais">
-                            Carregar mais
-                            <span>⌄</span>
-                        </button>
-
-                    )}
-
                 </div>
 
             </div>
@@ -431,10 +404,6 @@ export default function TelaColecao() {
                         <h2>
                             Adicionar mangá
                         </h2>
-
-                        <p>
-                            Pesquise o mangá que deseja adicionar à sua coleção.
-                        </p>
 
 
                         <div className="campoPesquisa">
