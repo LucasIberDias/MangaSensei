@@ -32,4 +32,9 @@ public class ColecaoController {
 
         return ResponseEntity.ok(colecoes);
     }
+
+    @DeleteMapping
+    public void apagarColecao(@RequestParam Long idColecao) {
+        colecaoService.apagarColecao(idColecao);
+    }
 }
