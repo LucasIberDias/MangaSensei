@@ -101,4 +101,19 @@ public class ColecaoService {
         // Retorno a Lista com todas as coleções
         return response;
     }
+
+    // UC09.1 - Remover Coleção
+    public void apagarColecao(Long id) {
+
+        // Verifico se a coleção existe
+        if (!colecaoRepository.existsById(id)) {
+            throw new RuntimeException("Coleção não existe para ser apagada");
+        }
+
+        // Pego a coleção que será apagada
+        Colecao colecao = colecaoRepository.findById(id).get();
+
+        // Apago a coleção
+        colecaoRepository.delete(colecao);
+    }
 }

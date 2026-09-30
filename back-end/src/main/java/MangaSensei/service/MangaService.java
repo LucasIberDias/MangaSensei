@@ -44,8 +44,7 @@ public class MangaService {
             Manga mangaNovo = scraperManga.buscarManga(request.getTituloManga());
 
             // Verifica novamente usando o título correto encontrado pelo scraper
-            List<Manga> mangasExistentes = mangaRepository
-                    .findByTituloMangaContainingIgnoreCase(mangaNovo.getTituloManga());
+            List<Manga> mangasExistentes = mangaRepository.findByTituloMangaContainingIgnoreCase(mangaNovo.getTituloManga());
 
             if (mangasExistentes.isEmpty()) {
                 // Se realmente não existe, salva o manga encontrado pelo scraper
@@ -126,5 +125,4 @@ public class MangaService {
         // Retorno 5 mangás da lista
         return mangas.stream().limit(5).toList();
     }
-
 }
