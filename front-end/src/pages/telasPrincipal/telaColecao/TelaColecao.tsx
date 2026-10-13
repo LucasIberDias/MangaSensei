@@ -3,6 +3,7 @@ import "./TelaColecao.css";
 import { useEffect, useState } from "react";
 
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
+import { useNavigate } from "react-router-dom";
 
 const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
 
@@ -44,6 +45,8 @@ export default function TelaColecao() {
     const [carregando, setCarregando] = useState(false);
 
     const idUsuario = usuario?.idUsuario;
+
+    const navigate = useNavigate();
 
 
     /*
@@ -346,7 +349,10 @@ export default function TelaColecao() {
                                 </div>
 
 
-                                <button className="menuColecao">
+                                <button
+                                    className="menuColecao"
+                                    onClick={() => navigate("/gerenciamento")}
+                                >
                                     ⋮
                                 </button>
 
