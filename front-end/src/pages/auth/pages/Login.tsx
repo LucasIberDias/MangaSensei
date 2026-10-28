@@ -39,7 +39,7 @@ export default function Login() {
                 <h2>LOGIN</h2>
 
                 <p className="login-subtitulo">
-                    FaÃ§a login na sua conta e tenha uma coleÃ§Ã£o organizada!
+                    Faça login na sua conta e tenha uma coleção organizada!
                 </p>
 
                 <label>E-mail</label>

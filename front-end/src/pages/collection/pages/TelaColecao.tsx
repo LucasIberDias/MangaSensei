@@ -48,7 +48,7 @@ export default function TelaColecao() {
 
 
     /*
-     * BUSCAR COLEÃ‡Ã•ES
+     * BUSCAR COLEÇÕES
      */
     const carregarColecoes = async () => {
 
@@ -64,7 +64,7 @@ export default function TelaColecao() {
 
 
     /*
-     * CARREGA AS COLEÃ‡Ã•ES QUANDO A TELA ABRE
+     * CARREGA AS COLEÇÕES QUANDO A TELA ABRE
      */
     useEffect(() => {
 
@@ -74,7 +74,7 @@ export default function TelaColecao() {
 
 
     /*
-     * PESQUISAR MANGÃ
+     * PESQUISAR MANGÁ
      */
     const pesquisarManga = async () => {
 
@@ -102,7 +102,7 @@ export default function TelaColecao() {
 
 
     /*
-     * ADICIONAR MANGÃ Ã€ COLEÃ‡ÃƒO
+     * ADICIONAR MANGÁ À COLEÇÃO
      */
     const adicionarColecao = async () => {
 
@@ -122,7 +122,7 @@ export default function TelaColecao() {
             fecharAdicionar();
 
             /*
-             * Busca novamente as coleÃ§Ãµes
+             * Busca novamente as coleções
              */
             carregarColecoes();
 
@@ -186,10 +186,10 @@ export default function TelaColecao() {
 
                     <div>
 
-                        <h1>ColeÃ§Ã£o</h1>
+                        <h1>Coleção</h1>
 
                         <p>
-                            Gerencie todos os seus mangÃ¡s.
+                            Gerencie todos os seus mangás.
                         </p>
 
                     </div>
@@ -201,7 +201,7 @@ export default function TelaColecao() {
                             className="botaoAdicionar"
                             onClick={abrirAdicionar}
                         >
-                            +&nbsp; Adicionar mangÃ¡
+                            +&nbsp; Adicionar mangá
                         </button>
 
                     </div>
@@ -211,14 +211,14 @@ export default function TelaColecao() {
                 {mensagemErro && !mostrarAdicionar && <p className="mensagemErro" role="alert">{mensagemErro}</p>}
 
 
-                {/* ÃREA DAS COLEÃ‡Ã•ES */}
+                {/* ÁREA DAS COLEÇÕES */}
 
                 <div className="areaColecoes">
 
                     <div className="cabecalhoColecoes">
 
                         <h2>
-                            Progresso das coleÃ§Ãµes
+                            Progresso das coleções
                         </h2>
 
                     </div>
@@ -238,13 +238,13 @@ export default function TelaColecao() {
                         <div className="colecaoVazia">
 
                             <p>
-                                VocÃª ainda nÃ£o possui nenhuma coleÃ§Ã£o.
+                                Você ainda não possui nenhuma coleção.
                             </p>
 
                             <button
                                 onClick={abrirAdicionar}
                             >
-                                + Adicionar primeiro mangÃ¡
+                                + Adicionar primeiro mangá
                             </button>
 
                         </div>
@@ -268,12 +268,12 @@ export default function TelaColecao() {
                             className="fecharModal"
                             onClick={fecharAdicionar}
                         >
-                            Ã—
+                            ×
                         </button>
 
 
                         <h2>
-                            Adicionar mangÃ¡
+                            Adicionar mangá
                         </h2>
 
 
@@ -292,7 +292,7 @@ export default function TelaColecao() {
                                     }
 
                                 }}
-                                placeholder="Digite o nome do mangÃ¡..."
+                                placeholder="Digite o nome do mangá..."
                             />
 
 
@@ -354,7 +354,7 @@ export default function TelaColecao() {
                                     >
                                         {carregando
                                             ? "Adicionando..."
-                                            : "Adicionar Ã  coleÃ§Ã£o"
+                                            : "Adicionar à coleção"
                                         }
                                     </button>
 

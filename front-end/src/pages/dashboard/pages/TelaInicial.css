@@ -52,3 +52,42 @@
     padding: 10px;
     box-sizing: border-box;
 }
+
+.areaEstado h2,
+.areaFaixa h2,
+.areaUltimos h2,
+.areaPrincipais h2 {
+    margin: 4px 0 18px;
+    color: #5c3825;
+    font-size: 20px;
+}
+
+.areaEstado p,
+.areaFaixa p,
+.areaUltimos p,
+.areaPrincipais p,
+.areaUltimos li,
+.areaPrincipais li {
+    margin: 10px 0;
+    color: #614030;
+    line-height: 1.5;
+}
+
+.areaUltimos ul,
+.areaPrincipais ul {
+    padding-left: 22px;
+}
+
+@media (max-width: 950px) {
+    .dashboardInferior {
+        grid-template-columns: 1fr;
+    }
+
+    .areaEstado,
+    .areaFaixa,
+    .areaUltimos,
+    .areaPrincipais {
+        height: auto;
+        min-height: 180px;
+    }
+}

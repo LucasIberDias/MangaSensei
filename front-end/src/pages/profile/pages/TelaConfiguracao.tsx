@@ -27,7 +27,7 @@ export default function TelaConfiguracao() {
             setUsuario(atualizado);
             setEditando(false);
         } catch (error) {
-            setErro(getErrorMessage(error, "NÃ£o foi possÃ­vel atualizar o perfil."));
+            setErro(getErrorMessage(error, "Não foi possível atualizar o perfil."));
         } finally {
             setSalvando(false);
         }
@@ -38,8 +38,8 @@ export default function TelaConfiguracao() {
             <MenuNavegacao />
             <main className="conteudo">
                 <div className="topo">
-                    <h1>ConfiguraÃ§Ãµes</h1>
-                    <p>Personalize sua experiÃªncia no MangaSensei.</p>
+                    <h1>Configurações</h1>
+                    <p>Personalize sua experiência no MangaSensei.</p>
                 </div>
                 <div className="grid-config">
                     <section className="card-config">
@@ -49,7 +49,7 @@ export default function TelaConfiguracao() {
                                 {usuario?.fotoPerfil ? <img src={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario.fotoPerfil}`} alt="Foto de perfil" /> : <FaUserCircle size={90} />}
                             </div>
                             <div className="dados-perfil">
-                                <span>Nome de usuÃ¡rio</span>
+                                <span>Nome de usuário</span>
                                 {editando ? <input value={nome} onChange={(event) => setNome(event.target.value)} /> : <h3>{usuario?.nomeUsuario}</h3>}
                                 <span>E-mail</span>
                                 {editando ? <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} /> : <p>{usuario?.emailUsuario}</p>}
@@ -66,13 +66,13 @@ export default function TelaConfiguracao() {
                     <section className="card-config">
                         <div className="titulo-card"><FaLock /><h2>Conta</h2></div>
                         <button className="item-config" onClick={() => { authService.encerrarSessao(); navigate("/"); }}>
-                            <div><h4>Sair da conta</h4><p>Encerre sua sessÃ£o neste dispositivo.</p></div><FiChevronRight />
+                            <div><h4>Sair da conta</h4><p>Encerre sua sessão neste dispositivo.</p></div><FiChevronRight />
                         </button>
                     </section>
                     <section className="card-config sobre">
                         <div className="titulo-card"><FaInfoCircle /><h2>Sobre o MangaSensei</h2></div>
-                        <p><strong>VersÃ£o:</strong> 1.0.0</p>
-                        <p>Desenvolvido com â¤ï¸ para colecionadores de mangÃ¡s.</p>
+                        <p><strong>Versão:</strong> 1.0.0</p>
+                        <p>Desenvolvido com ❤️ para colecionadores de mangás.</p>
                     </section>
                 </div>
             </main>

@@ -1,6 +1,8 @@
 ﻿import { FaHouseUser } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa6";
+import { FaShop } from "react-icons/fa6";
 import { SiWpexplorer } from "react-icons/si";
+import { SiGooglesheets } from "react-icons/si";
 import { IoExit } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import Logo from "../Brand";
@@ -19,13 +21,15 @@ export default function MenuNavegacao() {
 
             <div className="links">
                 <LinkNavegacao destino="/inicio" texto="Inicio" Icon={FaHouseUser} />
-                <LinkNavegacao destino="/colecao" texto="ColeÃ§Ã£o" Icon={FaBookOpen} />
-                <LinkNavegacao destino="/exploracao" texto="ExploraÃ§Ã£o" Icon={SiWpexplorer} />
-                <LinkNavegacao destino="/configuracoes" texto="ConfiguraÃ§Ãµes" Icon={IoMdSettings} />
+                <LinkNavegacao destino="/colecao" texto="Coleção" Icon={FaBookOpen} />
+                <LinkNavegacao destino="/exploracao" texto="Exploração" Icon={SiWpexplorer} />
+                <LinkNavegacao destino="/marketplace" texto="Marketplace" Icon={FaShop} />
+                <LinkNavegacao destino="/relatorios" texto="Relatórios" Icon={SiGooglesheets} />
+                <LinkNavegacao destino="/configuracoes" texto="Configurações" Icon={IoMdSettings} />
             </div>
 
             <div className="perfil">
-                <img src={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario?.fotoPerfil || "/images/perfil-padrao.png"}`} alt="Foto do usuÃ¡rio" />
+                <img src={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario?.fotoPerfil || "/images/perfil-padrao.png"}`} alt="Foto do usuário" />
 
                 <div className="perfil-info">
                     <p>{usuario?.nomeUsuario}</p>

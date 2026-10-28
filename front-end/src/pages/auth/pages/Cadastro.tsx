@@ -19,7 +19,7 @@ export default function criarUsuario() {
     const criarConta = async () => {
 
         if (senhaUsuario !== tst_senha) {
-            alert("As senhas nÃ£o coincidem!");
+            alert("As senhas não coincidem!");
             return;
         }
 
@@ -43,13 +43,13 @@ export default function criarUsuario() {
 
                 <h2>Cadastre-se</h2>
                 <p className="cadastro-subtitulo">
-                    Crie uma conta e comece a gerenciar seus mangÃ¡s e HQ's
+                    Crie uma conta e comece a gerenciar seus mangás e HQs.
                 </p>
 
-                <label>UsuÃ¡rio</label>
+                <label>Usuário</label>
                 <Input
                     tipo="user"
-                    texto="Escolha um nome de usuÃ¡rio"
+                    texto="Escolha um nome de usuário"
                     onChange={setNome}
                 />
 
@@ -63,7 +63,7 @@ export default function criarUsuario() {
                 <label>Senha</label>
                 <Input
                     tipo="password"
-                    texto="Crie uma senha com mÃ­nimo de 8 dÃ­gitos"
+                    texto="Crie uma senha com no mínimo 8 caracteres"
                     onChange={setSenha}
                 />
 

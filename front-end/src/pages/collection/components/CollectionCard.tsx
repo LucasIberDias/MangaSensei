@@ -20,8 +20,8 @@ export default function CollectionCard({ colecao, onRemove, removing }: {
                 </div>
                 <p className="demografiaColecao">{colecao.demografiaManga}</p>
             </div>
-            <button className="menuColecao" type="button" aria-label={`Remover ${colecao.tituloManga} da coleÃ§Ã£o`} disabled={removing} onClick={() => onRemove(colecao.idColecao)}>
-                {removing ? "â€¦" : "Ã—"}
+            <button className="menuColecao" type="button" aria-label={`Remover ${colecao.tituloManga} da coleção`} disabled={removing} onClick={() => onRemove(colecao.idColecao)}>
+                {removing ? "…" : "×"}
             </button>
         </article>
     );

@@ -1,34 +1,19 @@
-import "./CardExploracao.css";
+import type { Manga as MangaModel } from "../../../../service/types";
+import "./MangaCard.css";
 
-type Manga = {
-    id: number;
-    titulo: string;
-    capa: string;
-    quantidadeVolumes: number;
+type MangaCardProps = {
+    manga: MangaModel;
+    onSelect: (manga: MangaModel) => void;
 };
 
-type CardMangaProps = {
-    manga: Manga;
-};
-
-export default function CardManga({ manga }: CardMangaProps) {
+export default function MangaCard({ manga, onSelect }: MangaCardProps) {
     return (
-        <div className="card-manga">
-
-            <img
-                src={manga.capa}
-                alt={manga.titulo}
-                className="card-manga-capa"
-            />
-
-            <div className="card-manga-volumes">
-                {manga.quantidadeVolumes} vol
-            </div>
-
-            <h3 className="card-manga-titulo">
-                {manga.titulo}
-            </h3>
-
-        </div>
+        <button className="manga-card" type="button" onClick={() => onSelect(manga)}>
+            <span className="manga-card__cover">
+                <img src={manga.capaManga} alt={`Capa de ${manga.tituloManga}`} loading="lazy" />
+                <span className="manga-card__volumes">{manga.quantidadeVolumes} volumes</span>
+            </span>
+            <span className="manga-card__title">{manga.tituloManga}</span>
+        </button>
     );
 }

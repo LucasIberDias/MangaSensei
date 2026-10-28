@@ -30,11 +30,11 @@ export default function TelaPesquisa() {
                 <div className="topo">
 
                     <h1>
-                        ExploraÃ§Ã£o
+                        Exploração
                     </h1>
 
                     <p>
-                        Descubra novos mangÃ¡s para aumentar sua coleÃ§Ã£o!
+                        Descubra novos mangás para aumentar sua coleção!
                     </p>
 
                 </div>
@@ -45,11 +45,11 @@ export default function TelaPesquisa() {
                     <div className="manga-nao-encontrado">
 
                         <h2>
-                            MangÃ¡ nÃ£o encontrado
+                            Mangá não encontrado
                         </h2>
 
                         <p>
-                            NÃ£o foi possÃ­vel encontrar o mangÃ¡ pesquisado.
+                            Não foi possível encontrar o mangá pesquisado.
                         </p>
 
                     </div>
@@ -59,7 +59,7 @@ export default function TelaPesquisa() {
                     <div className="manga-encontrado">
 
 
-                        {/* ================= SEÃ‡ÃƒO: INFORMAÃ‡Ã•ES DO MANGÃ ================= */}
+                        {/* ================= SEÇÃO: INFORMAÇÕES DO MANGÁ ================= */}
                         <div className="secao-manga">
 
                             <button
@@ -160,7 +160,7 @@ export default function TelaPesquisa() {
                             </div>
 
                         </div>
-                        {/* ================= SEÃ‡ÃƒO: VOLUMES ================= */}
+                        {/* ================= SEÇÃO: VOLUMES ================= */}
                         <div className="secao-volumes">
 
                             <div className="titulo-volumes">
