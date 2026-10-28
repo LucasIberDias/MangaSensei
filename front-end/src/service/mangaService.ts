@@ -1,5 +1,5 @@
-import { apiRequest } from "./api";
-import type { Manga } from "./types";
+﻿import { apiRequest } from "./api";
+import type { Manga } from "../types";
 
 export const mangaService = {
     pesquisar(titulo: string) {

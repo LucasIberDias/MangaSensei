@@ -1,5 +1,5 @@
-import { apiRequest } from "./api";
-import type { CadastroUsuario, Usuario } from "./types";
+﻿import { apiRequest } from "./api";
+import type { CadastroUsuario, Usuario } from "../types";
 
 export const usuarioService = {
     atualizar(idUsuario: number, dados: Partial<CadastroUsuario>) {

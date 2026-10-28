@@ -9,7 +9,7 @@ import { FaUsers } from "react-icons/fa";
 import { FaBook } from "react-icons/fa";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import type { Manga } from "../../../service/types";
+import type { Manga } from "../../../types";
 
 
 export default function TelaPesquisa() {

@@ -1,4 +1,4 @@
-import type { Manga as MangaModel } from "../../../../service/types";
+﻿import type { Manga as MangaModel } from "../../../../types";
 import "./MangaCard.css";
 
 type MangaCardProps = {

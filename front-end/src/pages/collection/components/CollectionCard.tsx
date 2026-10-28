@@ -1,4 +1,4 @@
-﻿import type { Colecao } from "../../../service/types";
+﻿import type { Colecao } from "../../../types";
 
 export default function CollectionCard({ colecao, onRemove, removing }: {
     colecao: Colecao;

@@ -1,5 +1,5 @@
-import { apiRequest } from "./api";
-import type { Colecao } from "./types";
+﻿import { apiRequest } from "./api";
+import type { Colecao } from "../types";
 
 export const colecaoService = {
     listar(idUsuario: number) {

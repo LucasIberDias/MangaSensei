@@ -8,7 +8,7 @@ import { colecaoService } from "../../../service/colecaoService";
 import CollectionCard from "../components/CollectionCard";
 import { mangaService } from "../../../service/mangaService";
 import { getErrorMessage } from "../../../service/api";
-import type { Manga, Colecao } from "../../../service/types";
+import type { Manga, Colecao } from "../../../types";
 
 
 

@@ -8,7 +8,7 @@ import { DashboardCard } from "../components/DashboardCard/DashboardCard";
 import { authService } from "../../../service/authService";
 import { colecaoService } from "../../../service/colecaoService";
 import { getErrorMessage } from "../../../service/api";
-import type { Colecao } from "../../../service/types";
+import type { Colecao } from "../../../types";
 import "./TelaInicial.css";
 
 export default function TelaInicial() {

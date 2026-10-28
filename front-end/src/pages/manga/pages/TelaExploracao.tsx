@@ -5,7 +5,7 @@ import InputPesquisa from "../../../components/Input/InputPesquisa";
 import MangaCard from "../components/MangaCard/MangaCard";
 import { mangaService } from "../../../service/mangaService";
 import { getErrorMessage } from "../../../service/api";
-import type { Manga } from "../../../service/types";
+import type { Manga } from "../../../types";
 import "./TelaExploracao.css";
 
 export default function Exploracao() {

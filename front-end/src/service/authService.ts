@@ -1,11 +1,11 @@
-import { apiRequest } from "./api";
-import type { CadastroUsuario, Usuario } from "./types";
+﻿import { apiRequest } from "./api";
+import type { CadastroUsuario, Usuario } from "../types";
 
 const STORAGE_KEY = "usuario";
 
 function validarUsuario(usuario: Usuario | undefined): Usuario {
     if (!usuario || typeof usuario.idUsuario !== "number") {
-        throw new Error("A API não retornou os dados esperados do usuário.");
+        throw new Error("A API nÃ£o retornou os dados esperados do usuÃ¡rio.");
     }
     return usuario;
 }
