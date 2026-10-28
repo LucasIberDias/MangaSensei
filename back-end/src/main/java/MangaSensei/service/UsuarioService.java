@@ -91,6 +91,12 @@ public class UsuarioService {
             usuario.setNomeUsuario(request.getNomeUsuario());
         }
         if (request.getFotoPerfil() != null) {
+            if (!request.getFotoPerfil().startsWith("data:image/")) {
+                throw new IllegalArgumentException("A foto de perfil deve ser uma imagem válida.");
+            }
+            if (request.getFotoPerfil().length() > 1_500_000) {
+                throw new IllegalArgumentException("A imagem deve ter no máximo 1 MB.");
+            }
             usuario.setFotoPerfil(request.getFotoPerfil());
         }
         if (request.getEmailUsuario() != null) {

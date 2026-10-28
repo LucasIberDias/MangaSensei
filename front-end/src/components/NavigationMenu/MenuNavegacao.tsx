@@ -29,7 +29,7 @@ export default function MenuNavegacao() {
             </div>
 
             <div className="perfil">
-                <img src={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario?.fotoPerfil || "/images/perfil-padrao.png"}`} alt="Foto do usuário" />
+                <img src={usuario?.fotoPerfil?.startsWith("data:image/") ? usuario.fotoPerfil : `${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario?.fotoPerfil || "/images/perfil-padrao.png"}`} alt="Foto do usuário" />
 
                 <div className="perfil-info">
                     <p>{usuario?.nomeUsuario}</p>
