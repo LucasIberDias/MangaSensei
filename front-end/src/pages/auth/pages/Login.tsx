@@ -1,10 +1,12 @@
-import Input from "../../components/Inputs/Input";
-import Button from "../../components/Buttons/Button";
-import ButtonLink from "../../components/Buttons/ButtonNavegacao";
-import Logo from "../../components/Logo";
+﻿import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
+import ButtonLink from "../../../components/Button/ButtonNavegacao";
+import Logo from "../../../components/Brand";
 import "./Login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../../../service/authService";
+import { getErrorMessage } from "../../../service/api";
 
 export default function Login() {
     const [emailUsuario, setEmail] = useState("");
@@ -20,32 +22,12 @@ export default function Login() {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    emailUsuario,
-                    senhaUsuario
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error("Email ou senha inválidos.");
-            }
-
-            const usuario = await response.json();
-            localStorage.setItem("usuario", JSON.stringify(usuario));
-            console.log(usuario);
-
-            alert("Login realizado com sucesso!");
-
+            const usuario = await authService.login(emailUsuario, senhaUsuario);
+            authService.salvarSessao(usuario);
             navigate("/inicio");
 
         } catch (error) {
-            console.error(error);
-            alert("Erro ao realizar login.");
+            alert(getErrorMessage(error, "Não foi possível realizar o login."));
         }
     };
 
@@ -57,7 +39,7 @@ export default function Login() {
                 <h2>LOGIN</h2>
 
                 <p className="login-subtitulo">
-                    Faça login na sua conta e tenha uma coleção organizada!
+                    FaÃ§a login na sua conta e tenha uma coleÃ§Ã£o organizada!
                 </p>
 
                 <label>E-mail</label>
@@ -92,3 +74,6 @@ export default function Login() {
         </div>
     );
 }
+
+
+

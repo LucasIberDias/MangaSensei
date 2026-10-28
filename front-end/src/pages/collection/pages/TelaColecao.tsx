@@ -1,37 +1,21 @@
-import "./TelaColecao.css";
+﻿import "./TelaColecao.css";
 
 import { useEffect, useState } from "react";
 
-import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
-import { useNavigate } from "react-router-dom";
+import MenuNavegacao from "../../../components/NavigationMenu/MenuNavegacao";
+import { authService } from "../../../service/authService";
+import { colecaoService } from "../../../service/colecaoService";
+import CollectionCard from "../components/CollectionCard";
+import { mangaService } from "../../../service/mangaService";
+import { getErrorMessage } from "../../../service/api";
+import type { Manga, Colecao } from "../../../service/types";
 
-const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
 
-interface Manga {
-    idManga: number;
-    tituloManga: string;
-    autorManga: string;
-    capaManga: string;
-    editoraManga: string;
-    demografiaManga: string;
-    quantidadeVolumes: number;
-}
-
-interface Colecao {
-    idColecao: number;
-    idManga: number;
-    tituloManga: string;
-    autorManga: string;
-    capaManga: string;
-    demografiaManga: string;
-    quantidadeVolumes: number;
-    volumesPossuidos: number;
-    porcentagem: number;
-}
 
 export default function TelaColecao() {
 
     const [colecoes, setColecoes] = useState<Colecao[]>([]);
+    const usuario = authService.obterSessao();
 
     const [mostrarAdicionar, setMostrarAdicionar] = useState(false);
 
@@ -41,50 +25,46 @@ export default function TelaColecao() {
         useState<Manga | null>(null);
 
     const [erro, setErro] = useState(false);
+    const [mensagemErro, setMensagemErro] = useState("");
 
     const [carregando, setCarregando] = useState(false);
+    const [colecaoRemovendo, setColecaoRemovendo] = useState<number | null>(null);
 
     const idUsuario = usuario?.idUsuario;
 
-    const navigate = useNavigate();
+    const removerColecao = async (idColecao: number) => {
+        if (!window.confirm("Remover esta obra da sua coleção?")) return;
+        setColecaoRemovendo(idColecao);
+        setMensagemErro("");
+        try {
+            await colecaoService.remover(idColecao);
+            await carregarColecoes();
+        } catch (error) {
+            setMensagemErro(getErrorMessage(error, "Não foi possível remover a coleção."));
+        } finally {
+            setColecaoRemovendo(null);
+        }
+    };
 
 
     /*
-     * BUSCAR COLEÇÕES
+     * BUSCAR COLEÃ‡Ã•ES
      */
     const carregarColecoes = async () => {
 
         try {
 
-            const response = await fetch(
-                `http://localhost:8080/colecao?idUsuario=${idUsuario}`
-            );
-
-            if (!response.ok) {
-
-                console.error("Erro ao carregar coleções");
-
-                return;
-            }
-
-            const dados = await response.json();
-
-            setColecoes(dados);
-
+            if (!idUsuario) return;
+            setColecoes(await colecaoService.listar(idUsuario));
         } catch (error) {
-
-            console.error(
-                "Erro ao carregar coleções:",
-                error
-            );
-
+            setMensagemErro(getErrorMessage(error, "Não foi possível carregar as coleções."));
         }
 
     };
 
 
     /*
-     * CARREGA AS COLEÇÕES QUANDO A TELA ABRE
+     * CARREGA AS COLEÃ‡Ã•ES QUANDO A TELA ABRE
      */
     useEffect(() => {
 
@@ -94,7 +74,7 @@ export default function TelaColecao() {
 
 
     /*
-     * PESQUISAR MANGÁ
+     * PESQUISAR MANGÃ
      */
     const pesquisarManga = async () => {
 
@@ -105,32 +85,16 @@ export default function TelaColecao() {
         try {
 
             setErro(false);
+            setMensagemErro("");
 
             setMangaPesquisado(null);
 
-            const response = await fetch(
-                `http://localhost:8080/manga?titulo=${encodeURIComponent(pesquisa)}`
-            );
-
-            if (!response.ok) {
-
-                setErro(true);
-
-                return;
-            }
-
-            const manga = await response.json();
-
+            const manga = await mangaService.pesquisar(pesquisa);
             setMangaPesquisado(manga);
 
         } catch (error) {
-
-            console.error(
-                "Erro ao pesquisar mangá:",
-                error
-            );
-
             setErro(true);
+            setMensagemErro(getErrorMessage(error, "Não foi possível encontrar o mangá."));
 
         }
 
@@ -138,7 +102,7 @@ export default function TelaColecao() {
 
 
     /*
-     * ADICIONAR MANGÁ À COLEÇÃO
+     * ADICIONAR MANGÃ Ã€ COLEÃ‡ÃƒO
      */
     const adicionarColecao = async () => {
 
@@ -150,43 +114,20 @@ export default function TelaColecao() {
 
             setCarregando(true);
 
-            const response = await fetch(
-                `http://localhost:8080/colecao?idManga=${mangaPesquisado.idManga}&idUsuario=${idUsuario}`,
-                {
-                    method: "POST"
-                }
-            );
-
-            if (!response.ok) {
-
-                const mensagem =
-                    await response.text();
-
-                console.error(
-                    "Erro ao criar coleção:",
-                    mensagem
-                );
-
-                return;
-            }
-
+            if (!idUsuario) throw new Error("Faça login para adicionar à coleção.");
+            await colecaoService.adicionar(mangaPesquisado.idManga, idUsuario);
             /*
              * Fecha a janela
              */
             fecharAdicionar();
 
             /*
-             * Busca novamente as coleções
+             * Busca novamente as coleÃ§Ãµes
              */
             carregarColecoes();
 
         } catch (error) {
-
-            console.error(
-                "Erro ao criar coleção:",
-                error
-            );
-
+            setMensagemErro(getErrorMessage(error, "Não foi possível adicionar o mangá à coleção."));
         } finally {
 
             setCarregando(false);
@@ -208,6 +149,7 @@ export default function TelaColecao() {
         setMangaPesquisado(null);
 
         setErro(false);
+        setMensagemErro("");
 
     };
 
@@ -224,6 +166,7 @@ export default function TelaColecao() {
         setMangaPesquisado(null);
 
         setErro(false);
+        setMensagemErro("");
 
     };
 
@@ -243,10 +186,10 @@ export default function TelaColecao() {
 
                     <div>
 
-                        <h1>Coleção</h1>
+                        <h1>ColeÃ§Ã£o</h1>
 
                         <p>
-                            Gerencie todos os seus mangás.
+                            Gerencie todos os seus mangÃ¡s.
                         </p>
 
                     </div>
@@ -258,22 +201,24 @@ export default function TelaColecao() {
                             className="botaoAdicionar"
                             onClick={abrirAdicionar}
                         >
-                            +&nbsp; Adicionar mangá
+                            +&nbsp; Adicionar mangÃ¡
                         </button>
 
                     </div>
 
                 </div>
 
+                {mensagemErro && !mostrarAdicionar && <p className="mensagemErro" role="alert">{mensagemErro}</p>}
 
-                {/* ÁREA DAS COLEÇÕES */}
+
+                {/* ÃREA DAS COLEÃ‡Ã•ES */}
 
                 <div className="areaColecoes">
 
                     <div className="cabecalhoColecoes">
 
                         <h2>
-                            Progresso das coleções
+                            Progresso das coleÃ§Ãµes
                         </h2>
 
                     </div>
@@ -282,82 +227,7 @@ export default function TelaColecao() {
                     <div className="listaColecoes">
 
                         {colecoes.map((colecao) => (
-
-                            <div
-                                className="cardColecao"
-                                key={colecao.idColecao}
-                            >
-
-                                <img
-                                    src={colecao.capaManga}
-                                    alt={colecao.tituloManga}
-                                    className="capaColecao"
-                                />
-
-
-                                <div className="informacoesColecao">
-
-                                    <h3>
-                                        {colecao.tituloManga}
-                                    </h3>
-
-                                    <p className="autorColecao">
-                                        {colecao.autorManga}
-                                    </p>
-
-
-                                    <div className="progressoColecao">
-
-                                        <span className="quantidadeVolumes">
-                                            {colecao.volumesPossuidos}/
-                                            {colecao.quantidadeVolumes} volumes
-                                        </span>
-
-
-                                        <div className="barraContainer">
-
-                                            <div
-                                                className="barraProgresso"
-                                                style={{
-                                                    width: `${colecao.porcentagem}%`
-                                                }}
-                                            />
-
-                                        </div>
-
-
-                                        <span
-                                            className={
-                                                colecao.porcentagem >= 100
-                                                    ? "porcentagem completa"
-                                                    : "porcentagem"
-                                            }
-                                        >
-                                            {colecao.porcentagem >= 100
-                                                ? "Completa!"
-                                                : `${colecao.porcentagem}%`
-                                            }
-                                        </span>
-
-                                    </div>
-
-
-                                    <p className="demografiaColecao">
-                                        {colecao.demografiaManga}
-                                    </p>
-
-                                </div>
-
-
-                                <button
-                                    className="menuColecao"
-                                    onClick={() => navigate("/gerenciamento")}
-                                >
-                                    ⋮
-                                </button>
-
-                            </div>
-
+                            <CollectionCard key={colecao.idColecao} colecao={colecao} onRemove={removerColecao} removing={colecaoRemovendo === colecao.idColecao} />
                         ))}
 
                     </div>
@@ -368,13 +238,13 @@ export default function TelaColecao() {
                         <div className="colecaoVazia">
 
                             <p>
-                                Você ainda não possui nenhuma coleção.
+                                VocÃª ainda nÃ£o possui nenhuma coleÃ§Ã£o.
                             </p>
 
                             <button
                                 onClick={abrirAdicionar}
                             >
-                                + Adicionar primeiro mangá
+                                + Adicionar primeiro mangÃ¡
                             </button>
 
                         </div>
@@ -398,12 +268,12 @@ export default function TelaColecao() {
                             className="fecharModal"
                             onClick={fecharAdicionar}
                         >
-                            ×
+                            Ã—
                         </button>
 
 
                         <h2>
-                            Adicionar mangá
+                            Adicionar mangÃ¡
                         </h2>
 
 
@@ -422,7 +292,7 @@ export default function TelaColecao() {
                                     }
 
                                 }}
-                                placeholder="Digite o nome do mangá..."
+                                placeholder="Digite o nome do mangÃ¡..."
                             />
 
 
@@ -438,7 +308,7 @@ export default function TelaColecao() {
                         {erro && (
 
                             <p className="mensagemErro">
-                                Não foi possível encontrar o mangá.
+                                {mensagemErro || "Não foi possível encontrar o mangá."}
                             </p>
 
                         )}
@@ -484,7 +354,7 @@ export default function TelaColecao() {
                                     >
                                         {carregando
                                             ? "Adicionando..."
-                                            : "Adicionar à coleção"
+                                            : "Adicionar Ã  coleÃ§Ã£o"
                                         }
                                     </button>
 
@@ -505,3 +375,4 @@ export default function TelaColecao() {
     );
 
 }
+

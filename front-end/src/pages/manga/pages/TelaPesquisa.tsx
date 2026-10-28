@@ -1,7 +1,6 @@
-import "./TelaPesquisa.css";
-import "./../../../config/style.css";
+﻿import "./TelaPesquisa.css";
 
-import MenuNavegacao from "../../../../components/Menus/menuNavegacao/MenuNavegacao";
+import MenuNavegacao from "../../../components/NavigationMenu/MenuNavegacao";
 
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
@@ -10,13 +9,7 @@ import { FaUsers } from "react-icons/fa";
 import { FaBook } from "react-icons/fa";
 
 import { useLocation, useNavigate } from "react-router-dom";
-
-
-interface Volume {
-    idVolumeManga: number;
-    capaVolume: string;
-    isbnVolume: string;
-}
+import type { Manga } from "../../../service/types";
 
 
 export default function TelaPesquisa() {
@@ -24,7 +17,7 @@ export default function TelaPesquisa() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { mangaPesquisado, erro } = location.state || {};
+    const { mangaPesquisado, erro } = (location.state || {}) as { mangaPesquisado?: Manga | null; erro?: boolean };
 
 
     return (
@@ -37,11 +30,11 @@ export default function TelaPesquisa() {
                 <div className="topo">
 
                     <h1>
-                        Exploração
+                        ExploraÃ§Ã£o
                     </h1>
 
                     <p>
-                        Descubra novos mangás para aumentar sua coleção!
+                        Descubra novos mangÃ¡s para aumentar sua coleÃ§Ã£o!
                     </p>
 
                 </div>
@@ -52,11 +45,11 @@ export default function TelaPesquisa() {
                     <div className="manga-nao-encontrado">
 
                         <h2>
-                            Mangá não encontrado
+                            MangÃ¡ nÃ£o encontrado
                         </h2>
 
                         <p>
-                            Não foi possível encontrar o mangá pesquisado.
+                            NÃ£o foi possÃ­vel encontrar o mangÃ¡ pesquisado.
                         </p>
 
                     </div>
@@ -66,7 +59,7 @@ export default function TelaPesquisa() {
                     <div className="manga-encontrado">
 
 
-                        {/* ================= SEÇÃO: INFORMAÇÕES DO MANGÁ ================= */}
+                        {/* ================= SEÃ‡ÃƒO: INFORMAÃ‡Ã•ES DO MANGÃ ================= */}
                         <div className="secao-manga">
 
                             <button
@@ -167,7 +160,7 @@ export default function TelaPesquisa() {
                             </div>
 
                         </div>
-                        {/* ================= SEÇÃO: VOLUMES ================= */}
+                        {/* ================= SEÃ‡ÃƒO: VOLUMES ================= */}
                         <div className="secao-volumes">
 
                             <div className="titulo-volumes">
@@ -189,7 +182,7 @@ export default function TelaPesquisa() {
 
                                 {mangaPesquisado.volumes &&
                                     mangaPesquisado.volumes.map(
-                                        (volume: Volume) => (
+                                        (volume) => (
 
                                             <div
                                                 className="volume"
@@ -220,3 +213,6 @@ export default function TelaPesquisa() {
         </div>
     );
 }
+
+
+

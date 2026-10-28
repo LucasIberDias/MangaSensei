@@ -1,4 +1,4 @@
-body {
+﻿body {
     margin: 0;
     background-color: #feddae;
 }
@@ -15,7 +15,7 @@ body {
     box-sizing: border-box;
 
     background-color: #45271a;
-    background-image: url("./../../../assets/textura_manga.png");
+    background-image: url("../../assets/textura_manga.png");
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -90,3 +90,13 @@ body {
 .sair {
     margin-top: 20px;
 }
+
+.sair button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+

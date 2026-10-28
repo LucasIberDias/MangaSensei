@@ -1,14 +1,14 @@
-body {
+﻿body {
     margin: 0;
 }
 
-.cadastro-page {
+.login-page {
     min-height: 100vh;
-    background-image: url("../../assets/fundo_cadastro.png");
+    background-image: url("../../../assets/fundo_login.png");
     background-size: cover;
 }
 
-.cadastro-container {
+.login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@ body {
     box-sizing: border-box;
 
     background-color: #45271a;
-    background-image: url("./../../assets/textura_manga.png");
+    background-image: url("../../../assets/textura_manga.png");
     background-repeat: no-repeat;
     background-position: 0%;
     background-size: 800px;
@@ -36,21 +36,21 @@ body {
     margin-bottom: 10px;
 }
 
-.cadastro-container h2 {
+.login-container h2 {
     margin: 0;
     color: #f3ba6e;
     font-size: 22px;
     text-transform: uppercase;
 }
 
-.cadastro-subtitulo {
+.login-subtitulo {
     margin: 5px 0 20px;
     color: #fff;
     font-size: 14px;
     text-align: center;
 }
 
-.cadastro-container label {
+.login-container label {
     width: 90%;
     margin: 8px 0 4px;
 
@@ -59,15 +59,15 @@ body {
     font-weight: 600;
 }
 
-.cadastro-container .input-login {
+.login-container .input-login {
     width: 90%;
 }
 
-.cadastro-container .input-login input {
+.login-container .input-login input {
     font-size: 14px;
 }
 
-.cadastro-buttons {
+.login-buttons {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -76,3 +76,4 @@ body {
     margin-top: auto;
     margin-bottom: 35px;
 }
+

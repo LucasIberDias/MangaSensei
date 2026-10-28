@@ -1,10 +1,12 @@
-import Input from "../../components/Inputs/Input";
-import Button from "../../components/Buttons/Button";
-import ButtonLink from "../../components/Buttons/ButtonNavegacao";
-import Logo from "../../components/Logo";
+﻿import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
+import ButtonLink from "../../../components/Button/ButtonNavegacao";
+import Logo from "../../../components/Brand";
 import "./Cadastro.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../../../service/authService";
+import { getErrorMessage } from "../../../service/api";
 
 export default function criarUsuario() {
     const [nomeUsuario, setNome] = useState("");
@@ -17,35 +19,20 @@ export default function criarUsuario() {
     const criarConta = async () => {
 
         if (senhaUsuario !== tst_senha) {
-            alert("As senhas não coincidem!");
+            alert("As senhas nÃ£o coincidem!");
             return;
         }
 
         try {
 
-            const response = await fetch("http://localhost:8080/usuario", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    nomeUsuario,
-                    emailUsuario,
-                    senhaUsuario
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error("Erro ao criar conta");
-            }
+            await authService.cadastrar({ nomeUsuario, emailUsuario, senhaUsuario });
 
             alert("Conta criada com sucesso!");
 
             navigate("/");
 
         } catch (error) {
-            console.error(error);
-            alert("Erro ao cadastrar usuário.");
+            alert(getErrorMessage(error, "Não foi possível cadastrar o usuário."));
         }
     };
 
@@ -56,13 +43,13 @@ export default function criarUsuario() {
 
                 <h2>Cadastre-se</h2>
                 <p className="cadastro-subtitulo">
-                    Crie uma conta e comece a gerenciar seus mangás e HQ's
+                    Crie uma conta e comece a gerenciar seus mangÃ¡s e HQ's
                 </p>
 
-                <label>Usuário</label>
+                <label>UsuÃ¡rio</label>
                 <Input
                     tipo="user"
-                    texto="Escolha um nome de usuário"
+                    texto="Escolha um nome de usuÃ¡rio"
                     onChange={setNome}
                 />
 
@@ -76,7 +63,7 @@ export default function criarUsuario() {
                 <label>Senha</label>
                 <Input
                     tipo="password"
-                    texto="Crie uma senha com mínimo de 8 dígitos"
+                    texto="Crie uma senha com mÃ­nimo de 8 dÃ­gitos"
                     onChange={setSenha}
                 />
 
@@ -105,3 +92,8 @@ export default function criarUsuario() {
         </div>
     );
 }
+
+
+
+
+

@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+﻿import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/login/Login";
-import Cadastro from "./pages/cadastro/Cadastro";
-import Inicio from "./pages/telasPrincipal/telaInicial/TelaInicial";
-import Exploracao from "./pages/telasPrincipal/telaExploracao/TelaExploracao";
-import TelaPesquisa from "./pages/telasPrincipal/telaExploracao/telaPesquisa/TelaPesquisa";
-import Colecao from "./pages/telasPrincipal/telaColecao/TelaColecao";
-import Configuracao from "./pages/telasPrincipal/telaConfiguracao/TelaConfiguracao";
+import Login from "./pages/auth/pages/Login";
+import Cadastro from "./pages/auth/pages/Cadastro";
+import Inicio from "./pages/dashboard/pages/TelaInicial";
+import Exploracao from "./pages/manga/pages/TelaExploracao";
+import TelaPesquisa from "./pages/manga/pages/TelaPesquisa";
+import Colecao from "./pages/collection/pages/TelaColecao";
+import Configuracao from "./pages/profile/pages/TelaConfiguracao";
+import ProtectedRoute from "./app/ProtectedRoute";
 
 function App() {
     return (
@@ -18,15 +19,15 @@ function App() {
 
                 <Route path="/cadastro" element={<Cadastro />} />
 
-                <Route path="/inicio" element={<Inicio />} />
+                <Route path="/inicio" element={<ProtectedRoute><Inicio /></ProtectedRoute>} />
 
-                <Route path="/colecao" element={<Colecao />} />
+                <Route path="/colecao" element={<ProtectedRoute><Colecao /></ProtectedRoute>} />
 
-                <Route path="/exploracao" element={<Exploracao />} />
+                <Route path="/exploracao" element={<ProtectedRoute><Exploracao /></ProtectedRoute>} />
 
-                <Route path="/pesquisa" element={<TelaPesquisa />} />
+                <Route path="/pesquisa" element={<ProtectedRoute><TelaPesquisa /></ProtectedRoute>} />
 
-                <Route path="/configuracoes" element={<Configuracao />} />
+                <Route path="/configuracoes" element={<ProtectedRoute><Configuracao /></ProtectedRoute>} />
 
             </Routes>
 
@@ -35,3 +36,4 @@ function App() {
 }
 
 export default App;
+
