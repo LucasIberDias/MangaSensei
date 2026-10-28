@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaLock, FaInfoCircle } from "react-icons/fa";
+import { FaUserCircle, FaLock, FaInfoCircle, FaKey, FaExclamationTriangle, FaSignOutAlt, FaCamera } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";
 import MenuNavegacao from "../../../components/NavigationMenu/MenuNavegacao";
 import { authService } from "../../../service/authService";
@@ -16,6 +16,15 @@ export default function TelaConfiguracao() {
     const [fotoPerfil, setFotoPerfil] = useState("");
     const [erro, setErro] = useState("");
     const [salvando, setSalvando] = useState(false);
+
+    // Alterar senha e deletar conta ainda não possuem integração com a API.
+    const [senhaAtual, setSenhaAtual] = useState("");
+    const [novaSenha, setNovaSenha] = useState("");
+    const [confirmarSenha, setConfirmarSenha] = useState("");
+    const [avisoSenha, setAvisoSenha] = useState("");
+    const [confirmandoExclusao, setConfirmandoExclusao] = useState(false);
+    const [textoExclusao, setTextoExclusao] = useState("");
+    const [avisoExclusao, setAvisoExclusao] = useState("");
     const navigate = useNavigate();
 
     const salvarPerfil = async () => {
@@ -71,60 +80,132 @@ export default function TelaConfiguracao() {
         setErro("");
     };
 
+    const alterarSenha = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (novaSenha.length < 8) {
+            setAvisoSenha("A nova senha deve possuir no mínimo 8 caracteres.");
+            return;
+        }
+        if (novaSenha !== confirmarSenha) {
+            setAvisoSenha("A confirmação não corresponde à nova senha.");
+            return;
+        }
+        setAvisoSenha("A alteração de senha estará disponível em breve.");
+    };
+
+    const cancelarExclusao = () => {
+        setConfirmandoExclusao(false);
+        setTextoExclusao("");
+        setAvisoExclusao("");
+    };
+
+    const urlFoto = fotoPerfil || (usuario?.fotoPerfil?.startsWith("data:image/")
+        ? usuario.fotoPerfil
+        : usuario?.fotoPerfil && `${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario.fotoPerfil}`);
+
     return (
         <div className="pagina">
             <MenuNavegacao />
-            <main className="conteudo">
+            <main className="conteudo configuracoes">
                 <div className="topo">
                     <h1>Configurações</h1>
                     <p>Personalize sua experiência no MangaSensei.</p>
                 </div>
+
                 <div className="grid-config">
-                    <section className="card-config">
+                    <section className="card-config card-perfil">
                         <div className="titulo-card"><FaUserCircle /><h2>Perfil</h2></div>
                         <div className="perfil-info">
                             <div className="foto-perfil">
-                                {(fotoPerfil || usuario?.fotoPerfil) ? <img src={fotoPerfil || (usuario?.fotoPerfil?.startsWith("data:image/") ? usuario.fotoPerfil : `${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}${usuario?.fotoPerfil}`)} alt="Foto de perfil" /> : <FaUserCircle size={90} />}
+                                <div className="moldura-foto">
+                                    {urlFoto ? <img src={urlFoto} alt="Foto de perfil" /> : <FaUserCircle className="foto-vazia" />}
+                                </div>
                                 {editando && <>
                                     <label className="botao-foto" htmlFor="foto-perfil" role="button" tabIndex={0} onKeyDown={(event) => {
                                         if (event.key === "Enter" || event.key === " ") {
                                             event.preventDefault();
                                             document.getElementById("foto-perfil")?.click();
                                         }
-                                    }}>Alterar foto</label>
+                                    }}><FaCamera /> Alterar foto</label>
                                     <input id="foto-perfil" className="input-foto" type="file" accept="image/*" onChange={selecionarFoto} />
                                 </>}
                             </div>
                             <div className="dados-conta">
-                                <span>Nome de usuário</span>
-                                {editando ? <input value={nome} onChange={(event) => setNome(event.target.value)} /> : <h3>{usuario?.nomeUsuario}</h3>}
-                                <span>E-mail</span>
-                                {editando ? <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} /> : <p>{usuario?.emailUsuario}</p>}
+                                <label className="campo">
+                                    <span>Nome de usuário</span>
+                                    {editando ? <input value={nome} onChange={(event) => setNome(event.target.value)} /> : <strong>{usuario?.nomeUsuario}</strong>}
+                                </label>
+                                <label className="campo">
+                                    <span>E-mail</span>
+                                    {editando ? <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} /> : <strong>{usuario?.emailUsuario}</strong>}
+                                </label>
                                 {editando ? (
-                                    <div className="botoes-sobre">
-                                        <button onClick={cancelarEdicao} disabled={salvando}>Cancelar</button>
-                                        <button onClick={salvarPerfil} disabled={salvando}>{salvando ? "Salvando..." : "Salvar perfil"}</button>
+                                    <div className="botoes-acao">
+                                        <button className="botao-secundario" onClick={cancelarEdicao} disabled={salvando}>Cancelar</button>
+                                        <button className="botao-primario" onClick={salvarPerfil} disabled={salvando}>{salvando ? "Salvando..." : "Salvar perfil"}</button>
                                     </div>
-                                ) : <button className="btn-editar" onClick={() => setEditando(true)}>Editar perfil</button>}
+                                ) : <button className="botao-primario" onClick={() => setEditando(true)}>Editar perfil</button>}
                             </div>
                         </div>
-                        {erro && <p role="alert" className="mensagemErro">{erro}</p>}
+                        {erro && <p role="alert" className="mensagem mensagem-erro">{erro}</p>}
                     </section>
+
                     <section className="card-config">
-                        <div className="titulo-card"><FaLock /><h2>Conta</h2></div>
-                        <button className="item-config" onClick={() => { authService.encerrarSessao(); navigate("/"); }}>
-                            <div><h4>Sair da conta</h4><p>Encerre sua sessão neste dispositivo.</p></div><FiChevronRight />
-                        </button>
+                        <div className="titulo-card"><FaKey /><h2>Alterar senha</h2></div>
+                        <form className="form-senha" onSubmit={alterarSenha}>
+                            <label className="campo">
+                                <span>Senha atual</span>
+                                <input type="password" autoComplete="current-password" value={senhaAtual} onChange={(event) => setSenhaAtual(event.target.value)} required />
+                            </label>
+                            <label className="campo">
+                                <span>Nova senha</span>
+                                <input type="password" autoComplete="new-password" value={novaSenha} onChange={(event) => setNovaSenha(event.target.value)} required />
+                            </label>
+                            <label className="campo">
+                                <span>Confirmar nova senha</span>
+                                <input type="password" autoComplete="new-password" value={confirmarSenha} onChange={(event) => setConfirmarSenha(event.target.value)} required />
+                            </label>
+                            <button type="submit" className="botao-primario">Atualizar senha</button>
+                        </form>
+                        {avisoSenha && <p role="status" className="mensagem">{avisoSenha}</p>}
                     </section>
-                    <section className="card-config sobre">
-                        <div className="titulo-card"><FaInfoCircle /><h2>Sobre o MangaSensei</h2></div>
-                        <p><strong>Versão:</strong> 1.0.0</p>
-                        <p>Desenvolvido com ❤️ para colecionadores de mangás.</p>
+
+                    <div className="coluna-config">
+                        <section className="card-config">
+                            <div className="titulo-card"><FaLock /><h2>Conta</h2></div>
+                            <button className="item-config" onClick={() => { authService.encerrarSessao(); navigate("/"); }}>
+                                <FaSignOutAlt className="icone-item" />
+                                <div><h4>Sair da conta</h4><p>Encerre sua sessão neste dispositivo.</p></div>
+                                <FiChevronRight />
+                            </button>
+                        </section>
+
+                        <section className="card-config">
+                            <div className="titulo-card"><FaInfoCircle /><h2>Sobre o MangaSensei</h2></div>
+                            <p className="texto-sobre"><strong>Versão:</strong> 1.0.0</p>
+                            <p className="texto-sobre">Desenvolvido com ❤️ para colecionadores de mangás.</p>
+                        </section>
+                    </div>
+
+                    <section className="card-config card-perigo">
+                        <div className="titulo-card"><FaExclamationTriangle /><h2>Deletar conta</h2></div>
+                        <p className="texto-perigo">Ao deletar sua conta, todas as suas coleções e dados serão removidos permanentemente. Essa ação não pode ser desfeita.</p>
+                        {confirmandoExclusao ? (
+                            <div className="confirmacao-exclusao">
+                                <label className="campo">
+                                    <span>Digite <strong>{usuario?.nomeUsuario}</strong> para confirmar</span>
+                                    <input value={textoExclusao} onChange={(event) => setTextoExclusao(event.target.value)} />
+                                </label>
+                                <div className="botoes-acao">
+                                    <button className="botao-secundario" onClick={cancelarExclusao}>Cancelar</button>
+                                    <button className="botao-perigo" disabled={textoExclusao !== usuario?.nomeUsuario} onClick={() => setAvisoExclusao("A exclusão de conta estará disponível em breve.")}>Deletar definitivamente</button>
+                                </div>
+                            </div>
+                        ) : <button className="botao-perigo" onClick={() => setConfirmandoExclusao(true)}>Deletar minha conta</button>}
+                        {avisoExclusao && <p role="status" className="mensagem">{avisoExclusao}</p>}
                     </section>
                 </div>
             </main>
         </div>
     );
 }
-
-
