@@ -123,6 +123,6 @@ public class MangaService {
         Collections.shuffle(mangas);
 
         // Retorno 5 mangás da lista
-        return mangas.stream().limit(5).toList();
+        return mangas.stream().limit(9).toList();
     }
 }

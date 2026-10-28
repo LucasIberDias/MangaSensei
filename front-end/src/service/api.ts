@@ -18,7 +18,13 @@ export async function apiRequest<T>(path: string, init?: RequestInit): Promise<T
         },
     });
 
-    if (response.status === 401) localStorage.removeItem("usuario");
+    if (response.status === 401) {
+        localStorage.removeItem("usuario");
+        if (path !== "/auth/login" && window.location.pathname !== "/") {
+            window.location.replace("/");
+        }
+        throw new Error("Sua sessão expirou ou o token foi recusado. Entre novamente.");
+    }
 
     if (!response.ok) {
         const message = await response.text();
