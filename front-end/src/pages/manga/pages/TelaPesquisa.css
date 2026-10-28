@@ -291,32 +291,3 @@
     transform: translateY(-5px);
 
 }
-
-
-/* =========================
-   MANGÁ NÃO ENCONTRADO
-========================= */
-
-.manga-nao-encontrado {
-
-    padding: 40px;
-
-    background: #fffaf0;
-
-    border-radius: 15px;
-
-}
-
-
-.manga-nao-encontrado h2 {
-
-    color: #000000;
-
-}
-
-
-.manga-nao-encontrado p {
-
-    color: #614030;
-
-}

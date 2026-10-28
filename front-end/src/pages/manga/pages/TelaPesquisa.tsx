@@ -1,6 +1,7 @@
 ﻿import "./TelaPesquisa.css";
 
 import MenuNavegacao from "../../../components/NavigationMenu/MenuNavegacao";
+import MangaNaoEncontrado from "../components/MangaNaoEncontrado";
 
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
@@ -42,17 +43,7 @@ export default function TelaPesquisa() {
 
                 {erro || !mangaPesquisado ? (
 
-                    <div className="manga-nao-encontrado">
-
-                        <h2>
-                            Mangá não encontrado
-                        </h2>
-
-                        <p>
-                            Não foi possível encontrar o mangá pesquisado.
-                        </p>
-
-                    </div>
+                    <MangaNaoEncontrado onVoltar={() => navigate("/exploracao")} />
 
                 ) : (
 
