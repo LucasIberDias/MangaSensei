@@ -22,8 +22,8 @@ export default function Login() {
         }
 
         try {
-            const usuario = await authService.login(emailUsuario, senhaUsuario);
-            authService.salvarSessao(usuario);
+            const sessao = await authService.login(emailUsuario, senhaUsuario);
+            authService.salvarSessao(sessao.usuario, sessao.token);
             navigate("/inicio");
 
         } catch (error) {

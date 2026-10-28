@@ -4,26 +4,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import MangaSensei.dto.auth.LoginRequestDTO;
+import MangaSensei.dto.auth.AuthResponseDTO;
 import MangaSensei.dto.usuario.UsuarioResponseDTO;
 import MangaSensei.repository.UsuarioRepository;
 import MangaSensei.model.Usuario;
+import MangaSensei.config.JwtService;
 
 @Service
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public AuthService(
             UsuarioRepository usuarioRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService) {
 
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     // UC02 - Efetuar login
-    public UsuarioResponseDTO login(LoginRequestDTO request) {
+    public AuthResponseDTO login(LoginRequestDTO request) {
 
         // Verifica se o email de usuario existe
         if (usuarioRepository.findByEmailUsuario(request.getEmailUsuario().toLowerCase()).isEmpty()) {
@@ -39,11 +44,12 @@ public class AuthService {
         }
 
         // Retorna o Usuario apos verificar se a senha ta certa
-        return new UsuarioResponseDTO(
+        UsuarioResponseDTO dadosUsuario = new UsuarioResponseDTO(
             usuario.getIdUsuario(),
             usuario.getNomeUsuario(),
             usuario.getEmailUsuario(),
             usuario.getFotoPerfil()
         );
+        return new AuthResponseDTO(jwtService.gerarToken(usuario.getIdUsuario()), dadosUsuario);
     }
 }

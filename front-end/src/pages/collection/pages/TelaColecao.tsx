@@ -30,8 +30,6 @@ export default function TelaColecao() {
     const [carregando, setCarregando] = useState(false);
     const [colecaoRemovendo, setColecaoRemovendo] = useState<number | null>(null);
 
-    const idUsuario = usuario?.idUsuario;
-
     const removerColecao = async (idColecao: number) => {
         if (!window.confirm("Remover esta obra da sua coleção?")) return;
         setColecaoRemovendo(idColecao);
@@ -54,8 +52,8 @@ export default function TelaColecao() {
 
         try {
 
-            if (!idUsuario) return;
-            setColecoes(await colecaoService.listar(idUsuario));
+            if (!usuario) return;
+            setColecoes(await colecaoService.listar());
         } catch (error) {
             setMensagemErro(getErrorMessage(error, "Não foi possível carregar as coleções."));
         }
@@ -114,8 +112,8 @@ export default function TelaColecao() {
 
             setCarregando(true);
 
-            if (!idUsuario) throw new Error("Faça login para adicionar à coleção.");
-            await colecaoService.adicionar(mangaPesquisado.idManga, idUsuario);
+            if (!usuario) throw new Error("Faça login para adicionar à coleção.");
+            await colecaoService.adicionar(mangaPesquisado.idManga);
             /*
              * Fecha a janela
              */

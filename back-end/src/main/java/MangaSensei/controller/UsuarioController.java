@@ -1,6 +1,7 @@
 package MangaSensei.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import MangaSensei.dto.usuario.UsuarioRequestDTO;
@@ -24,9 +25,9 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> personalizarPerfil(@PathVariable Long id, @RequestBody UsuarioRequestDTO request) {
-        UsuarioResponseDTO response = usuarioService.personalizarPerfil(id, request);
+    @PatchMapping
+    public ResponseEntity<UsuarioResponseDTO> personalizarPerfil(Authentication authentication, @RequestBody UsuarioRequestDTO request) {
+        UsuarioResponseDTO response = usuarioService.personalizarPerfil(Long.valueOf(authentication.getName()), request);
 
         return ResponseEntity.ok(response);
     }

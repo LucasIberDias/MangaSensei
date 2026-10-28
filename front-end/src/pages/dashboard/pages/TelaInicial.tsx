@@ -18,7 +18,7 @@ export default function TelaInicial() {
 
     useEffect(() => {
         if (!usuario) return;
-        colecaoService.listar(usuario.idUsuario)
+        colecaoService.listar()
             .then(setColecoes)
             .catch((error: unknown) => setErro(getErrorMessage(error, "Não foi possível carregar sua coleção.")));
     }, [usuario?.idUsuario]);

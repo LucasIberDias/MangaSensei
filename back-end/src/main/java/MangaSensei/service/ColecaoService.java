@@ -102,8 +102,8 @@ public class ColecaoService {
         return response;
     }
 
-    // UC09.1 - Remover Coleção
-    public void apagarColecao(Long id) {
+    // UC10 - Remover Coleção
+    public void apagarColecao(Long id, Long idUsuario) {
 
         // Verifico se a coleção existe
         if (!colecaoRepository.existsById(id)) {
@@ -112,6 +112,9 @@ public class ColecaoService {
 
         // Pego a coleção que será apagada
         Colecao colecao = colecaoRepository.findById(id).get();
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
 
         // Apago a coleção
         colecaoRepository.delete(colecao);

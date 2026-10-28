@@ -22,8 +22,8 @@ export default function TelaConfiguracao() {
         setSalvando(true);
         setErro("");
         try {
-            const atualizado = await usuarioService.atualizar(usuario.idUsuario, { nomeUsuario: nome, emailUsuario: email });
-            authService.salvarSessao(atualizado);
+            const atualizado = await usuarioService.atualizar({ nomeUsuario: nome, emailUsuario: email });
+            authService.salvarUsuarioSessao(atualizado);
             setUsuario(atualizado);
             setEditando(false);
         } catch (error) {

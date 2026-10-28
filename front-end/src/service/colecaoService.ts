@@ -2,12 +2,12 @@
 import type { Colecao } from "../types";
 
 export const colecaoService = {
-    listar(idUsuario: number) {
-        return apiRequest<Colecao[]>(`/colecao?idUsuario=${idUsuario}`);
+    listar() {
+        return apiRequest<Colecao[]>("/colecao");
     },
 
-    adicionar(idManga: number, idUsuario: number) {
-        return apiRequest<void>(`/colecao?idManga=${idManga}&idUsuario=${idUsuario}`, {
+    adicionar(idManga: number) {
+        return apiRequest<void>(`/colecao?idManga=${idManga}`, {
             method: "POST",
         });
     },

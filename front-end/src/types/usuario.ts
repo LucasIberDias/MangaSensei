@@ -11,3 +11,8 @@ export interface CadastroUsuario {
     senhaUsuario: string;
     fotoPerfil?: string;
 }
+
+export interface LoginResponse {
+    token: string;
+    usuario: Usuario;
+}
