@@ -38,4 +38,10 @@ public class UsuarioController {
         usuarioService.atualizarSenha(Long.valueOf(authentication.getName()), request);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deletarConta(Authentication authentication) {
+        usuarioService.deletarConta(Long.valueOf(authentication.getName()));
+        return ResponseEntity.noContent().build();
+    }
 }

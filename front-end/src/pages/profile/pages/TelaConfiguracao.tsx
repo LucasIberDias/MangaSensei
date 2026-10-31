@@ -25,6 +25,7 @@ export default function TelaConfiguracao() {
     const [confirmandoExclusao, setConfirmandoExclusao] = useState(false);
     const [textoExclusao, setTextoExclusao] = useState("");
     const [avisoExclusao, setAvisoExclusao] = useState("");
+    const [deletando, setDeletando] = useState(false);
     const navigate = useNavigate();
 
     const salvarPerfil = async () => {
@@ -109,6 +110,20 @@ export default function TelaConfiguracao() {
         setConfirmandoExclusao(false);
         setTextoExclusao("");
         setAvisoExclusao("");
+    };
+
+    const deletarConta = async () => {
+        if (textoExclusao !== usuario?.nomeUsuario) return;
+        setDeletando(true);
+        setAvisoExclusao("");
+        try {
+            await usuarioService.deletarConta();
+            authService.encerrarSessao();
+            navigate("/", { replace: true });
+        } catch (error) {
+            setAvisoExclusao(getErrorMessage(error, "Não foi possível deletar a conta."));
+            setDeletando(false);
+        }
     };
 
     const urlFoto = fotoPerfil || (usuario?.fotoPerfil?.startsWith("data:image/")
@@ -209,12 +224,12 @@ export default function TelaConfiguracao() {
                                     <input value={textoExclusao} onChange={(event) => setTextoExclusao(event.target.value)} />
                                 </label>
                                 <div className="botoes-acao">
-                                    <button className="botao-secundario" onClick={cancelarExclusao}>Cancelar</button>
-                                    <button className="botao-perigo" disabled={textoExclusao !== usuario?.nomeUsuario} onClick={() => setAvisoExclusao("A exclusão de conta estará disponível em breve.")}>Deletar definitivamente</button>
+                                    <button className="botao-secundario" onClick={cancelarExclusao} disabled={deletando}>Cancelar</button>
+                                    <button className="botao-perigo" disabled={deletando || textoExclusao !== usuario?.nomeUsuario} onClick={deletarConta}>{deletando ? "Deletando..." : "Deletar definitivamente"}</button>
                                 </div>
                             </div>
                         ) : <button className="botao-perigo" onClick={() => setConfirmandoExclusao(true)}>Deletar minha conta</button>}
-                        {avisoExclusao && <p role="status" className="mensagem">{avisoExclusao}</p>}
+                        {avisoExclusao && <p role="alert" className="mensagem mensagem-erro">{avisoExclusao}</p>}
                     </section>
                 </div>
             </main>

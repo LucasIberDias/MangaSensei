@@ -14,4 +14,7 @@ export const usuarioService = {
             body: JSON.stringify({ senhaAtual, novaSenha }),
         });
     },
+    deletarConta() {
+        return apiRequest<void>("/usuario", { method: "DELETE" });
+    },
 };

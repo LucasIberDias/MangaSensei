@@ -2,7 +2,10 @@ package MangaSensei.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
+import MangaSensei.repository.ColecaoRepository;
+import MangaSensei.repository.ItemRepository;
 import MangaSensei.repository.UsuarioRepository;
 import MangaSensei.dto.usuario.UsuarioRequestDTO;
 import MangaSensei.dto.usuario.UsuarioResponseDTO;
@@ -13,13 +16,19 @@ import MangaSensei.model.Usuario;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final ColecaoRepository colecaoRepository;
+    private final ItemRepository itemRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(
             UsuarioRepository usuarioRepository,
+            ColecaoRepository colecaoRepository,
+            ItemRepository itemRepository,
             PasswordEncoder passwordEncoder) {
 
         this.usuarioRepository = usuarioRepository;
+        this.colecaoRepository = colecaoRepository;
+        this.itemRepository = itemRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -149,5 +158,19 @@ public class UsuarioService {
 
         // Salva no banco de dados
         usuarioRepository.save(usuario);
+    }
+
+    // UC23 - Deletar Conta
+    @Transactional
+    public void deletarConta(Long id) {
+        // Verifica pelo Id se o usuario existe
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+
+        // Apaga primeiro os itens e as colecoes, que dependem do usuario
+        itemRepository.deleteByColecao_Usuario_IdUsuario(id);
+        colecaoRepository.deleteByUsuarioIdUsuario(id);
+
+        // Apaga o usuario do banco de dados
+        usuarioRepository.delete(usuario);
     }
 }
