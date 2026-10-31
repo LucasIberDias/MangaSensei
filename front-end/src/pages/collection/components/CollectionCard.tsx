@@ -1,9 +1,8 @@
 ﻿import type { Colecao } from "../../../types";
 
-export default function CollectionCard({ colecao, onRemove, removing }: {
+export default function CollectionCard({ colecao, onManage }: {
     colecao: Colecao;
-    onRemove: (idColecao: number) => void;
-    removing: boolean;
+    onManage: (idColecao: number) => void;
 }) {
     return (
         <article className="cardColecao">
@@ -20,8 +19,8 @@ export default function CollectionCard({ colecao, onRemove, removing }: {
                 </div>
                 <p className="demografiaColecao">{colecao.demografiaManga}</p>
             </div>
-            <button className="menuColecao" type="button" aria-label={`Remover ${colecao.tituloManga} da coleção`} disabled={removing} onClick={() => onRemove(colecao.idColecao)}>
-                {removing ? "…" : "×"}
+            <button className="menuColecao" type="button" aria-label={`Gerenciar volumes de ${colecao.tituloManga}`} onClick={() => onManage(colecao.idColecao)}>
+                ⋮
             </button>
         </article>
     );

@@ -6,6 +6,7 @@ import Inicio from "./pages/dashboard/pages/TelaInicial";
 import Exploracao from "./pages/manga/pages/TelaExploracao";
 import TelaPesquisa from "./pages/manga/pages/TelaPesquisa";
 import Colecao from "./pages/collection/pages/TelaColecao";
+import TeleGerenciamento from "./pages/collection/pages/telaGerenciamento/TeleGerenciamento";
 import Configuracao from "./pages/profile/pages/TelaConfiguracao";
 import Marketplace from "./pages/marketplace/pages/TelaMarketplace";
 import ProtectedRoute from "./app/ProtectedRoute";
@@ -23,6 +24,8 @@ function App() {
                 <Route path="/inicio" element={<ProtectedRoute><Inicio /></ProtectedRoute>} />
 
                 <Route path="/colecao" element={<ProtectedRoute><Colecao /></ProtectedRoute>} />
+
+                <Route path="/colecao/gerenciamento/:idColecao" element={<ProtectedRoute><TeleGerenciamento /></ProtectedRoute>} />
 
                 <Route path="/exploracao" element={<ProtectedRoute><Exploracao /></ProtectedRoute>} />
 

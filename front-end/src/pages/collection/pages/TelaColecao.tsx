@@ -1,6 +1,7 @@
 ﻿import "./TelaColecao.css";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MenuNavegacao from "../../../components/NavigationMenu/MenuNavegacao";
 import { authService } from "../../../service/authService";
@@ -28,20 +29,10 @@ export default function TelaColecao() {
     const [mensagemErro, setMensagemErro] = useState("");
 
     const [carregando, setCarregando] = useState(false);
-    const [colecaoRemovendo, setColecaoRemovendo] = useState<number | null>(null);
+    const navigate = useNavigate();
 
-    const removerColecao = async (idColecao: number) => {
-        if (!window.confirm("Remover esta obra da sua coleção?")) return;
-        setColecaoRemovendo(idColecao);
-        setMensagemErro("");
-        try {
-            await colecaoService.remover(idColecao);
-            await carregarColecoes();
-        } catch (error) {
-            setMensagemErro(getErrorMessage(error, "Não foi possível remover a coleção."));
-        } finally {
-            setColecaoRemovendo(null);
-        }
+    const abrirGerenciamento = (idColecao: number) => {
+        navigate(`/colecao/gerenciamento/${idColecao}`);
     };
 
 
@@ -225,7 +216,7 @@ export default function TelaColecao() {
                     <div className="listaColecoes">
 
                         {colecoes.map((colecao) => (
-                            <CollectionCard key={colecao.idColecao} colecao={colecao} onRemove={removerColecao} removing={colecaoRemovendo === colecao.idColecao} />
+                            <CollectionCard key={colecao.idColecao} colecao={colecao} onManage={abrirGerenciamento} />
                         ))}
 
                     </div>
