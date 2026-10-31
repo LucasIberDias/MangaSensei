@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import MangaSensei.dto.usuario.UsuarioRequestDTO;
 import MangaSensei.dto.usuario.UsuarioResponseDTO;
+import MangaSensei.dto.usuario.AtualizarSenhaRequestDTO;
 import MangaSensei.service.UsuarioService;
 
 @RestController
@@ -30,5 +31,11 @@ public class UsuarioController {
         UsuarioResponseDTO response = usuarioService.personalizarPerfil(Long.valueOf(authentication.getName()), request);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/senha")
+    public ResponseEntity<Void> atualizarSenha(Authentication authentication, @RequestBody AtualizarSenhaRequestDTO request) {
+        usuarioService.atualizarSenha(Long.valueOf(authentication.getName()), request);
+        return ResponseEntity.noContent().build();
     }
 }

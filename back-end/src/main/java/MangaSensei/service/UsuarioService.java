@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import MangaSensei.repository.UsuarioRepository;
 import MangaSensei.dto.usuario.UsuarioRequestDTO;
 import MangaSensei.dto.usuario.UsuarioResponseDTO;
+import MangaSensei.dto.usuario.AtualizarSenhaRequestDTO;
 import MangaSensei.model.Usuario;
 
 @Service
@@ -30,7 +31,7 @@ public class UsuarioService {
 
         // Coleta das informacoes para criar o usuario
         usuario.setNomeUsuario(request.getNomeUsuario());
-        usuario.setEmailUsuario(request.getEmailUsuario().toLowerCase());
+        usuario.setEmailUsuario(request.getEmailUsuario() == null ? null : request.getEmailUsuario().trim().toLowerCase());
         usuario.setSenhaUsuario(request.getSenhaUsuario());
 
         // Validacao das informacoes passadas:
@@ -79,16 +80,20 @@ public class UsuarioService {
     public UsuarioResponseDTO personalizarPerfil(Long id, UsuarioRequestDTO request) {
 
         // Verifica pelo Id se o usuario existe
-        if (usuarioRepository.findById(id).isEmpty()) {
-            throw new RuntimeException("Usuario não encontrado");
-        }
-
-        // Coleta o usuario
-        Usuario usuario = usuarioRepository.findById(id).get();
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
         // Atualiza apenas o que foi passado pelo usuario
         if (request.getNomeUsuario() != null) {
-            usuario.setNomeUsuario(request.getNomeUsuario());
+            String nome = request.getNomeUsuario().trim();
+            if (nome.isBlank()) {
+                throw new IllegalArgumentException("Nome de usuário está vazio");
+            }
+            // Verifica se o nome já está sendo usado por outro usuario
+            if (usuarioRepository.findByNomeUsuarioAndIdUsuarioNot(nome, id).isPresent()) {
+                throw new IllegalArgumentException("Nome de usuário já está cadastrado");
+            }
+            usuario.setNomeUsuario(nome);
         }
         if (request.getFotoPerfil() != null) {
             if (!request.getFotoPerfil().startsWith("data:image/")) {
@@ -100,10 +105,15 @@ public class UsuarioService {
             usuario.setFotoPerfil(request.getFotoPerfil());
         }
         if (request.getEmailUsuario() != null) {
-            usuario.setEmailUsuario(request.getEmailUsuario());
-        }
-        if (request.getSenhaUsuario() != null) {
-            usuario.setSenhaUsuario(passwordEncoder.encode(request.getSenhaUsuario()));
+            String email = request.getEmailUsuario().trim().toLowerCase();
+            if (email.isBlank()) {
+                throw new IllegalArgumentException("E-mail do usuário está vazio");
+            }
+            // Verifica se o email já está sendo usado por outro usuario
+            if (usuarioRepository.findByEmailUsuarioAndIdUsuarioNot(email, id).isPresent()) {
+                throw new IllegalArgumentException("E-mail já está cadastrado");
+            }
+            usuario.setEmailUsuario(email);
         }
 
         // Salva no banco de dados
@@ -115,5 +125,29 @@ public class UsuarioService {
             usuarioSalvo.getEmailUsuario(),
             usuarioSalvo.getFotoPerfil()
         );
+    }
+
+    // UC21 - Alterar Senha da Conta
+    public void atualizarSenha(Long id, AtualizarSenhaRequestDTO request) {
+
+        // Verifica pelo Id se o usuario existe
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+
+        // Verifica se a senha antiga informada está correta
+        if (request.getSenhaAtual() == null || !passwordEncoder.matches(request.getSenhaAtual(), usuario.getSenhaUsuario())) {
+            throw new IllegalArgumentException("A senha atual está incorreta");
+        }
+
+        // Valida o tamanho da nova senha
+        if (request.getNovaSenha() == null || request.getNovaSenha().length() < 8) {
+            throw new IllegalArgumentException("A senha deve possuir no mínimo 8 caracteres");
+        }
+
+        // Transforma a nova senha em hash depois de validar
+        usuario.setSenhaUsuario(passwordEncoder.encode(request.getNovaSenha()));
+
+        // Salva no banco de dados
+        usuarioRepository.save(usuario);
     }
 }

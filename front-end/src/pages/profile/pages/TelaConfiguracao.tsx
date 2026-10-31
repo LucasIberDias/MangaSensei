@@ -17,11 +17,11 @@ export default function TelaConfiguracao() {
     const [erro, setErro] = useState("");
     const [salvando, setSalvando] = useState(false);
 
-    // Alterar senha e deletar conta ainda não possuem integração com a API.
     const [senhaAtual, setSenhaAtual] = useState("");
     const [novaSenha, setNovaSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
     const [avisoSenha, setAvisoSenha] = useState("");
+    const [salvandoSenha, setSalvandoSenha] = useState(false);
     const [confirmandoExclusao, setConfirmandoExclusao] = useState(false);
     const [textoExclusao, setTextoExclusao] = useState("");
     const [avisoExclusao, setAvisoExclusao] = useState("");
@@ -80,7 +80,7 @@ export default function TelaConfiguracao() {
         setErro("");
     };
 
-    const alterarSenha = (event: React.FormEvent<HTMLFormElement>) => {
+    const alterarSenha = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (novaSenha.length < 8) {
             setAvisoSenha("A nova senha deve possuir no mínimo 8 caracteres.");
@@ -90,7 +90,19 @@ export default function TelaConfiguracao() {
             setAvisoSenha("A confirmação não corresponde à nova senha.");
             return;
         }
-        setAvisoSenha("A alteração de senha estará disponível em breve.");
+        setSalvandoSenha(true);
+        setAvisoSenha("");
+        try {
+            await usuarioService.atualizarSenha(senhaAtual, novaSenha);
+            setSenhaAtual("");
+            setNovaSenha("");
+            setConfirmarSenha("");
+            setAvisoSenha("Senha atualizada com sucesso.");
+        } catch (error) {
+            setAvisoSenha(getErrorMessage(error, "Não foi possível atualizar a senha."));
+        } finally {
+            setSalvandoSenha(false);
+        }
     };
 
     const cancelarExclusao = () => {
@@ -165,7 +177,7 @@ export default function TelaConfiguracao() {
                                 <span>Confirmar nova senha</span>
                                 <input type="password" autoComplete="new-password" value={confirmarSenha} onChange={(event) => setConfirmarSenha(event.target.value)} required />
                             </label>
-                            <button type="submit" className="botao-primario">Atualizar senha</button>
+                            <button type="submit" className="botao-primario" disabled={salvandoSenha}>{salvandoSenha ? "Atualizando..." : "Atualizar senha"}</button>
                         </form>
                         {avisoSenha && <p role="status" className="mensagem">{avisoSenha}</p>}
                     </section>
