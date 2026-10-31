@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import MangaSensei.repository.ColecaoRepository;
 import MangaSensei.repository.ItemRepository;
@@ -103,6 +104,7 @@ public class ColecaoService {
     }
 
     // UC10 - Remover Coleção
+    @Transactional
     public void apagarColecao(Long id, Long idUsuario) {
 
         // Verifico se a coleção existe
@@ -115,6 +117,9 @@ public class ColecaoService {
         if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
             throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
         }
+
+        // Apago os itens da coleção antes, pois dependem dela
+        itemRepository.deleteByColecao_IdColecao(id);
 
         // Apago a coleção
         colecaoRepository.delete(colecao);

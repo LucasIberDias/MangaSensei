@@ -189,7 +189,6 @@ public class ScraperManga {
             // Loga a mensagem ORIGINAL do Selenium, que diz exatamente qual seletor/etapa
             // estourou o timeout - essencial pra debugar qual passo da navegacao falhou.
             log.warn("Timeout ao buscar manga '{}': {}", tituloManga, e.getMessage());
-            salvarScreenshotDebug(driver, tituloManga);
             throw new MangaNaoEncontradoException("Manga nao encontrado");
 
         } catch (ElementNotInteractableException e) {
@@ -224,23 +223,6 @@ public class ScraperManga {
             elemento.click();
         } catch (ElementNotInteractableException e) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
-        }
-    }
-
-    /**
-     * Salva um print da tela no momento do timeout, em disco, pra debugar visualmente
-     * o que o Chrome headless estava vendo (ex: pagina de bloqueio anti-bot, captcha,
-     * layout diferente do esperado, pagina em branco, etc.).
-     */
-    private void salvarScreenshotDebug(ChromeDriver driver, String tituloManga) {
-        try {
-            byte[] screenshot = driver.getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
-            String nomeArquivo = "debug_scraper_" + System.currentTimeMillis() + ".png";
-            java.nio.file.Path caminho = java.nio.file.Paths.get(nomeArquivo);
-            java.nio.file.Files.write(caminho, screenshot);
-            log.warn("Screenshot de debug salvo em: {}", caminho.toAbsolutePath());
-        } catch (Exception ex) {
-            log.warn("Nao foi possivel salvar screenshot de debug: {}", ex.getMessage());
         }
     }
 
