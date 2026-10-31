@@ -318,16 +318,6 @@ MangaSensei/
 - **Sem migrações versionadas:** o schema é gerenciado por `ddl-auto=update`; não use essa estratégia em produção.
 - **Testes:** o repositório tem apenas o teste de carregamento de contexto do Spring.
 
-## Roadmap
-
-- [ ] Endpoints e tela para registrar volumes da coleção (valor pago, data de compra e estado)
-- [ ] Marketplace para troca e venda de volumes entre colecionadores
-- [ ] Testes automatizados (JUnit e Mockito no back-end)
-- [ ] Migrações de banco com Flyway
-- [ ] Proteção e cache das rotas de catálogo (rate limit) e fila para o scraper
-- [ ] Documentação OpenAPI/Swagger
-- [ ] Docker Compose (API, front-end e PostgreSQL) e deploy online
-
 ## Autor
 
 **Lucas Iber Dias**, estudante de Análise e Desenvolvimento de Sistemas no IFPR.
