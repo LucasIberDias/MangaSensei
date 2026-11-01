@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import MangaSensei.dto.colecao.AtualizarVolumeRequestDTO;
 import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
 import MangaSensei.dto.colecao.ItemRequestDTO;
@@ -55,6 +56,14 @@ public class ColecaoController {
     public ResponseEntity<Void> registrarVolumeRepetido(@PathVariable Long idColecao, @PathVariable Long idItem, Authentication authentication) {
 
         colecaoService.registrarVolumeRepetido(idColecao, idItem, Long.valueOf(authentication.getName()));
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{idColecao}/volume/{idItem}")
+    public ResponseEntity<Void> atualizarVolume(@PathVariable Long idColecao, @PathVariable Long idItem, @RequestBody AtualizarVolumeRequestDTO request, Authentication authentication) {
+
+        colecaoService.atualizarVolume(idColecao, idItem, request, Long.valueOf(authentication.getName()));
 
         return ResponseEntity.ok().build();
     }

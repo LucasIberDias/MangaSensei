@@ -14,6 +14,7 @@ import MangaSensei.repository.ColecaoRepository;
 import MangaSensei.repository.ItemRepository;
 import MangaSensei.repository.MangaRepository;
 import MangaSensei.repository.UsuarioRepository;
+import MangaSensei.dto.colecao.AtualizarVolumeRequestDTO;
 import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
 import MangaSensei.dto.colecao.ItemRequestDTO;
@@ -301,6 +302,50 @@ public class ColecaoService {
         item.setQuantidade(item.getQuantidade() + 1);
 
         // Salvo a nova quantidade do item
+        itemRepository.save(item);
+    }
+
+    // UC15 - Atualizar Volume
+    public void atualizarVolume(Long idColecao, Long idItem, AtualizarVolumeRequestDTO request, Long idUsuario) {
+        // Pego a coleção onde está o volume que será atualizado
+        Colecao colecao = colecaoRepository.findById(idColecao)
+                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
+
+        // Verifico se a coleção pertence ao usuario logado
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
+
+        // Pego o item (volume possuido) que será atualizado
+        Item item = itemRepository.findById(idItem)
+                .orElseThrow(() -> new RuntimeException("Este volume não está na sua coleção"));
+
+        // Verifico se o item pertence a essa coleção
+        if (!item.getColecao().getIdColecao().equals(idColecao)) {
+            throw new RuntimeException("Este volume não pertence a essa coleção");
+        }
+
+        // Verifico se o novo estado do volume foi informado
+        if (request.getEstadoVolume() == null || request.getEstadoVolume().isBlank()) {
+            throw new RuntimeException("Informe o estado do volume");
+        }
+
+        // Valido que o valor pago não seja negativo
+        if (request.getValorPago() != null && request.getValorPago() < 0) {
+            throw new RuntimeException("O valor pago não pode ser negativo");
+        }
+
+        // Valido que a data da compra não seja no futuro
+        if (request.getDataCompra() != null && request.getDataCompra().isAfter(LocalDate.now())) {
+            throw new RuntimeException("A data da compra não pode ser no futuro");
+        }
+
+        // Coloco as novas informacoes no item, valor e data vazios apagam a informação anterior
+        item.setEstadoVolume(request.getEstadoVolume().trim());
+        item.setValorPago(request.getValorPago());
+        item.setDataCompra(request.getDataCompra());
+
+        // Salvo o item atualizado
         itemRepository.save(item);
     }
 }

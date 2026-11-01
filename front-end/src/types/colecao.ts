@@ -37,6 +37,14 @@ export interface ColecaoDetalhe {
     volumes: VolumeColecao[];
 }
 
+export const ESTADOS_VOLUME = ["Novo", "Seminovo", "Usado", "Danificado"];
+
+export interface AtualizarVolume {
+    estadoVolume: string;
+    valorPago: number | null;
+    dataCompra: string | null;
+}
+
 export interface AdicionarVolume {
     idVolumeManga: number;
     estadoVolume: string;

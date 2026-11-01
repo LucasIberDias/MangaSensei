@@ -1,5 +1,5 @@
 import { apiRequest } from "./api";
-import type { AdicionarVolume, Colecao, ColecaoDetalhe } from "../types";
+import type { AdicionarVolume, AtualizarVolume, Colecao, ColecaoDetalhe } from "../types";
 
 export const colecaoService = {
     listar() {
@@ -26,6 +26,13 @@ export const colecaoService = {
     registrarVolumeRepetido(idColecao: number, idItem: number) {
         return apiRequest<void>(`/colecao/${idColecao}/volume/${idItem}/repetido`, {
             method: "POST",
+        });
+    },
+
+    atualizarVolume(idColecao: number, idItem: number, dados: AtualizarVolume) {
+        return apiRequest<void>(`/colecao/${idColecao}/volume/${idItem}`, {
+            method: "PUT",
+            body: JSON.stringify(dados),
         });
     },
 

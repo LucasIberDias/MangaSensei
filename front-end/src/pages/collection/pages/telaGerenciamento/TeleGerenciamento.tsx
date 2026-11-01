@@ -8,7 +8,7 @@ import MenuNavegacao from "../../../../components/NavigationMenu/MenuNavegacao";
 import FormularioVolume from "../../components/FormularioVolume/FormularioVolume";
 import { colecaoService } from "../../../../service/colecaoService";
 import { getErrorMessage } from "../../../../service/api";
-import type { AdicionarVolume, ColecaoDetalhe, VolumeColecao } from "../../../../types";
+import { ESTADOS_VOLUME, type AdicionarVolume, type ColecaoDetalhe, type VolumeColecao } from "../../../../types";
 
 const VOLUMES_POR_PAGINA = 16;
 
@@ -25,6 +25,25 @@ export default function TeleGerenciamento() {
     const [volumeSelecionado, setVolumeSelecionado] = useState<VolumeColecao | null>(null);
 
     const [formularioAberto, setFormularioAberto] = useState(false);
+
+    const [estadoEditado, setEstadoEditado] = useState(ESTADOS_VOLUME[0]);
+    const [statusEditado, setStatusEditado] = useState<"possuido" | "faltando">("faltando");
+    const [valorEditado, setValorEditado] = useState("");
+    const [dataEditada, setDataEditada] = useState("");
+
+    const hoje = new Date().toLocaleDateString("sv-SE");
+
+    /*
+     * Sempre que trocar o volume selecionado, os campos de edição voltam para os valores dele
+     */
+    const [volumeAnterior, setVolumeAnterior] = useState<VolumeColecao | null>(null);
+    if (volumeSelecionado !== volumeAnterior) {
+        setVolumeAnterior(volumeSelecionado);
+        setEstadoEditado(volumeSelecionado?.estadoVolume ?? ESTADOS_VOLUME[0]);
+        setStatusEditado(volumeSelecionado?.possuido ? "possuido" : "faltando");
+        setValorEditado(volumeSelecionado?.valorPago != null ? String(volumeSelecionado.valorPago) : "");
+        setDataEditada(volumeSelecionado?.dataCompra ?? "");
+    }
 
     /*
      * UC11 - CONSULTAR COLEÇÃO
@@ -140,6 +159,51 @@ export default function TeleGerenciamento() {
         }
     };
 
+    /*
+     * UC15 - ATUALIZAR VOLUME
+     */
+    const atualizarVolume = async () => {
+        if (!colecao || !volumeSelecionado) return;
+
+        const novoPossuido = statusEditado === "possuido";
+
+        // Se o status mudou para faltando, o volume é removido da coleção (UC13)
+        if (volumeSelecionado.possuido && !novoPossuido) {
+            await removerVolume();
+            return;
+        }
+
+        // Monto as informações do volume, campos vazios vão como null
+        const dados = {
+            estadoVolume: estadoEditado,
+            valorPago: valorEditado === "" ? null : Number(valorEditado),
+            dataCompra: dataEditada || null,
+        };
+
+        try {
+            if (!volumeSelecionado.possuido && novoPossuido) {
+                // Se o status mudou para possuído, o volume é adicionado à coleção com as informações preenchidas (UC12)
+                if (volumeSelecionado.idVolumeManga == null) return;
+
+                await colecaoService.adicionarVolume(colecao.idColecao, {
+                    idVolumeManga: volumeSelecionado.idVolumeManga,
+                    ...dados,
+                });
+            } else if (volumeSelecionado.idItem) {
+                // Se o status continua possuído, atualizo a condição, o valor pago e a data da compra
+                await colecaoService.atualizarVolume(colecao.idColecao, volumeSelecionado.idItem, dados);
+            }
+
+            // Recarrego a coleção para atualizar os volumes e as estatísticas
+            const atualizada = await colecaoService.consultar(colecao.idColecao);
+            setColecao(atualizada);
+            setVolumeSelecionado(atualizada.volumes.find((volume) => volume.numeroVolume === volumeSelecionado.numeroVolume) ?? null);
+            setMensagemErro("");
+        } catch (error) {
+            setMensagemErro(getErrorMessage(error, "Não foi possível atualizar o volume."));
+        }
+    };
+
     if (carregando || !colecao) {
         return (
             <div className="pagina">
@@ -158,6 +222,16 @@ export default function TeleGerenciamento() {
     }
 
     const volumesFaltando = colecao.quantidadeVolumes - colecao.volumesPossuidos;
+
+    // Verifico se o usuario mudou algum dos campos, para liberar o botão de atualizar
+    const alteracaoPendente = volumeSelecionado != null && (
+        statusEditado !== (volumeSelecionado.possuido ? "possuido" : "faltando")
+        || (statusEditado === "possuido" && (
+            estadoEditado !== volumeSelecionado.estadoVolume
+            || valorEditado !== (volumeSelecionado.valorPago != null ? String(volumeSelecionado.valorPago) : "")
+            || dataEditada !== (volumeSelecionado.dataCompra ?? "")
+        ))
+    );
 
     return (
         <div className="pagina">
@@ -288,24 +362,55 @@ export default function TeleGerenciamento() {
                                     <div className="camposVolume">
                                         <label>
                                             Condição
-                                            <select value={volumeSelecionado.estadoVolume ?? ""} disabled>
-                                                <option value="">{volumeSelecionado.estadoVolume ?? "—"}</option>
+                                            <select
+                                                value={statusEditado === "possuido" ? estadoEditado : ""}
+                                                onChange={(e) => setEstadoEditado(e.target.value)}
+                                                disabled={statusEditado === "faltando"}
+                                            >
+                                                {statusEditado === "faltando" && <option value="">—</option>}
+                                                {ESTADOS_VOLUME.map((estado) => (
+                                                    <option key={estado} value={estado}>{estado}</option>
+                                                ))}
                                             </select>
                                         </label>
                                         <label>
                                             Status
-                                            <select value={volumeSelecionado.possuido ? "possuido" : "faltando"} disabled>
+                                            <select
+                                                value={statusEditado}
+                                                onChange={(e) => setStatusEditado(e.target.value as "possuido" | "faltando")}
+                                                disabled={volumeSelecionado.idVolumeManga == null}
+                                            >
                                                 <option value="possuido">Possuído</option>
                                                 <option value="faltando">Faltando</option>
                                             </select>
+                                        </label>
+                                        <label>
+                                            Valor pago (R$)
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                step="0.01"
+                                                placeholder={statusEditado === "faltando" ? "—" : "0,00"}
+                                                value={statusEditado === "possuido" ? valorEditado : ""}
+                                                onChange={(e) => setValorEditado(e.target.value)}
+                                                disabled={statusEditado === "faltando"}
+                                            />
+                                        </label>
+                                        <label>
+                                            Data da compra
+                                            <input
+                                                type="date"
+                                                max={hoje}
+                                                value={statusEditado === "possuido" ? dataEditada : ""}
+                                                onChange={(e) => setDataEditada(e.target.value)}
+                                                disabled={statusEditado === "faltando"}
+                                            />
                                         </label>
                                     </div>
 
                                     <dl className="detalhesVolume">
                                         <div><dt>ISBN</dt><dd>{volumeSelecionado.isbnVolume ?? "—"}</dd></div>
-                                        <div><dt>Valor pago</dt><dd>{volumeSelecionado.valorPago != null ? volumeSelecionado.valorPago.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "—"}</dd></div>
                                         <div><dt>Quantidade</dt><dd>{volumeSelecionado.quantidade ?? "—"}</dd></div>
-                                        <div><dt>Data da compra</dt><dd>{volumeSelecionado.dataCompra ? new Date(`${volumeSelecionado.dataCompra}T00:00:00`).toLocaleDateString("pt-BR") : "—"}</dd></div>
                                     </dl>
 
                                     <div className="acoesVolume">
@@ -324,7 +429,7 @@ export default function TeleGerenciamento() {
                                                 <FaSyncAlt /> Registrar Volume Repetido
                                             </button>
                                         )}
-                                        <button type="button" className="botaoAcao" disabled title="Em breve">
+                                        <button type="button" className="botaoAcao" onClick={atualizarVolume} disabled={!alteracaoPendente}>
                                             <FaSyncAlt /> Atualizar Volume
                                         </button>
                                     </div>

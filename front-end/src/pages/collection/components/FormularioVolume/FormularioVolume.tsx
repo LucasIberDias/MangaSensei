@@ -4,9 +4,7 @@ import { useState, type FormEvent } from "react";
 import { FaBook, FaPlus, FaTimes } from "react-icons/fa";
 
 import { getErrorMessage } from "../../../../service/api";
-import type { AdicionarVolume, VolumeColecao } from "../../../../types";
-
-const ESTADOS_VOLUME = ["Novo", "Seminovo", "Usado", "Danificado"];
+import { ESTADOS_VOLUME, type AdicionarVolume, type VolumeColecao } from "../../../../types";
 
 export default function FormularioVolume({ volume, tituloManga, onSalvar, onFechar }: {
     volume: VolumeColecao;

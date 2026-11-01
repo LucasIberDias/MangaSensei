@@ -390,7 +390,12 @@
     font-size: 12px;
 }
 
-.camposVolume select {
+.camposVolume select,
+.camposVolume input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 0 6px;
     height: 30px;
     border: 1px solid #ecd6b8;
     border-radius: 6px;
