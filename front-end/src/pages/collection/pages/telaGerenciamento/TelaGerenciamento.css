@@ -1,0 +1,443 @@
+/* A página ocupa a altura toda da tela, igual às outras páginas */
+.gerenciamento {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #2b1a10;
+}
+
+.gerenciamento .botaoAdicionar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.voltarColecao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin-bottom: 20px;
+    color: #614030;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.voltarColecao:hover {
+    color: #45271a;
+}
+
+.carregandoColecao {
+    color: #614030;
+}
+
+.botaoAcao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #5c3825;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botaoAcao:hover:not(:disabled) {
+    background-color: #45271a;
+}
+
+.botaoAcao:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.layoutGerenciamento {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.colunaPrincipal,
+.painelLateral {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+/* Os cartões de baixo esticam para as duas colunas terminarem alinhadas */
+.areaVolumes,
+.gerenciarVolume {
+    flex: 1;
+}
+
+.cartaoGerenciamento {
+    background-color: #fff7eb;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+/* RESUMO */
+
+.conteudoResumo {
+    display: flex;
+    gap: 20px;
+}
+
+.capaResumo {
+    width: 110px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.infoResumo {
+    flex: 1;
+    min-width: 0;
+}
+
+.infoResumo h2 {
+    margin: 0 0 6px;
+    font-size: 24px;
+}
+
+.autorResumo {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #614030;
+}
+
+.tagsResumo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: #f1d4ad;
+    color: #3d2618;
+    font-size: 12px;
+}
+
+.estatisticasResumo {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 20px;
+    border-left: 1px solid #ecd6b8;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.estatisticasResumo li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.estatisticasResumo svg {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.estatisticaTexto {
+    flex: 1;
+}
+
+.barraResumo {
+    margin-top: 4px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #ecd6b8;
+    overflow: hidden;
+}
+
+.barraResumo div {
+    height: 100%;
+    background-color: #5c3825;
+}
+
+/* VOLUMES */
+
+.areaVolumes {
+    display: flex;
+    flex-direction: column;
+}
+
+.areaVolumes h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+}
+
+.gradeVolumes {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cardVolume {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background-color: #d8d2cc;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.cardVolume.selecionado {
+    border-color: #5c3825;
+}
+
+.cardVolume img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cardVolume.faltando img,
+.volumeSelecionado img.cinza {
+    filter: grayscale(1);
+    opacity: 0.55;
+}
+
+.semCapa {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #a9a29b;
+}
+
+.numeroVolume {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background-color: rgba(43, 26, 16, 0.75);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.statusVolume {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.cardVolume.possuido .statusVolume,
+.selo.possuido {
+    background-color: #2f7d4a;
+    color: #fff;
+}
+
+.cardVolume.faltando .statusVolume,
+.selo.faltando {
+    background-color: rgba(120, 112, 105, 0.85);
+    color: #fff;
+}
+
+.semVolumes {
+    color: #614030;
+    font-size: 14px;
+}
+
+.rodapeVolumes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 12px;
+    color: #614030;
+}
+
+.paginacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.paginacao button {
+    min-width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #2b1a10;
+    cursor: pointer;
+}
+
+.paginacao button.ativa {
+    background-color: #3d2618;
+    color: #fff;
+}
+
+.paginacao button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* PAINEL LATERAL */
+
+.acoesColecaoPainel,
+.acoesVolume {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.botaoAcao {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    text-align: left;
+}
+
+.botaoAcao.ativo {
+    background-color: #3d2618;
+}
+
+.codigoUC {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background-color: #f1d4ad;
+    color: #3d2618;
+    font-size: 10px;
+}
+
+.gerenciarVolume h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+.volumeSelecionado {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.volumeSelecionado img,
+.volumeSelecionado .semCapa {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #d8d2cc;
+    flex-shrink: 0;
+}
+
+.volumeSelecionado strong {
+    font-size: 14px;
+}
+
+.volumeSelecionado p {
+    margin: 4px 0 8px;
+    font-size: 12px;
+    color: #614030;
+}
+
+.selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.camposVolume {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.camposVolume label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.camposVolume select {
+    height: 30px;
+    border: 1px solid #ecd6b8;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 12px;
+}
+
+.detalhesVolume {
+    margin: 0 0 14px;
+    font-size: 12px;
+}
+
+.detalhesVolume div {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #f1e2cc;
+}
+
+.detalhesVolume dt {
+    color: #614030;
+}
+
+.detalhesVolume dd {
+    margin: 0;
+    font-weight: bold;
+}
+
+@media (max-width: 1600px) {
+    .gradeVolumes {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1200px) {
+    .layoutGerenciamento {
+        grid-template-columns: 1fr;
+    }
+
+    .conteudoResumo {
+        flex-wrap: wrap;
+    }
+
+    .estatisticasResumo {
+        width: 100%;
+        padding: 12px 0 0;
+        border-left: none;
+        border-top: 1px solid #ecd6b8;
+    }
+}

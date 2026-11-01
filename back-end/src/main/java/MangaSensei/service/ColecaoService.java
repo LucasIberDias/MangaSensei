@@ -1,7 +1,10 @@
 package MangaSensei.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +13,14 @@ import MangaSensei.repository.ColecaoRepository;
 import MangaSensei.repository.ItemRepository;
 import MangaSensei.repository.MangaRepository;
 import MangaSensei.repository.UsuarioRepository;
+import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
+import MangaSensei.dto.colecao.VolumeColecaoResponseDTO;
 import MangaSensei.model.Colecao;
+import MangaSensei.model.Item;
 import MangaSensei.model.Manga;
 import MangaSensei.model.Usuario;
+import MangaSensei.model.VolumeManga;
 
 @Service
 public class ColecaoService {
@@ -123,5 +130,67 @@ public class ColecaoService {
 
         // Apago a coleção
         colecaoRepository.delete(colecao);
+    }
+
+    // UC11 - Consultar Coleção
+    @Transactional(readOnly = true)
+    public ColecaoDetalheResponseDTO consultarColecao(Long idColecao, Long idUsuario) {
+        // Pego a coleção que será consultada
+        Colecao colecao = colecaoRepository.findById(idColecao)
+                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
+
+        // Verifico se a coleção pertence ao usuario logado
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
+
+        Manga manga = colecao.getManga();
+
+        // Pego os volumes possuidos da coleção, indexados pelo id do volume
+        Map<Long, Item> itensPorVolume = itemRepository.findByColecao_IdColecao(idColecao).stream()
+                .collect(Collectors.toMap(item -> item.getVolume().getIdVolumeManga(), item -> item));
+
+        // Ordeno os volumes do mangá pela ordem em que foram cadastrados
+        List<VolumeManga> volumesManga = manga.getVolumes().stream()
+                .sorted(Comparator.comparing(VolumeManga::getIdVolumeManga))
+                .toList();
+
+        // Monto a lista com todos os volumes, informando se o usuario possui cada um
+        List<VolumeColecaoResponseDTO> volumes = new ArrayList<>();
+        for (int i = 0; i < volumesManga.size(); i++) {
+            VolumeManga volume = volumesManga.get(i);
+            Item item = itensPorVolume.get(volume.getIdVolumeManga());
+            boolean possuido = item != null;
+
+            volumes.add(new VolumeColecaoResponseDTO(
+                    i + 1,
+                    volume.getIdVolumeManga(),
+                    volume.getCapaVolume(),
+                    volume.getIsbnVolume(),
+                    possuido,
+                    possuido ? item.getIdItem() : null,
+                    possuido ? item.getEstadoVolume() : null,
+                    possuido ? item.getValorPago() : null,
+                    possuido ? item.getDataCompra() : null));
+        }
+
+        // Calculo a porcentagem de volumes possuidos
+        long volumesPossuidos = itensPorVolume.size();
+        Long quantidadeVolumes = manga.getQuantidadeVolumes();
+        int porcentagem = quantidadeVolumes > 0 ? (int) ((volumesPossuidos * 100) / quantidadeVolumes) : 0;
+
+        // Retorno a coleção com todos os volumes
+        return new ColecaoDetalheResponseDTO(
+                colecao.getIdColecao(),
+                manga.getIdManga(),
+                manga.getTituloManga(),
+                manga.getAutorManga(),
+                manga.getCapaManga(),
+                manga.getEditoraManga(),
+                manga.getDemografiaManga(),
+                quantidadeVolumes,
+                volumesPossuidos,
+                porcentagem,
+                volumes);
     }
 }

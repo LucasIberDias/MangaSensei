@@ -1,9 +1,13 @@
-﻿import { apiRequest } from "./api";
-import type { Colecao } from "../types";
+import { apiRequest } from "./api";
+import type { Colecao, ColecaoDetalhe } from "../types";
 
 export const colecaoService = {
     listar() {
         return apiRequest<Colecao[]>("/colecao");
+    },
+
+    consultar(idColecao: number) {
+        return apiRequest<ColecaoDetalhe>(`/colecao/${idColecao}`);
     },
 
     adicionar(idManga: number) {

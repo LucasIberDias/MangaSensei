@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
 import MangaSensei.service.ColecaoService;
 
@@ -32,6 +33,13 @@ public class ColecaoController {
         List<ColecaoResponseDTO> colecoes = colecaoService.buscarColecoes(Long.valueOf(authentication.getName()));
 
         return ResponseEntity.ok(colecoes);
+    }
+
+    @GetMapping("/{idColecao}")
+    public ResponseEntity<ColecaoDetalheResponseDTO> consultarColecao(@PathVariable Long idColecao, Authentication authentication) {
+        ColecaoDetalheResponseDTO colecao = colecaoService.consultarColecao(idColecao, Long.valueOf(authentication.getName()));
+
+        return ResponseEntity.ok(colecao);
     }
 
     @DeleteMapping

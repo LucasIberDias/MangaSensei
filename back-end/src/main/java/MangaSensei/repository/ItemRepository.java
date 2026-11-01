@@ -1,13 +1,17 @@
 package MangaSensei.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import MangaSensei.model.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
-
     //Vai calcular a quantidade de itens de uma colecao
     long countByColecao_IdColecao(Long idColecao);
+
+    // Busca todos os itens de uma colecao
+    List<Item> findByColecao_IdColecao(Long idColecao);
 
     // Apaga todos os itens de uma colecao
     void deleteByColecao_IdColecao(Long idColecao);
