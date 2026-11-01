@@ -1,0 +1,98 @@
+/* O gráfico ocupa todo o espaço que sobrar no cartão */
+.graficoBarras {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* LEGENDA */
+
+.legendaGrafico {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 14px;
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+    font-size: 11px;
+    color: #614030;
+}
+
+.legendaGrafico li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legendaGrafico span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+/* ÁREA DO GRÁFICO */
+
+.areaGrafico {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    grid-template-rows: 1fr auto;
+    min-height: 140px;
+}
+
+.eixoGrafico {
+    position: relative;
+}
+
+.eixoGrafico span {
+    position: absolute;
+    right: 6px;
+    transform: translateY(50%);
+    font-size: 10px;
+    color: #614030;
+}
+
+.barrasGrafico {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    padding: 0 8px;
+}
+
+.linhaGrade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ecd6b8;
+}
+
+.colunaGrafico {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+.barraGrafico {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+.nomesGrafico {
+    grid-column: 2;
+    display: flex;
+    gap: 12px;
+    padding: 6px 8px 0;
+}
+
+.nomesGrafico span {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    color: #614030;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

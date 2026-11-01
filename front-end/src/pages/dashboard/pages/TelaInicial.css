@@ -47,9 +47,11 @@
 .areaFaixa,
 .areaUltimos,
 .areaPrincipais {
+    display: flex;
+    flex-direction: column;
     background-color: #fdf4e7;
     border-radius: 16px;
-    padding: 10px;
+    padding: 10px 14px 14px;
     box-sizing: border-box;
 }
 
@@ -73,9 +75,100 @@
     line-height: 1.5;
 }
 
-.areaUltimos ul,
-.areaPrincipais ul {
-    padding-left: 22px;
+/* FAIXA DE INVESTIMENTO */
+
+.faixasInvestimento {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.faixaInvestimento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ecd6b8;
+    border-radius: 12px;
+    background-color: #fdeedd;
+    color: #614030;
+    font-size: 15px;
+    text-align: center;
+}
+
+.faixaInvestimento strong {
+    color: #111;
+    font-size: 30px;
+}
+
+/* ÚLTIMOS ADICIONADOS */
+
+/* Mostra uma linha só, com quantas capas couberem na largura; as que não couberem ficam escondidas */
+.listaUltimos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    grid-template-rows: auto;
+    grid-auto-rows: 0;
+    column-gap: 20px;
+    row-gap: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ultimoAdicionado {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #614030;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.ultimoAdicionado strong {
+    color: #111;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.capaUltimo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    background-color: #d8d2cc;
+    color: #a9a29b;
+    font-size: 32px;
+    overflow: hidden;
+}
+
+.capaUltimo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.volumeUltimo {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background-color: rgba(43, 26, 16, 0.75);
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.ultimoAdicionado:hover .capaUltimo {
+    outline: 2px solid #5c3825;
 }
 
 @media (max-width: 950px) {
@@ -88,6 +181,12 @@
     .areaUltimos,
     .areaPrincipais {
         height: auto;
-        min-height: 180px;
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 600px) {
+    .faixasInvestimento {
+        grid-template-columns: 1fr;
     }
 }

@@ -28,6 +28,9 @@ public class Item {
 
     private String estadoVolume;
 
+    // Data em que o volume foi adicionado na coleção, usada nos últimos adicionados da dashboard
+    private LocalDate dataAdicao;
+
     // Quantidade de cópias que o usuario tem desse volume (volumes repetidos)
     @Column(nullable = false, columnDefinition = "integer default 1")
     private Integer quantidade = 1;

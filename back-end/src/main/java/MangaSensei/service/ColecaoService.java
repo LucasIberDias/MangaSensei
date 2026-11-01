@@ -249,6 +249,7 @@ public class ColecaoService {
         item.setEstadoVolume(request.getEstadoVolume().trim());
         item.setValorPago(request.getValorPago());
         item.setDataCompra(request.getDataCompra());
+        item.setDataAdicao(LocalDate.now());
 
         // Salvo o novo item na coleção
         itemRepository.save(item);
