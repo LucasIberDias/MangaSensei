@@ -23,6 +23,12 @@ export const colecaoService = {
         });
     },
 
+    registrarVolumeRepetido(idColecao: number, idItem: number) {
+        return apiRequest<void>(`/colecao/${idColecao}/volume/${idItem}/repetido`, {
+            method: "POST",
+        });
+    },
+
     removerVolume(idColecao: number, idItem: number) {
         return apiRequest<void>(`/colecao/${idColecao}/volume/${idItem}`, {
             method: "DELETE",

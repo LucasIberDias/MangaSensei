@@ -19,4 +19,5 @@ public class VolumeColecaoResponseDTO {
     private String estadoVolume;
     private Double valorPago;
     private LocalDate dataCompra;
+    private Integer quantidade;
 }

@@ -173,7 +173,8 @@ public class ColecaoService {
                     possuido ? item.getIdItem() : null,
                     possuido ? item.getEstadoVolume() : null,
                     possuido ? item.getValorPago() : null,
-                    possuido ? item.getDataCompra() : null));
+                    possuido ? item.getDataCompra() : null,
+                    possuido ? item.getQuantidade() : null));
         }
 
         // Calculo a porcentagem de volumes possuidos
@@ -274,5 +275,32 @@ public class ColecaoService {
 
         // Apago o item da coleção
         itemRepository.delete(item);
+    }
+
+    // UC14 - Registrar Volume Repetido
+    public void registrarVolumeRepetido(Long idColecao, Long idItem, Long idUsuario) {
+        // Pego a coleção onde o volume repetido será registrado
+        Colecao colecao = colecaoRepository.findById(idColecao)
+                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
+
+        // Verifico se a coleção pertence ao usuario logado
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
+
+        // Pego o item (volume possuido), só é possivel repetir um volume que o usuario já tem
+        Item item = itemRepository.findById(idItem)
+                .orElseThrow(() -> new RuntimeException("Adicione o volume na coleção antes de registrar um repetido"));
+
+        // Verifico se o item pertence a essa coleção
+        if (!item.getColecao().getIdColecao().equals(idColecao)) {
+            throw new RuntimeException("Este volume não pertence a essa coleção");
+        }
+
+        // Somo mais uma cópia na quantidade do volume
+        item.setQuantidade(item.getQuantidade() + 1);
+
+        // Salvo a nova quantidade do item
+        itemRepository.save(item);
     }
 }

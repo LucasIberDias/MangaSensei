@@ -28,6 +28,10 @@ public class Item {
 
     private String estadoVolume;
 
+    // Quantidade de cópias que o usuario tem desse volume (volumes repetidos)
+    @Column(nullable = false, columnDefinition = "integer default 1")
+    private Integer quantidade = 1;
+
     @ManyToOne
     @JoinColumn(name = "idColecao", nullable = false)
     private Colecao colecao;

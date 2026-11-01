@@ -120,6 +120,26 @@ export default function TeleGerenciamento() {
         }
     };
 
+    /*
+     * UC14 - REGISTRAR VOLUME REPETIDO
+     */
+    const registrarVolumeRepetido = async () => {
+        if (!colecao || !volumeSelecionado?.idItem) return;
+        if (!window.confirm(`Deseja registrar mais uma cópia do volume ${volumeSelecionado.numeroVolume}?`)) return;
+
+        try {
+            await colecaoService.registrarVolumeRepetido(colecao.idColecao, volumeSelecionado.idItem);
+
+            // Recarrego a coleção para atualizar a quantidade do volume
+            const atualizada = await colecaoService.consultar(colecao.idColecao);
+            setColecao(atualizada);
+            setVolumeSelecionado(atualizada.volumes.find((volume) => volume.numeroVolume === volumeSelecionado.numeroVolume) ?? null);
+            setMensagemErro("");
+        } catch (error) {
+            setMensagemErro(getErrorMessage(error, "Não foi possível registrar o volume repetido."));
+        }
+    };
+
     if (carregando || !colecao) {
         return (
             <div className="pagina">
@@ -284,6 +304,7 @@ export default function TeleGerenciamento() {
                                     <dl className="detalhesVolume">
                                         <div><dt>ISBN</dt><dd>{volumeSelecionado.isbnVolume ?? "—"}</dd></div>
                                         <div><dt>Valor pago</dt><dd>{volumeSelecionado.valorPago != null ? volumeSelecionado.valorPago.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "—"}</dd></div>
+                                        <div><dt>Quantidade</dt><dd>{volumeSelecionado.quantidade ?? "—"}</dd></div>
                                         <div><dt>Data da compra</dt><dd>{volumeSelecionado.dataCompra ? new Date(`${volumeSelecionado.dataCompra}T00:00:00`).toLocaleDateString("pt-BR") : "—"}</dd></div>
                                     </dl>
 
@@ -298,9 +319,11 @@ export default function TeleGerenciamento() {
                                                 <FaTrashAlt /> Remover Volume
                                             </button>
                                         )}
-                                        <button type="button" className="botaoAcao" disabled title="Em breve">
-                                            <FaSyncAlt /> Registrar Volume Repetido
-                                        </button>
+                                        {volumeSelecionado.possuido && (
+                                            <button type="button" className="botaoAcao" onClick={registrarVolumeRepetido}>
+                                                <FaSyncAlt /> Registrar Volume Repetido
+                                            </button>
+                                        )}
                                         <button type="button" className="botaoAcao" disabled title="Em breve">
                                             <FaSyncAlt /> Atualizar Volume
                                         </button>

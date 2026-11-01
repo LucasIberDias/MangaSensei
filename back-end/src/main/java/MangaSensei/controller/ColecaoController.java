@@ -51,6 +51,14 @@ public class ColecaoController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{idColecao}/volume/{idItem}/repetido")
+    public ResponseEntity<Void> registrarVolumeRepetido(@PathVariable Long idColecao, @PathVariable Long idItem, Authentication authentication) {
+
+        colecaoService.registrarVolumeRepetido(idColecao, idItem, Long.valueOf(authentication.getName()));
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{idColecao}/volume/{idItem}")
     public ResponseEntity<Void> removerVolume(@PathVariable Long idColecao, @PathVariable Long idItem, Authentication authentication) {
 

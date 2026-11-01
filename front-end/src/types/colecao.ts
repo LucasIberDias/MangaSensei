@@ -20,6 +20,7 @@ export interface VolumeColecao {
     estadoVolume: string | null;
     valorPago: number | null;
     dataCompra: string | null;
+    quantidade: number | null;
 }
 
 export interface ColecaoDetalhe {
