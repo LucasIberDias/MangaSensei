@@ -51,6 +51,14 @@ public class ColecaoController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{idColecao}/volume/{idItem}")
+    public ResponseEntity<Void> removerVolume(@PathVariable Long idColecao, @PathVariable Long idItem, Authentication authentication) {
+
+        colecaoService.removerVolume(idColecao, idItem, Long.valueOf(authentication.getName()));
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping
     public void apagarColecao(@RequestParam Long idColecao, Authentication authentication) {
         colecaoService.apagarColecao(idColecao, Long.valueOf(authentication.getName()));

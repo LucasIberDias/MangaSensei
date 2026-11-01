@@ -113,6 +113,7 @@ public class ColecaoService {
     }
 
     // UC10 - Remover Coleção
+    @Transactional
     public void apagarColecao(Long id, Long idUsuario) {
 
         // Verifico se a coleção existe
@@ -249,5 +250,29 @@ public class ColecaoService {
 
         // Salvo o novo item na coleção
         itemRepository.save(item);
+    }
+
+    // UC13 - Remover Volume da Coleção
+    public void removerVolume(Long idColecao, Long idItem, Long idUsuario) {
+        // Pego a coleção de onde o volume será removido
+        Colecao colecao = colecaoRepository.findById(idColecao)
+                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
+
+        // Verifico se a coleção pertence ao usuario logado
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
+
+        // Pego o item (volume possuido) que será removido
+        Item item = itemRepository.findById(idItem)
+                .orElseThrow(() -> new RuntimeException("Este volume não está na sua coleção"));
+
+        // Verifico se o item pertence a essa coleção, assim não apago volume de outra coleção
+        if (!item.getColecao().getIdColecao().equals(idColecao)) {
+            throw new RuntimeException("Este volume não pertence a essa coleção");
+        }
+
+        // Apago o item da coleção
+        itemRepository.delete(item);
     }
 }

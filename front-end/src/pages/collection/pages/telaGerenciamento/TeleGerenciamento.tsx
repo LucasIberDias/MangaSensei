@@ -100,6 +100,26 @@ export default function TeleGerenciamento() {
         setMensagemErro("");
     };
 
+    /*
+     * UC13 - REMOVER VOLUME DA COLEÇÃO
+     */
+    const removerVolume = async () => {
+        if (!colecao || !volumeSelecionado?.idItem) return;
+        if (!window.confirm(`Deseja remover o volume ${volumeSelecionado.numeroVolume} da coleção?`)) return;
+
+        try {
+            await colecaoService.removerVolume(colecao.idColecao, volumeSelecionado.idItem);
+
+            // Recarrego a coleção para atualizar os volumes e as estatísticas
+            const atualizada = await colecaoService.consultar(colecao.idColecao);
+            setColecao(atualizada);
+            setVolumeSelecionado(atualizada.volumes.find((volume) => volume.numeroVolume === volumeSelecionado.numeroVolume) ?? null);
+            setMensagemErro("");
+        } catch (error) {
+            setMensagemErro(getErrorMessage(error, "Não foi possível remover o volume."));
+        }
+    };
+
     if (carregando || !colecao) {
         return (
             <div className="pagina">
@@ -270,17 +290,19 @@ export default function TeleGerenciamento() {
                                     <div className="acoesVolume">
                                         {!volumeSelecionado.possuido && (
                                             <button type="button" className="botaoAcao" onClick={() => setFormularioAberto(true)}>
-                                                <FaPlus /> Adicionar este Volume <span className="codigoUC">UC12</span>
+                                                <FaPlus /> Adicionar este Volume
+                                            </button>
+                                        )}
+                                        {volumeSelecionado.possuido && (
+                                            <button type="button" className="botaoAcao" onClick={removerVolume}>
+                                                <FaTrashAlt /> Remover Volume
                                             </button>
                                         )}
                                         <button type="button" className="botaoAcao" disabled title="Em breve">
-                                            <FaTrashAlt /> Remover Volume <span className="codigoUC">UC13</span>
+                                            <FaSyncAlt /> Registrar Volume Repetido
                                         </button>
                                         <button type="button" className="botaoAcao" disabled title="Em breve">
-                                            <FaSyncAlt /> Registrar Volume Repetido <span className="codigoUC">UC14</span>
-                                        </button>
-                                        <button type="button" className="botaoAcao" disabled title="Em breve">
-                                            <FaSyncAlt /> Atualizar Estado <span className="codigoUC">UC15</span>
+                                            <FaSyncAlt /> Atualizar Volume
                                         </button>
                                     </div>
                                 </>

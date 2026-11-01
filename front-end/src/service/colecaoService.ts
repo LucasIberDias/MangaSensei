@@ -23,6 +23,12 @@ export const colecaoService = {
         });
     },
 
+    removerVolume(idColecao: number, idItem: number) {
+        return apiRequest<void>(`/colecao/${idColecao}/volume/${idItem}`, {
+            method: "DELETE",
+        });
+    },
+
     remover(idColecao: number) {
         return apiRequest<void>(`/colecao?idColecao=${idColecao}`, { method: "DELETE" });
     },
