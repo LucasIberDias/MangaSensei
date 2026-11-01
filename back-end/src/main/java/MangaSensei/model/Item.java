@@ -26,7 +26,7 @@ public class Item {
 
     private LocalDate dataCompra;
 
-    private String estadoVolume;
+    private EstadoVolume estadoVolume;
 
     // Data em que o volume foi adicionado na coleção, usada nos últimos adicionados da dashboard
     private LocalDate dataAdicao;

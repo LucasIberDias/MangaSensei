@@ -2,6 +2,8 @@ package MangaSensei.dto.colecao;
 
 import java.time.LocalDate;
 
+import MangaSensei.model.EstadoVolume;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +18,7 @@ public class VolumeColecaoResponseDTO {
     private String isbnVolume;
     private Boolean possuido;
     private Long idItem;
-    private String estadoVolume;
+    private EstadoVolume estadoVolume;
     private Double valorPago;
     private LocalDate dataCompra;
     private Integer quantidade;

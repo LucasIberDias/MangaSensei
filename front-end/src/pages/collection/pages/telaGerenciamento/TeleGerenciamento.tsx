@@ -8,7 +8,7 @@ import MenuNavegacao from "../../../../components/NavigationMenu/MenuNavegacao";
 import FormularioVolume from "../../components/FormularioVolume/FormularioVolume";
 import { colecaoService } from "../../../../service/colecaoService";
 import { getErrorMessage } from "../../../../service/api";
-import { ESTADOS_VOLUME, type AdicionarVolume, type ColecaoDetalhe, type VolumeColecao } from "../../../../types";
+import { EstadoVolume, type AdicionarVolume, type ColecaoDetalhe, type VolumeColecao } from "../../../../types";
 
 const VOLUMES_POR_PAGINA = 16;
 
@@ -26,7 +26,7 @@ export default function TeleGerenciamento() {
 
     const [formularioAberto, setFormularioAberto] = useState(false);
 
-    const [estadoEditado, setEstadoEditado] = useState(ESTADOS_VOLUME[0]);
+    const [estadoEditado, setEstadoEditado] = useState<EstadoVolume>(EstadoVolume.NOVO);
     const [statusEditado, setStatusEditado] = useState<"possuido" | "faltando">("faltando");
     const [valorEditado, setValorEditado] = useState("");
     const [dataEditada, setDataEditada] = useState("");
@@ -39,7 +39,7 @@ export default function TeleGerenciamento() {
     const [volumeAnterior, setVolumeAnterior] = useState<VolumeColecao | null>(null);
     if (volumeSelecionado !== volumeAnterior) {
         setVolumeAnterior(volumeSelecionado);
-        setEstadoEditado(volumeSelecionado?.estadoVolume ?? ESTADOS_VOLUME[0]);
+        setEstadoEditado(volumeSelecionado?.estadoVolume ?? EstadoVolume.NOVO);
         setStatusEditado(volumeSelecionado?.possuido ? "possuido" : "faltando");
         setValorEditado(volumeSelecionado?.valorPago != null ? String(volumeSelecionado.valorPago) : "");
         setDataEditada(volumeSelecionado?.dataCompra ?? "");
@@ -364,11 +364,11 @@ export default function TeleGerenciamento() {
                                             Condição
                                             <select
                                                 value={statusEditado === "possuido" ? estadoEditado : ""}
-                                                onChange={(e) => setEstadoEditado(e.target.value)}
+                                                onChange={(e) => setEstadoEditado(e.target.value as EstadoVolume)}
                                                 disabled={statusEditado === "faltando"}
                                             >
                                                 {statusEditado === "faltando" && <option value="">—</option>}
-                                                {ESTADOS_VOLUME.map((estado) => (
+                                                {Object.values(EstadoVolume).map((estado) => (
                                                     <option key={estado} value={estado}>{estado}</option>
                                                 ))}
                                             </select>

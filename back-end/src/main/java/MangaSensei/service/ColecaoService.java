@@ -226,7 +226,7 @@ public class ColecaoService {
         }
 
         // Verifico se o estado do volume foi informado
-        if (request.getEstadoVolume() == null || request.getEstadoVolume().isBlank()) {
+        if (request.getEstadoVolume() == null) {
             throw new RuntimeException("Informe o estado do volume");
         }
 
@@ -246,7 +246,7 @@ public class ColecaoService {
         // Coloco as informacoes no item
         item.setColecao(colecao);
         item.setVolume(volume);
-        item.setEstadoVolume(request.getEstadoVolume().trim());
+        item.setEstadoVolume(request.getEstadoVolume());
         item.setValorPago(request.getValorPago());
         item.setDataCompra(request.getDataCompra());
         item.setDataAdicao(LocalDate.now());
@@ -327,7 +327,7 @@ public class ColecaoService {
         }
 
         // Verifico se o novo estado do volume foi informado
-        if (request.getEstadoVolume() == null || request.getEstadoVolume().isBlank()) {
+        if (request.getEstadoVolume() == null) {
             throw new RuntimeException("Informe o estado do volume");
         }
 
@@ -342,7 +342,7 @@ public class ColecaoService {
         }
 
         // Coloco as novas informacoes no item, valor e data vazios apagam a informação anterior
-        item.setEstadoVolume(request.getEstadoVolume().trim());
+        item.setEstadoVolume(request.getEstadoVolume());
         item.setValorPago(request.getValorPago());
         item.setDataCompra(request.getDataCompra());
 

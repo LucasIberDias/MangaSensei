@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { FaBook, FaPlus, FaTimes } from "react-icons/fa";
 
 import { getErrorMessage } from "../../../../service/api";
-import { ESTADOS_VOLUME, type AdicionarVolume, type VolumeColecao } from "../../../../types";
+import { EstadoVolume, type AdicionarVolume, type VolumeColecao } from "../../../../types";
 
 export default function FormularioVolume({ volume, tituloManga, onSalvar, onFechar }: {
     volume: VolumeColecao;
@@ -12,7 +12,7 @@ export default function FormularioVolume({ volume, tituloManga, onSalvar, onFech
     onSalvar: (dados: AdicionarVolume) => Promise<void>;
     onFechar: () => void;
 }) {
-    const [estadoVolume, setEstadoVolume] = useState(ESTADOS_VOLUME[0]);
+    const [estadoVolume, setEstadoVolume] = useState<EstadoVolume>(EstadoVolume.NOVO);
     const [valorPago, setValorPago] = useState("");
     const [dataCompra, setDataCompra] = useState("");
 
@@ -73,8 +73,8 @@ export default function FormularioVolume({ volume, tituloManga, onSalvar, onFech
 
                 <label>
                     Condição
-                    <select value={estadoVolume} onChange={(e) => setEstadoVolume(e.target.value)} required>
-                        {ESTADOS_VOLUME.map((estado) => (
+                    <select value={estadoVolume} onChange={(e) => setEstadoVolume(e.target.value as EstadoVolume)} required>
+                        {Object.values(EstadoVolume).map((estado) => (
                             <option key={estado} value={estado}>{estado}</option>
                         ))}
                     </select>

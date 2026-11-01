@@ -17,7 +17,7 @@ export interface VolumeColecao {
     isbnVolume: string | null;
     possuido: boolean;
     idItem: number | null;
-    estadoVolume: string | null;
+    estadoVolume: EstadoVolume | null;
     valorPago: number | null;
     dataCompra: string | null;
     quantidade: number | null;
@@ -37,17 +37,25 @@ export interface ColecaoDetalhe {
     volumes: VolumeColecao[];
 }
 
-export const ESTADOS_VOLUME = ["Novo", "Seminovo", "Usado", "Danificado"];
+// Estados que um volume da coleção pode ter, iguais ao enum EstadoVolume do back-end
+export const EstadoVolume = {
+    NOVO: "Novo",
+    SEMINOVO: "Seminovo",
+    USADO: "Usado",
+    DANIFICADO: "Danificado",
+} as const;
+
+export type EstadoVolume = typeof EstadoVolume[keyof typeof EstadoVolume];
 
 export interface AtualizarVolume {
-    estadoVolume: string;
+    estadoVolume: EstadoVolume;
     valorPago: number | null;
     dataCompra: string | null;
 }
 
 export interface AdicionarVolume {
     idVolumeManga: number;
-    estadoVolume: string;
+    estadoVolume: EstadoVolume;
     valorPago: number | null;
     dataCompra: string | null;
 }

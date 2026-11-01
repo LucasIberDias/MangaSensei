@@ -2,7 +2,7 @@ package MangaSensei.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +14,7 @@ import MangaSensei.dto.dashboard.DashboardResponseDTO;
 import MangaSensei.dto.dashboard.ItemGraficoDTO;
 import MangaSensei.dto.dashboard.UltimoAdicionadoDTO;
 import MangaSensei.model.Colecao;
+import MangaSensei.model.EstadoVolume;
 import MangaSensei.model.Item;
 import MangaSensei.model.Manga;
 import MangaSensei.model.VolumeManga;
@@ -22,9 +23,6 @@ import MangaSensei.repository.ItemRepository;
 
 @Service
 public class DashboardService {
-    // Estados que o usuario pode escolher para o volume, na ordem em que aparecem no gráfico
-    private static final List<String> ESTADOS_VOLUME = List.of("Novo", "Seminovo", "Usado", "Danificado");
-
     // Quantidade de mangás enviados para os últimos adicionados, o front mostra quantos couberem na tela
     private static final int QUANTIDADE_ULTIMOS = 12;
 
@@ -83,9 +81,11 @@ public class DashboardService {
 
     // Conto quantos volumes existem em cada estado (Novo, Seminovo, Usado, Danificado)
     private List<ItemGraficoDTO> montarEstadoColecao(List<Item> itens) {
-        // Começo com todos os estados zerados, assim eles sempre aparecem no gráfico
-        Map<String, Long> contagem = new LinkedHashMap<>();
-        ESTADOS_VOLUME.forEach(estado -> contagem.put(estado, 0L));
+        // Começo com todos os estados zerados, assim eles sempre aparecem no gráfico na ordem do enum
+        Map<EstadoVolume, Long> contagem = new EnumMap<>(EstadoVolume.class);
+        for (EstadoVolume estado : EstadoVolume.values()) {
+            contagem.put(estado, 0L);
+        }
 
         for (Item item : itens) {
             if (item.getEstadoVolume() != null) {
@@ -94,7 +94,7 @@ public class DashboardService {
         }
 
         return contagem.entrySet().stream()
-                .map(entrada -> new ItemGraficoDTO(entrada.getKey(), entrada.getValue()))
+                .map(entrada -> new ItemGraficoDTO(entrada.getKey().getDescricao(), entrada.getValue()))
                 .toList();
     }
 
