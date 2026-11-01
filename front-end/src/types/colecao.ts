@@ -35,3 +35,10 @@ export interface ColecaoDetalhe {
     porcentagem: number;
     volumes: VolumeColecao[];
 }
+
+export interface AdicionarVolume {
+    idVolumeManga: number;
+    estadoVolume: string;
+    valorPago: number | null;
+    dataCompra: string | null;
+}

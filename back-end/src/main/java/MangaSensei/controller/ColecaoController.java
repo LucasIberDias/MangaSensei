@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
+import MangaSensei.dto.colecao.ItemRequestDTO;
 import MangaSensei.service.ColecaoService;
 
 @RestController
@@ -40,6 +41,14 @@ public class ColecaoController {
         ColecaoDetalheResponseDTO colecao = colecaoService.consultarColecao(idColecao, Long.valueOf(authentication.getName()));
 
         return ResponseEntity.ok(colecao);
+    }
+
+    @PostMapping("/{idColecao}/volume")
+    public ResponseEntity<Void> adicionarVolume(@PathVariable Long idColecao, @RequestBody ItemRequestDTO request, Authentication authentication) {
+
+        colecaoService.adicionarVolume(idColecao, request, Long.valueOf(authentication.getName()));
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping

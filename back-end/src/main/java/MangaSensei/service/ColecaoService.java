@@ -1,5 +1,6 @@
 package MangaSensei.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,6 +16,7 @@ import MangaSensei.repository.MangaRepository;
 import MangaSensei.repository.UsuarioRepository;
 import MangaSensei.dto.colecao.ColecaoDetalheResponseDTO;
 import MangaSensei.dto.colecao.ColecaoResponseDTO;
+import MangaSensei.dto.colecao.ItemRequestDTO;
 import MangaSensei.dto.colecao.VolumeColecaoResponseDTO;
 import MangaSensei.model.Colecao;
 import MangaSensei.model.Item;
@@ -111,7 +113,6 @@ public class ColecaoService {
     }
 
     // UC10 - Remover Coleção
-    @Transactional
     public void apagarColecao(Long id, Long idUsuario) {
 
         // Verifico se a coleção existe
@@ -192,5 +193,61 @@ public class ColecaoService {
                 volumesPossuidos,
                 porcentagem,
                 volumes);
+    }
+
+    // UC12 - Adicionar Volume à Coleção
+    public void adicionarVolume(Long idColecao, ItemRequestDTO request, Long idUsuario) {
+        // Pego a coleção que vai receber o volume
+        Colecao colecao = colecaoRepository.findById(idColecao)
+                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
+
+        // Verifico se a coleção pertence ao usuario logado
+        if (!colecao.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new org.springframework.security.access.AccessDeniedException("Esta coleção pertence a outro usuário.");
+        }
+
+        // Verifico se o volume foi informado
+        if (request.getIdVolumeManga() == null) {
+            throw new RuntimeException("Informe o volume que deseja adicionar");
+        }
+
+        // Pego o volume entre os volumes do mangá da coleção, assim garanto que ele pertence a esse mangá
+        VolumeManga volume = colecao.getManga().getVolumes().stream()
+                .filter(v -> v.getIdVolumeManga().equals(request.getIdVolumeManga()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Este volume não pertence ao mangá da coleção"));
+
+        // Verifico se o usuario já possui esse volume na coleção
+        if (itemRepository.existsByColecao_IdColecaoAndVolume_IdVolumeManga(idColecao, volume.getIdVolumeManga())) {
+            throw new RuntimeException("Este volume já está na sua coleção");
+        }
+
+        // Verifico se o estado do volume foi informado
+        if (request.getEstadoVolume() == null || request.getEstadoVolume().isBlank()) {
+            throw new RuntimeException("Informe o estado do volume");
+        }
+
+        // Valido que o valor pago não seja negativo
+        if (request.getValorPago() != null && request.getValorPago() < 0) {
+            throw new RuntimeException("O valor pago não pode ser negativo");
+        }
+
+        // Valido que a data da compra não seja no futuro
+        if (request.getDataCompra() != null && request.getDataCompra().isAfter(LocalDate.now())) {
+            throw new RuntimeException("A data da compra não pode ser no futuro");
+        }
+
+        // Crio o item que vai ser adicionado na coleção
+        Item item = new Item();
+
+        // Coloco as informacoes no item
+        item.setColecao(colecao);
+        item.setVolume(volume);
+        item.setEstadoVolume(request.getEstadoVolume().trim());
+        item.setValorPago(request.getValorPago());
+        item.setDataCompra(request.getDataCompra());
+
+        // Salvo o novo item na coleção
+        itemRepository.save(item);
     }
 }

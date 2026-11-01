@@ -13,6 +13,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     // Busca todos os itens de uma colecao
     List<Item> findByColecao_IdColecao(Long idColecao);
 
+    // Verifica se o volume já está na colecao
+    boolean existsByColecao_IdColecaoAndVolume_IdVolumeManga(Long idColecao, Long idVolumeManga);
+
     // Apaga todos os itens de uma colecao
     void deleteByColecao_IdColecao(Long idColecao);
 

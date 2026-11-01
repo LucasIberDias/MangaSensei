@@ -1,0 +1,139 @@
+/* Fundo escuro que cobre a tela enquanto o formulário está aberto */
+.fundoFormularioVolume {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: rgba(43, 26, 16, 0.55);
+}
+
+.formularioVolume {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    border-radius: 14px;
+    background-color: #fff7eb;
+    color: #2b1a10;
+}
+
+.cabecalhoFormularioVolume {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cabecalhoFormularioVolume h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.fecharFormularioVolume {
+    display: flex;
+    border: none;
+    background: transparent;
+    color: #614030;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.formularioVolume label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.formularioVolume select,
+.formularioVolume input {
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ecd6b8;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #2b1a10;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.formularioVolume select:focus,
+.formularioVolume input:focus {
+    outline: 2px solid #5c3825;
+    outline-offset: -1px;
+}
+
+.linhaFormularioVolume {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Volume escolhido no clique, mostrado no topo do formulário */
+.volumeFormulario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.volumeFormulario img,
+.volumeFormulario .semCapa {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #d8d2cc;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.volumeFormulario strong {
+    font-size: 15px;
+}
+
+.volumeFormulario p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #614030;
+}
+
+.formularioVolume .mensagemErro {
+    margin: 0;
+}
+
+.acoesFormularioVolume {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.acoesFormularioVolume .botaoAcao {
+    width: auto;
+}
+
+.botaoCancelar {
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid #5c3825;
+    border-radius: 8px;
+    background: transparent;
+    color: #5c3825;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botaoCancelar:hover {
+    background-color: #f1d4ad;
+}
+
+@media (max-width: 480px) {
+    .linhaFormularioVolume {
+        grid-template-columns: 1fr;
+    }
+}

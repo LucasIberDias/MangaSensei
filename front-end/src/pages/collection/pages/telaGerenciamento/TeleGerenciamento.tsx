@@ -5,9 +5,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft, FaBookOpen, FaPlus, FaTrashAlt, FaRegQuestionCircle, FaRegCheckCircle, FaRegStar, FaCheckCircle, FaQuestionCircle, FaSyncAlt, FaBook } from "react-icons/fa";
 
 import MenuNavegacao from "../../../../components/NavigationMenu/MenuNavegacao";
+import FormularioVolume from "../../components/FormularioVolume/FormularioVolume";
 import { colecaoService } from "../../../../service/colecaoService";
 import { getErrorMessage } from "../../../../service/api";
-import type { ColecaoDetalhe, VolumeColecao } from "../../../../types";
+import type { AdicionarVolume, ColecaoDetalhe, VolumeColecao } from "../../../../types";
 
 const VOLUMES_POR_PAGINA = 16;
 
@@ -22,6 +23,8 @@ export default function TeleGerenciamento() {
     const [pagina, setPagina] = useState(1);
 
     const [volumeSelecionado, setVolumeSelecionado] = useState<VolumeColecao | null>(null);
+
+    const [formularioAberto, setFormularioAberto] = useState(false);
 
     /*
      * UC11 - CONSULTAR COLEÇÃO
@@ -80,6 +83,21 @@ export default function TeleGerenciamento() {
         } catch (error) {
             setMensagemErro(getErrorMessage(error, "Não foi possível remover a coleção."));
         }
+    };
+
+    /*
+     * UC12 - ADICIONAR VOLUME À COLEÇÃO
+     */
+    const adicionarVolume = async (dados: AdicionarVolume) => {
+        if (!colecao) return;
+
+        await colecaoService.adicionarVolume(colecao.idColecao, dados);
+
+        const atualizada = await colecaoService.consultar(colecao.idColecao);
+        setColecao(atualizada);
+        setVolumeSelecionado(atualizada.volumes.find((volume) => volume.idVolumeManga === dados.idVolumeManga) ?? null);
+        setFormularioAberto(false);
+        setMensagemErro("");
     };
 
     if (carregando || !colecao) {
@@ -207,10 +225,6 @@ export default function TeleGerenciamento() {
                             <button type="button" className="botaoAcao" onClick={removerColecao}>
                                 <FaTrashAlt /> Remover Coleção
                             </button>
-
-                            <button type="button" className="botaoAcao" disabled title="Em breve">
-                                <FaPlus /> Adicionar Volume
-                            </button>
                         </section>
 
                         <section className="cartaoGerenciamento gerenciarVolume">
@@ -254,6 +268,11 @@ export default function TeleGerenciamento() {
                                     </dl>
 
                                     <div className="acoesVolume">
+                                        {!volumeSelecionado.possuido && (
+                                            <button type="button" className="botaoAcao" onClick={() => setFormularioAberto(true)}>
+                                                <FaPlus /> Adicionar este Volume <span className="codigoUC">UC12</span>
+                                            </button>
+                                        )}
                                         <button type="button" className="botaoAcao" disabled title="Em breve">
                                             <FaTrashAlt /> Remover Volume <span className="codigoUC">UC13</span>
                                         </button>
@@ -272,6 +291,15 @@ export default function TeleGerenciamento() {
                     </aside>
                 </div>
             </main>
+
+            {formularioAberto && volumeSelecionado && !volumeSelecionado.possuido && (
+                <FormularioVolume
+                    volume={volumeSelecionado}
+                    tituloManga={colecao.tituloManga}
+                    onSalvar={adicionarVolume}
+                    onFechar={() => setFormularioAberto(false)}
+                />
+            )}
         </div>
     );
 }

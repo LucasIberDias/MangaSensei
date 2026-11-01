@@ -1,5 +1,5 @@
 import { apiRequest } from "./api";
-import type { Colecao, ColecaoDetalhe } from "../types";
+import type { AdicionarVolume, Colecao, ColecaoDetalhe } from "../types";
 
 export const colecaoService = {
     listar() {
@@ -13,6 +13,13 @@ export const colecaoService = {
     adicionar(idManga: number) {
         return apiRequest<void>(`/colecao?idManga=${idManga}`, {
             method: "POST",
+        });
+    },
+
+    adicionarVolume(idColecao: number, dados: AdicionarVolume) {
+        return apiRequest<void>(`/colecao/${idColecao}/volume`, {
+            method: "POST",
+            body: JSON.stringify(dados),
         });
     },
 
