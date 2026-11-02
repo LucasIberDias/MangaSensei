@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FaArrowLeft, FaBookOpen, FaPlus, FaTrashAlt, FaRegQuestionCircle, FaRegCheckCircle, FaRegStar, FaCheckCircle, FaQuestionCircle, FaSyncAlt, FaBook } from "react-icons/fa";
+import { FaArrowLeft, FaBookOpen, FaSyncAlt, FaPlus, FaTrashAlt, FaRegQuestionCircle, FaRegCheckCircle, FaRegStar, FaCheckCircle, FaQuestionCircle, FaSave, FaBook } from "react-icons/fa";
 
 import MenuNavegacao from "../../../../components/NavigationMenu/MenuNavegacao";
 import FormularioVolume from "../../components/FormularioVolume/FormularioVolume";
@@ -430,7 +430,7 @@ export default function TeleGerenciamento() {
                                             </button>
                                         )}
                                         <button type="button" className="botaoAcao" onClick={atualizarVolume} disabled={!alteracaoPendente}>
-                                            <FaSyncAlt /> Atualizar Volume
+                                            <FaSave /> Atualizar Volume
                                         </button>
                                     </div>
                                 </>
