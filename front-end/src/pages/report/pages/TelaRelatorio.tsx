@@ -53,7 +53,7 @@ export default function TelaRelatorio() {
             <main className="conteudo relatorio">
 
                 {/* TOPO */}
-                <div className="topoRelatorio">
+                <div className="topo topoRelatorio">
                     <div>
                         <h1>Relatórios</h1>
                         <p>Um resumo completo de toda a sua coleção.</p>

@@ -40,7 +40,7 @@
 }
 
 .areaPrincipais {
-    height: 310px;
+    height: 340px;
 }
 
 .areaEstado,
@@ -50,7 +50,7 @@
     display: flex;
     flex-direction: column;
     background-color: #fdf4e7;
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 10px 14px 14px;
     box-sizing: border-box;
 }

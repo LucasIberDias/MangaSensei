@@ -6,6 +6,10 @@
     color: #2b1a10;
 }
 
+.relatorio .topo {
+    margin-bottom: 0;
+}
+
 .topoRelatorio {
     display: flex;
     justify-content: space-between;
@@ -32,7 +36,7 @@
 
 .cartaoRelatorio {
     background-color: #fff7eb;
-    border-radius: 14px;
+    border-radius: 18px;
     padding: 18px 20px;
 }
 
@@ -62,7 +66,7 @@
 .barraRelatorio {
     flex: 1;
     height: 10px;
-    border-radius: 10px;
+    border-radius: 18px;
     background-color: #ecd6b8;
     overflow: hidden;
 }
