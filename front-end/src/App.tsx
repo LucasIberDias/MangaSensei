@@ -9,6 +9,7 @@ import Colecao from "./pages/collection/pages/TelaColecao";
 import TeleGerenciamento from "./pages/collection/pages/telaGerenciamento/TeleGerenciamento";
 import Configuracao from "./pages/profile/pages/TelaConfiguracao";
 import Marketplace from "./pages/marketplace/pages/TelaMarketplace";
+import Relatorio from "./pages/report/pages/TelaRelatorio";
 import ProtectedRoute from "./app/ProtectedRoute";
 
 function App() {
@@ -31,7 +32,9 @@ function App() {
 
                 <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
 
-                <Route path="/pesquisa" element={<ProtectedRoute><TelaPesquisa /></ProtectedRoute>} />
+                <Route path="/relatorios" element={<ProtectedRoute><Relatorio /></ProtectedRoute>} />
+
+                <Route path="/pesquisa"element={<ProtectedRoute><TelaPesquisa /></ProtectedRoute>} />
 
                 <Route path="/configuracoes" element={<ProtectedRoute><Configuracao /></ProtectedRoute>} />
 
