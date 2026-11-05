@@ -1,3 +1,4 @@
+
 package MangaSensei.config;
 
 import org.springframework.context.annotation.Bean;
@@ -22,8 +23,12 @@ public class SecurityConfig {
     @Bean
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtFilterServletRegistration(
             JwtAuthenticationFilter filter) {
-        FilterRegistrationBean<JwtAuthenticationFilter> registration = new FilterRegistrationBean<>(filter);
+
+        FilterRegistrationBean<JwtAuthenticationFilter> registration =
+                new FilterRegistrationBean<>(filter);
+
         registration.setEnabled(false);
+
         return registration;
     }
 
@@ -33,17 +38,40 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {})
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
             .authorizeHttpRequests(auth -> auth
+
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/login", "/usuario").permitAll()
-                .requestMatchers("/manga/**", "/images/**", "/error").permitAll()
+
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/auth/login",
+                    "/usuario"
+                ).permitAll()
+
+                .requestMatchers(
+                    "/",
+                    "/manga/**",
+                    "/images/**",
+                    "/error"
+                ).permitAll()
+
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exceptions -> exceptions
                 .authenticationEntryPoint((request, response, exception) ->
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token ausente ou invalido")))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                    response.sendError(
+                        HttpServletResponse.SC_UNAUTHORIZED,
+                        "Token ausente ou invalido"
+                    )
+                )
+            )
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
+            );
 
         return http.build();
     }
