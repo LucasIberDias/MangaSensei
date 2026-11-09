@@ -24,8 +24,8 @@
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Segurança e configuração](#segurança-e-configuração)
 - [Observações técnicas e limitações](#observações-técnicas-e-limitações)
-- [Roadmap](#roadmap)
 - [Autor](#autor)
+- [Licença](#licença)
 
 ## Visão geral
 
@@ -317,6 +317,20 @@ MangaSensei/
 - **Scraper frágil por natureza:** depende do HTML do site de origem e do Chrome instalado na máquina.
 - **Sem migrações versionadas:** o schema é gerenciado por `ddl-auto=update`; não use essa estratégia em produção.
 - **Testes:** o repositório tem apenas o teste de carregamento de contexto do Spring.
+
+## Licença
+
+Este projeto está licenciado sob a **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+Você pode usar, estudar, modificar e distribuir este projeto conforme os termos da licença. Distribuições de versões modificadas devem cumprir as condições da AGPL-3.0, incluindo disponibilizar o código-fonte correspondente. Caso uma versão modificada seja oferecida para interação remota pela rede, a licença também exige oferecer aos usuários acesso ao código-fonte correspondente.
+
+Consulte o arquivo [`LICENSE`](LICENSE) para o texto completo da licença.
+
+### Copyright
+
+Copyright (c) 2026 Lucas Iber Dias
+
+Os avisos de copyright e licença devem ser preservados nas cópias e redistribuições, conforme os termos da AGPL-3.0.
 
 ## Autor
 
